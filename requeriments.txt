@@ -1,0 +1,7 @@
+# Instala tus extensiones usando sus propios archivos
+-e ./extensions/ckanext-auth
+-e ./extensions/ckanext-ckanplugin
+-e ./extensions/ckanext-geoview
+-e ./extensions/ckanext-scheming
+-e ./extensions/ckanext-spatial
+-e ./extensions/ckanext-envvars
