@@ -1,9 +1,0 @@
-ckanangular_app:
-  filter: jsmin
-  output: ckanext-ckanangular/%(version)s.js
-  contents:
-    - angular/browser/main.js
-    
-ckanangular_css:
-  contents:
-    - angular/browser/styles.css

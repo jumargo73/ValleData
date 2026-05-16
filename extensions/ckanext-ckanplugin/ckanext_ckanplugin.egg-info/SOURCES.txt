@@ -1,8 +1,0 @@
-README.md
-setup.py
-ckanext_ckanplugin.egg-info/PKG-INFO
-ckanext_ckanplugin.egg-info/SOURCES.txt
-ckanext_ckanplugin.egg-info/dependency_links.txt
-ckanext_ckanplugin.egg-info/entry_points.txt
-ckanext_ckanplugin.egg-info/not-zip-safe
-ckanext_ckanplugin.egg-info/top_level.txt

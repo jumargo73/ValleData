@@ -1,4 +1,0 @@
-include README.md
-include LICENSE
-include bower.json
-recursive-include ckanext/geoview *.html *.json *.js *.less *.css *.config *.png *.gif *.jpg *.yml
