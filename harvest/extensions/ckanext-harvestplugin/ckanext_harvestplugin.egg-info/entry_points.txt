@@ -1,0 +1,2 @@
+[ckan.plugins]
+HarvestPlugin = ckanext.harvestplugin.plugin_logic:HarvestPlugin

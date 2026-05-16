@@ -1,0 +1,80 @@
+/* Contenedor Principal */
+    .dataset-comment-section {
+        margin-top: 35px !important;
+        border-top: 1px solid #e2e8f0 !important;
+        padding-top: 25px !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .dataset-comment-section h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 20px;
+    }
+
+    /* Formulario y Etiquetas */
+    .comment-clean-form {
+        margin: 0;
+    }
+
+    .comment-clean-form .control-group-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #475569;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    /* Area de Texto (Textarea) */
+    .comment-clean-form .dynamic-textarea {
+        width: 100% !important;
+        min-height: 90px;
+        padding: 12px 14px !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        color: #334155 !important;
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 6px !important;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+        box-sizing: border-box !important;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+    }
+
+    .comment-clean-form .dynamic-textarea:focus {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+        outline: 0 none !important;
+    }
+
+    .comment-clean-form .dynamic-textarea::placeholder {
+        color: #94a3b8;
+        opacity: 1;
+    }
+
+    /* Botón de Enviar */
+    .comment-clean-form .submit-comment-btn {
+        background-color: #007094 !important; /* Preserva la paleta institucional CKAN */
+        background-image: none !important;
+        color: #ffffff !important;
+        padding: 8px 18px !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        line-height: 1.5 !important;
+        border: none !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+        transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+    }
+
+    .comment-clean-form .submit-comment-btn:hover {
+        background-color: #00536e !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .comment-clean-form .submit-comment-btn:active {
+        background-color: #003d52 !important;
+    }

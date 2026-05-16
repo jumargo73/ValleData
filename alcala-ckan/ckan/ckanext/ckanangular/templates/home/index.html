@@ -1,0 +1,14 @@
+{% ckan_extends %}
+
+{% block primary_content %}
+	{{ super() }}
+    <div class="box" style="clear: both; margin-top: 20px;">
+	<h2>Dubujando componente angular</h2>
+		<app-root></app-root>
+    </div> 
+   
+  {% endblock %}
+
+{# ESTO ES LO QUE TE FALTA: Cargar los archivos compilados #}
+{% asset 'ckanext-ckanangular/ckanangular_app' %}
+{% asset 'ckanext-ckanangular/ckanangular_css' %}

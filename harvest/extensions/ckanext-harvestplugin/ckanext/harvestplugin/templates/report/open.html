@@ -1,0 +1,38 @@
+{% block report_content %}
+  <!-- Se cambia 'report' por 'report_info' -->
+ 
+  {% set ckan_29_or_higher = h.check_ckan_version(min_version="2.9.0", max_version="3.0.0") %}
+  {% set dataset_read_route = 'dataset.read' if ckan_29_or_higher else 'dataset_read' %}
+
+  <ul>
+      <li><strong>Total datasets federados:</strong> {{ data['total_datasets'] }}</li>
+  </ul>
+
+  <table class="table table-striped table-bordered" id="report-table" style="width: 100%; margin-top: 8px;">
+      <thead>
+        <tr>
+          <th>Fuente Harvest</th>
+          <th>Organización</th>
+          <th>Dataset</th>
+          <th>Recursos</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in table %}
+          <tr>
+            <td>{{ row.fuente_harvest }}</td>
+            <td><span title="{{ row.org_id }}">{{ row.org_title }}</span></td>
+            <td>
+              <a href="{{ h.url_for(dataset_read_route, id=row.name) }}">
+                {{ row.title }}
+              </a>
+            </td>
+            <td><span class="badge">{{ row.num_recursos }}</span></td>
+            <td>{{ row.estado }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+{% endblock %}
+

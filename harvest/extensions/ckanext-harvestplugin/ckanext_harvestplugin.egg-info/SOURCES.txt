@@ -1,0 +1,8 @@
+README.md
+setup.py
+ckanext_harvestplugin.egg-info/PKG-INFO
+ckanext_harvestplugin.egg-info/SOURCES.txt
+ckanext_harvestplugin.egg-info/dependency_links.txt
+ckanext_harvestplugin.egg-info/entry_points.txt
+ckanext_harvestplugin.egg-info/not-zip-safe
+ckanext_harvestplugin.egg-info/top_level.txt

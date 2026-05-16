@@ -1,0 +1,14 @@
+harvest.css:
+  output: ckanext-harvestplugin/%(version)s_harvest.css
+  contents:
+    - css/main.css     
+
+
+harvest.js:
+  output: ckanext-harvestplugin/%(version)s_harvest.js
+  contents:
+    - javascript/main.js
+    - javascript/chart.min.js
+    - javascript/modules/modules.js
+    
+ 

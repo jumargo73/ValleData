@@ -1,0 +1,12 @@
+{% ckan_extends %}
+
+{# Los estilos van mejor en el bloque de styles para que carguen al inicio #}
+{% block styles %}
+  {{ super() }}
+  {% asset 'ckanext-ckanangular/ckanangular_css' %}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% asset 'ckanext-ckanangular/ckanangular_app' %}
+{% endblock %}

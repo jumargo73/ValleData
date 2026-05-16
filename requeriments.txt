@@ -1,0 +1,40 @@
+# instalacion del core de ckan para harvest e hijos
+-r ./harvest/ckan/requirements.txt
+-e ./harvest/ckan/
+
+# instalacion de las extensiones locales solo para harvest
+
+-r ./harvest/extensions/ckanext-harvest/requirements.txt
+-e ./harvest/extensions/ckanext-harvest
+
+-e ./harvest/extensions/ckanext-harvestplugin
+
+
+# extensiones para ckan(hijos)
+
+-e ./alcala-ckan/extensions/ckanext-ckanplugin
+-r ./alcala-ckan/extensions/ckanext-ckanplugin/requirements.txt
+
+-e ./alcala-ckan/extensions/ckanext-geoview
+
+-r ./alcala-ckan/extensions/ckanext-spatial/requirements.txt
+-e ./alcala-ckan/extensions/ckanext-spatial
+
+
+# instalacion de extensiones globales tanto para uso en harvest y ckan(hijos)
+
+-e ./extensions/ckanext-ldap
+-e ./extensions/ckanext-auth
+
+-r ./extensions/ckanext-dcat/requirements.txt
+-e ./extensions/ckanext-dcat
+
+-r ./extensions/ckanext-envvars/requirements.txt
+-e ./extensions/ckanext-envvars
+
+-r ./extensions/ckanext-scheming/requirements.txt
+-e ./extensions/ckanext-scheming
+
+
+-e ./extensions/ckanext-metrics_dashboard 
+-e ./extensions/ckanext-report
