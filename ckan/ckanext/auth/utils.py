@@ -1,0 +1,274 @@
+from __future__ import annotations
+
+import logging
+from datetime import timedelta
+from collections.abc import Callable
+from functools import wraps
+
+from flask import Response
+
+try:
+    from typing import NotRequired, TypedDict, cast
+except ImportError:
+    from typing_extensions import NotRequired, TypedDict
+    from typing import cast
+
+import ckan.lib.mailer as ckan_mailer
+import ckan.plugins as p
+import ckan.plugins.toolkit as tk
+from ckan import model
+from ckan.lib.authenticator import default_authenticate
+from ckan.lib.redis import connect_to_redis
+from ckan.views.user import next_page_or_default, rotate_token
+
+from ckanext.auth import config as auth_config
+from ckanext.auth.exceptions import ReplayAttackError
+from ckanext.auth.model import UserSecret
+
+log = logging.getLogger(__name__)
+
+
+def require_login(func: Callable[..., Response | str]) -> Callable[..., Response | str]:
+    @wraps(func)
+    def decorated_view(*args: tuple, **kwargs: dict[str, str]) -> Response | str:
+        if tk.current_user.is_anonymous:
+            return tk.abort(401, tk._("You have to be logged in to access this page."))
+        return func(*args, **kwargs)
+
+    return decorated_view
+
+
+class IdentityDict(TypedDict):
+    login: NotRequired[str]
+    password: str
+    check_captcha: bool
+
+
+class LoginManager:
+    login_attempts_key = "ckanext-auth:login_attempts:{}"
+    blocked_key = "ckanext-auth:blocked:{}"
+
+    @classmethod
+    def is_login_blocked(cls, user_id: str) -> bool:
+        """Check if a user is blocked from logging in."""
+        return bool(connect_to_redis().get(cls.blocked_key.format(user_id)))
+
+    @classmethod
+    def block_user_login(cls, user_id: str) -> None:
+        """Block a user from logging in for a certain amount of time."""
+        connect_to_redis().setex(
+            cls.blocked_key.format(user_id),
+            auth_config.get_2fa_login_timeout(),
+            1,
+        )
+
+    @classmethod
+    def log_user_login_attempt(cls, user_id: str) -> None:
+        """Log a login attempt for a user."""
+        redis = connect_to_redis()
+
+        redis.incr(cls.login_attempts_key.format(user_id))
+
+    @classmethod
+    def get_user_login_attempts(cls, user_id: str) -> int:
+        """Get the number of login attempts for a user."""
+        return int(connect_to_redis().get(cls.login_attempts_key.format(user_id)) or 0)  # type: ignore
+
+    @classmethod
+    def reset_for_user(cls, user_id: str) -> None:
+        """Reset the login attempts for a user."""
+        log.debug("2FA: Resetting login attempts for user %s", user_id)
+
+        redis = connect_to_redis()
+
+        redis.delete(cls.login_attempts_key.format(user_id))
+        redis.delete(cls.blocked_key.format(user_id))
+
+    @classmethod
+    def reset_all(cls) -> None:
+        """Reset the login attempts for all users."""
+        log.debug("2FA: Resetting login attempts for all users")
+
+        redis = connect_to_redis()
+
+        for key in redis.keys(cls.login_attempts_key.format("*")):  # type: ignore
+            redis.delete(key)
+
+        for key in redis.keys(cls.blocked_key.format("*")):  # type: ignore
+            redis.delete(key)
+
+
+def send_verification_email_to_user(user_reference: str) -> bool:
+    user = get_user_by_username_or_email(user_reference)
+
+    if not user or not user.email:
+        return False
+
+    code = get_email_verification_code(user)
+    data = {
+        "verification_code": code,
+        "site_url": tk.config["ckan.site_url"],
+        "site_title": tk.config["ckan.site_title"],
+        "user_name": user.display_name,
+        "subject": tk._(auth_config.get_2fa_subject()),
+        "body": f"Your verification code is: {code}",
+    }
+
+    if p.plugin_loaded("mailcraft"):
+        from ckanext.mailcraft.utils import get_mailer  # noqa PLC0415
+
+        get_mailer().mail_recipients(
+            subject=data["subject"],
+            recipients=[user.email],
+            body=data["body"],
+            body_html=tk.render(
+                "auth/emails/verification_code.html",
+                extra_vars=data,
+            ),
+        )
+    else:
+        try:
+            ckan_mailer.mail_user(
+                recipient=user,
+                subject=data["subject"],
+                body=data["body"],
+                body_html=tk.render(
+                    "auth/emails/verification_code.html",
+                    extra_vars=data,
+                ),
+            )
+        except ckan_mailer.MailerException:
+            return False
+
+    return True
+
+
+def get_email_verification_code(user: model.User) -> str:
+    user_secret = UserSecret.get_for_user(user.name)
+
+    if not user_secret:
+        user_secret = UserSecret.create_for_user(user.name)
+
+    return user_secret.get_code()
+
+
+def regenerate_user_secret(user_reference: str) -> str:
+    """Regenerate the secret for a user.
+
+    Args:
+        user_reference (str): The user’s ID or email.
+
+    Returns:
+        str: The new secret
+    """
+    user = get_user_by_username_or_email(user_reference)
+
+    if not user:
+        raise tk.ObjectNotFound("User not found")
+
+    user_secret = UserSecret.create_for_user(user.name)
+
+    log.debug("2FA: Rotated the 2fa secret for user %s", user.id)
+
+    return cast(str, user_secret.secret)
+
+
+def login():
+    if tk.current_user.is_authenticated:
+        return tk.render("user/logout_first.html", {})
+
+    if tk.request.method != "POST":
+        return tk.render("user/login.html", {})
+
+    user_obj = authenticate(
+        IdentityDict(
+            login=tk.get_or_bust(tk.request.form, "login"),
+            password=tk.get_or_bust(tk.request.form, "password"),
+            check_captcha=False,
+        )
+    )
+
+    if not user_obj:
+        tk.h.flash_error(tk._("Login failed. Bad username or password."))
+        return tk.render("user/login.html", {})
+
+    if remember := tk.request.form.get("remember"):
+        tk.login_user(
+            user_obj,
+            remember=True,
+            duration=timedelta(milliseconds=int(remember)),
+        )
+    else:
+        tk.login_user(user_obj)
+
+    rotate_token()
+
+    return next_page_or_default(
+        tk.request.args.get("next", tk.request.args.get("came_from")),
+    )
+
+
+def authenticate(identity: IdentityDict) -> model.User | model.AnonymousUser | None:
+    # Run through the CKAN auth sequence first, so we can hit the DB
+    # in every case and make timing attacks a little more difficult.
+    ckan_auth_result = default_authenticate(dict(identity))
+
+    if "login" not in identity:
+        return None
+
+    if LoginManager.is_login_blocked(identity["login"]):
+        return None
+
+    if LoginManager.get_user_login_attempts(identity["login"]) > auth_config.get_2fa_max_attempts():
+        LoginManager.block_user_login(identity["login"])
+
+    if not ckan_auth_result:
+        return LoginManager.log_user_login_attempt(identity["login"])
+
+    if not auth_config.is_2fa_enabled():
+        LoginManager.reset_for_user(identity["login"])
+        return ckan_auth_result
+
+    # if the CKAN authenticator has successfully authenticated
+    # then check the TOTP parameter to see if it is valid
+    if authenticate_totp(identity["login"]):
+        LoginManager.reset_for_user(identity["login"])
+        return ckan_auth_result
+
+    # This means that the login form has been submitted
+    # with an invalid TOTP code, bypassing the ajax
+    # login workflow.
+
+    # The username and password were fine, but the 2fa
+    # code was missing or invalid
+    return None
+
+
+def authenticate_totp(user_name: str) -> str | None:
+    user_secret = UserSecret.get_for_user(user_name)
+
+    # if there is no totp configured, don't allow auth
+    # shouldn't happen, login flow should create a user secret
+    if not user_secret:
+        return log.debug(
+            "2FA: Login attempted without MFA configured for: %s",
+            user_name,
+        )
+
+    if "code" not in tk.request.form:
+        return log.debug("2FA: Could not get MFA credentials from a request")
+
+    try:
+        result = user_secret.check_code(tk.request.form["code"])
+    except ReplayAttackError as e:
+        return log.warning(
+            "2FA: Detected a possible replay attack for user: %s, context: %s",
+            user_name,
+            e,
+        )
+    else:
+        return user_name if result else None
+
+
+def get_user_by_username_or_email(user_reference: str) -> model.User | None:
+    return model.User.get(user_reference) or model.User.by_email(user_reference)
