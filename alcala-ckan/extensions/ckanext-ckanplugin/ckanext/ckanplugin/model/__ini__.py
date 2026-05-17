@@ -1,9 +1,9 @@
-from ckanext.csvgeojson.model.resource_rating import ResourceRating
-from ckanext.csvgeojson.model.contador import Contador
-import logging
-log = logging.getLogger(__name__)
+# models/__init__.py
+from ckan.model.meta import metadata, DeclarativeBase
 
-__all__ = [
-    "ResourceRating","Contador"
-]
+# Importas la clase de cada modelo desde su respectivo archivo
+from .comments import Comments
+from .contador import Contador
+from .package_ext import Extend_package_table
+from .resourceRating import ResourceRating
 

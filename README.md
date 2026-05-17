@@ -297,26 +297,118 @@ VALLE DATA busca consolidar un ecosistema interoperable de datos abiertos que pe
 * Los procesos Harvest se ejecutan de forma asincrónica mediante workers y consumidores especializados.
 
 ___
-#Innstalar la APP en el Sistema
-Activar el Entorno Virtual
-. /usr/lib/ckan/default/bin/activate
 
-cd /usr/lib/ckan/default/src/valle_data
-pip install -r requiriments.txt --no-deps --force-reinstall
+#Despliegue por Resource
+
+#Creacion Entornos virtuales
+```bash
+	mkdir -p /usr/lib/ckan/default/ckan
+	python3 -m venv /usr/lib/ckan/default/ckan
+
+	mkdir -p /usr/lib/ckan/default/harvest
+	python3 -m venv /usr/lib/ckan/default/harvest
+
+	mkdir -p /usr/lib/ckan/default/datapusher
+	python3 -m venv /usr/lib/ckan/default/datapusher
+
+
+	se crean la carpeta de produccion
+	mkdir -p /usr/lib/ckan/default/src
+```
+___
+
+# se aplica permisos
+```bash
+sudo chmod -R 777  /usr/lib/ckan/default/
+```
+___
+
+#Instalacion Ckan(alcala_ckan)
+```bash
+	. /usr/lib/ckan/default/ckan/bin/activate
+
+	cd  /usr/lib/ckan/default/src/
+
+	git clone  https://github.com/jumargo73/ValleData.git
+
+	cd ValleData
+	sudo chmod +x instalar_ckan.sh
+
+	pip install --upgrade pip uwsgi wheel rq>=1.14.0,<2.0.0 "setuptools>=44.1.0,<82" Werkzeug==2.3.7 Flask==2.3.3 
+
+	cd /usr/lib/ckan/default/src/valle_data/alcala-ckan/ckan
+	pip install -r requirements.txt
+	pip install -e .
+
+	sudo cp -r /usr/lib/ckan/default/src/valle_data/alcala-ckan/config/ckan.ini /usr/lib/ckan/default/src/valle_data/alcala-ckan/ckan
+
+	Inicializar la BD
+	cd alcala-ckan/ckan
+	ckan db init
+	ckan db upgrade -p CkanPlugin
+```
+
+#Instalacion Ckan(harvest)
+```bash
+
+. /usr/lib/ckan/default/harvest/bin/activate
+
+cd  /usr/lib/ckan/default/src/ValleData
+
+sudo chmod +x instalar_harvest.sh
+sed -i 's/\r$//' instalar_harvest.sh
+bash instalar_harvest.sh
+
+
+pip install --upgrade pip uwsgi wheel rq>=1.14.0,<2.0.0 "setuptools>=44.1.0,<82" Werkzeug==2.3.7 Flask==2.3.3 
+
+cd /usr/lib/ckan/default/src/valle_data/harvest/ckan
+pip install -r requirements.txt
+pip install -e .
+
+sudo cp -r /usr/lib/ckan/default/src/valle_data/harvest/config/ckan.ini /usr/lib/ckan/default/src/valle_data/harvest/ckan
+
+Inicializar la BD
+cd harvest/ckan
+ckan db init
+ckan  db upgrade -p harvest
+ckan  db upgrade -p report
+```
 
 
 #Reconstruir los asset para Ckan(ejemplo alcala)
 Si tu ruta de de trabajo (Entorno Virtual) es  /usr/lib/ckan/default/ y el directorio de trabajo es /usr/lib/ckan/default/src/
 
+```bash
 rm -rf /usr/lib/ckan/default/src/valle_data/alcala-ckan/ckan/public/webassets/*
 /usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/valle_data/alcala-ckan/ckan/ckan.ini asset build
 chmod -R 775 /var/lib/ckan/
+```
 
 #Reportes Aplica a Harvest
+
+```bash
 /usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/valle_data/harvest/ckan/ckan.ini report generate reporte-federacion
 http://<url>/report/reporte-federacion
 /usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/valle_data/harvest/ckan/ckan.ini report metrics-dashboard
 http://<url>/report/metrics-dashboard
+```
+
+#Despliegue por Resource
+
+#Crear Imagen para Ckan_Hijos
+
+```bash
+docker build -t CKAN/ckan:2.11.4 \
+-f ckan_dockerfile \
+.
+```
+
+```bash
+docker build -t Harvest/ckan:2.11.4 \
+-f harvest_dockerfile \
+.
+```
 
 
 # Autor

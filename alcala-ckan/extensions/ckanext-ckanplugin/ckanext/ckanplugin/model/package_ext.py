@@ -2,7 +2,7 @@ from sqlalchemy import Column, types
 from ckan.model.package import package_table
 from ckan.model import Package
 
-def extend_package_table():
+def Extend_package_table():
 
     if 'city' not in package_table.c:
         package_table.append_column(

@@ -1,17 +1,17 @@
 import ckan.plugins as p
 import ckan.plugins.toolkit as tk
-from flask import Blueprint, request, jsonify,current_app,redirect
-from ckanext.ckanplugin.middleware import registrar_analytics
+from flask import Blueprint, request
 import logging
-from ckan.model import Package
-from sqlalchemy import Column, Unicode
 import os
 import ckanext.ckanplugin.logic.action.resourceRating as rating_action
+import ckanext.ckanplugin.logic.auth.resourceRating as rating_auth
 import ckanext.ckanplugin.logic.action.comments as comments
+import ckanext.ckanplugin.logic.auth.comments as comments_auth
 import ckanext.ckanplugin.logic.action.get as getAction
 import ckanext.ckanplugin.logic.action.update as updateAction
-import ckanext.ckanplugin.logic.auth.resourceRating as rating_auth
-import ckanext.ckanplugin.logic.auth.comments as comments_auth
+
+
+
 import ckanext.ckanplugin.logic.auth.get as getAuth
 import ckanext.ckanplugin.logic.auth.update as updateAuth
 import ckanext.ckanplugin.model.package_ext as package_ext
@@ -28,11 +28,11 @@ from ckanext.ckanplugin.services.geojson_converter import GeoJSONConverter
 from ckanext.ckanplugin.views.estadistica import estadistica
 from ckanext.ckanplugin.views.noticias import noticias
 from ckanext.ckanplugin.views.contador import contador
+from ckan.plugins.interfaces import IClick 
 
 
 
 log = logging.getLogger(__name__)
-
 
 
 class CkanPlugin(DefaultDatasetForm,p.SingletonPlugin):
@@ -43,8 +43,9 @@ class CkanPlugin(DefaultDatasetForm,p.SingletonPlugin):
     p.implements(p.ITemplateHelpers)   
     p.implements(p.IDatasetForm, inherit=True)
     p.implements(p.IBlueprint)
-
-
+    p.implements(IClick)
+   
+    
     def get_blueprint(self):
       
         # Blueprint 2
@@ -54,69 +55,14 @@ class CkanPlugin(DefaultDatasetForm,p.SingletonPlugin):
         )
 
         
-        analytics_bp = Blueprint("analytics_bp", __name__)
-
-        @analytics_bp.after_app_request
-        def registrar_analytics_after(response):            
-
-            try:
-                log.warning("[CkanPlugin][get_blueprint][registrar_analytics_after] ejecutado")
-                path = request.path
-
-                if "/dataset/" in path and "/download/" in path:
-
-                    parts = path.split("/")
-
-                    dataset_id = parts[2]
-                    resource_id = parts[4]
-
-                    user_agent = request.headers.get("User-Agent", "")
-
-                    # evitar contar llamadas internas de datapusher
-                    if "python-requests" not in user_agent:
-                        helpers.contar_descargas(resource_id, dataset_id)
-
-            except Exception as e:
-                log.warning(f"Error registrando descarga: {e}")
-
-            return response
-
-        @analytics_bp.before_app_request
-        def registrar_analytics_before():
-            try:
-                log.warning("[CkanPlugin][get_blueprint][registrar_analytics_before] ejecutado")
-                #log.warning(f"Interceptando request.path {request.path}")
-
-                path = request.path    
-                
-                if path.startswith("/datastore/dump/"):
-                    log.warning("[CkanPlugin][get_blueprint][analytics_bp] path %s",path)
-                    resource_id = request.path.split("/")[-1]
-
-                    ip = request.remote_addr
-                    user_agent = request.user_agent.string
-                    formato = request.args.get("format")
-                    bom = request.args.get("bom")
-
-                    #log.warning(f"Dump datastore detectado {resource_id}")  
-
-                    context = {'ignore_auth': True}
-
-                    resource = tk.get_action('resource_show')(context, {
-                        'id': resource_id
-                    })
-
-                    package_id = resource['package_id']
-
-                    #log.warning(f"Dump datastore package_id {package_id}")  
-
-                    helpers.contar_descargas(resource_id,package_id) 
-            except Exception as e:
-                log.warning(f"Error registrando descarga: {e}")   
-
-        return [estadistica,noticias,analytics_bp, download_bp]
+        return [estadistica,noticias]
     
-
+    
+    def get_commands(self):
+        # Retorna una lista vacía para indicarle a CKAN 
+        # que este plugin no inyecta comandos nuevos
+        return []
+    
     def hello_angular(self):
         return tk.render('/home/index.html')
         
@@ -131,10 +77,14 @@ class CkanPlugin(DefaultDatasetForm,p.SingletonPlugin):
 
             config._ckanplugin_loaded = True
 
-        
+    def get_db_functions(self):
+        # Al retornar True o un diccionario vacío, le avisas al core 
+        # que indexe la carpeta 'migration/' interna de esta extensión
+        return {}
+
     def package_types(self):
         log.warning("[CkanPlugin][package_types] ejecutado") 
-        return ['dataset']
+        return ['reporte_dataset']
 
     def is_fallback(self):
         print("🔥 is_fallback ejecutado")

@@ -1,3 +1,6 @@
+[ckan.click_command]
+ckanplugin = ckanext.ckanplugin.cli:click_command_group
+
 [ckan.plugins]
 CkanPlugin = ckanext.ckanplugin.plugin_logic:CkanPlugin
 CsvGeoJsonApi = ckanext.ckanplugin.plugin:CSVtoGeoJSONApiPlugin
