@@ -1,7 +1,7 @@
 networks:
-  ckan-hijo-net:
-    name: ckan-hijo-net
-    driver: bridge 
+  net-db:
+    driver: bridge  
+    external: true     
     
 volumes:
   pg_data:  
@@ -9,6 +9,9 @@ volumes:
 services:
 
   db:
+    build:
+      context: postgres-image/
+      dockerfile: Dockerfile
     image: CKAN/postgres:15    
     environment:
       - POSTGRES_USER
@@ -20,11 +23,12 @@ services:
       - DATASTORE_READONLY_USER
       - DATASTORE_READONLY_PASSWORD
       - DATASTORE_DB
+      - CKAN_ALCALA_DB
     env_file:
       - .env  
     volumes:
       - pg_data:/var/lib/postgresql/data
     networks:
-      - ckan-hijo-net     
+      - net-db    
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_PASSWORD}"]  

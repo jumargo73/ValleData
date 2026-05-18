@@ -1,0 +1,28 @@
+networks:
+  net-nginx:
+    driver: bridge
+    external: true
+  net-hijo-internal:
+    driver: bridge
+    external: true
+  net-fed-internal:
+    driver: bridge
+    external: true
+
+volumes:
+  pg_data:  
+  
+services:
+
+  nginx:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./setup/nginx.conf:/etc/nginx/nginx.conf
+      - ./conf.d:/etc/nginx/conf.d
+    ports:
+      - "8091:80"
+      - "8543:443"
+    networks:
+      - net-nginx 

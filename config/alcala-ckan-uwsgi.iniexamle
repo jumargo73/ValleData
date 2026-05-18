@@ -19,17 +19,17 @@ max-requests    = 1000      # Reinicia workers cada 1000 peticiones para limpiar
 max-worker-lifetime = 3600  # Reinicia cada hora para evitar fugas de memoria
 
 # --- CONFIGURACIÓN DE RED ---
-http            = 0.0.0.0:5000
+http            = 127.0.0.1:5050
 listen          = 256       # Aumenta la cola de espera de conexiones
 lazy-apps       = true      # Carga la app en cada worker (evita errores de Prisma/DB)
 
 # --- RUTAS Y PERMISOS (MANTENER) ---
 uid             = www-data
 gid             = www-data
-chdir           = /srv/app/src/ckan
-wsgi-file       = /srv/app/src/deployment/wsgi.py
-virtualenv      = /srv/app
-callable        = application
+wsgi-file       = /usr/lib/ckan/default/src/valle_data/alcala-ckan/ckan/wsgi.py
+virtualenv      = /usr/lib/ckan/default/ckan
+module          = wsgi:application
 pidfile         = /tmp/%n.pid
 vacuum          = true
+callable        = application
 strict          = true

@@ -68,4 +68,4 @@ USER ckan
 
 EXPOSE 5000
 
-CMD ["/srv/app/bin/uwsgi", "--ini", "/srv/app/src/deployment/ckan-uwsgi.ini"]
+CMD ["/srv/app/bin/uwsgi", "--ini", "/srv/app/src/proyecto-ckan/deployment/ckan-uwsgi.ini"]

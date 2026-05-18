@@ -396,8 +396,12 @@ http://<url>/report/metrics-dashboard
 
 #Despliegue por Resource
 
-#Crear Imagen para Ckan_Hijos
+#Nos ubicamos en la Raiz de nuestro proyecto
+```bash
+cd  /usr/lib/ckan/default/src/valle_data/
+```
 
+#Crear Imagen para Ckan_Hijos
 ```bash
 docker build -t CKAN/ckan:2.11.4 \
 -f ckan_dockerfile \
@@ -410,6 +414,203 @@ docker build -t Harvest/ckan:2.11.4 \
 .
 ```
 
+#Comandos para crear tus redes
+```bash
+# Redes para el CKAN Federado
+docker network create net-db
+docker network create net-fed-internal
+
+# Redes para el CKAN Hijo
+docker network create net-hijo-internal
+
+# Red común para Nginx
+docker network create net-nginx
+
+```
+
+#Subir el contenerod de la BD
+
+```bash
+docker compose -f docker_postgres/docker-compose.yml build
+docker compose -f docker_postgres/docker-compose.yml up -d
+
+```
+
+#Validar si se crearon las BD de Alcala y Harvest
+
+```bash
+docker exec -u root -it docker_postgres-db-1 bash
+psql -U postgres
+\l
+                                                              List of databases
+           Name           |    Owner     | Encoding |  Collate   |   Ctype    | ICU Locale | Locale Provider |       Access privileges
+--------------------------+--------------+----------+------------+------------+------------+-----------------+-------------------------------
+ alcala_ckan_default      | ckan_default | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =Tc/ckan_default             +
+                          |              |          |            |            |            |                 | ckan_default=CTc/ckan_default
+ alcala_datastore_default | ckan_default | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =Tc/ckan_default             +
+                          |              |          |            |            |            |                 | ckan_default=CTc/ckan_default
+ ckan_default             | ckan_default | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =Tc/ckan_default             +
+                          |              |          |            |            |            |                 | ckan_default=CTc/ckan_default
+
+```
+
+
+#Subir el proyecto alcala
+```bash
+docker compose -f alcala-ckan/docker-compose.yml build
+docker compose -f alcala-ckan/docker-compose.yml up -d
+```
+
+#Subir el contenerod ngix
+
+```bash
+#si y solo si la aplicacion este arriba
+docker compose -f nginx/docker-compose.yml build
+docker compose -f nginx/docker-compose.yml up -d
+
+```
+
+#ASi debe quedar el despliegue de ckan-alcala
+
+```bash
+CONTAINER ID   IMAGE                              COMMAND                  CREATED         STATUS                   PORTS                                         NAMES
+0fb636cdc780   CKAN/ckan:2.11.4                   "/srv/app/bin/uwsgi …"   4 minutes ago   Up 3 minutes (healthy)   0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp   alcala-ckan-ckan-1
+c7944f95a9e6   ckan/ckan-base-datapusher:0.0.21   "/srv/app/datapusher…"   4 minutes ago   Up 4 minutes (healthy)   8800/tcp                                      alcala-ckan-datapusher-1
+1d8b5ae17482   CKAN/ckan-solr:2.10-solr9          "docker-entrypoint.s…"   4 minutes ago   Up 4 minutes (healthy)   8983/tcp                                      alcala-ckan-solr-1
+405da041b6e7   CKAN/redis:7                       "docker-entrypoint.s…"   4 minutes ago   Up 4 minutes (healthy)   6379/tcp                                      alcala-ckan-redis-1
+b934b8307c8d   CKAN/postgres:15                   "docker-entrypoint.s…"   2 hours ago     Up 2 hours (healthy)     5432/tcp                                      docker_postgres-db-1
+```
+
+# Configuración de Solr
+
+## Crear Core CKAN
+
+```bash
+docker exec -u solr -it alcala-ckan-solr-1 \
+solr create_core -c ckan
+```
+
+# Inicializar las BD de Ckan
+
+```bash
+
+docker exec -u ckan -it alcala-ckan-ckan-1 \
+ckan db init
+
+docker exec -u ckan -it alcala-ckan-ckan-1 \
+ckan db upgrade
+
+si y silo si con upgrade no la vez reflejado
+docker exec -u ckan -it alcala-ckan-ckan-1 \
+ckan db upgrade -p CkanPlugin
+
+```
+#validar las migraciones
+```bash
+docker exec -u root -it docker_postgres-db-1  psql -U postgres
+\c alcala_ckan_default
+\lt
+
+alcala_ckan_default=# \dt
+                       List of relations
+ Schema |             Name              | Type  |    Owner
+--------+-------------------------------+-------+--------------
+ public | CkanPlugin_alembic_version    | table | ckan_default
+ public | activity                      | table | ckan_default
+ public | activity_alembic_version      | table | ckan_default
+ public | activity_detail               | table | ckan_default
+ public | alembic_version               | table | ckan_default
+ public | api_token                     | table | ckan_default
+ public | comments                      | table | ckan_default
+ public | contador                      | table | ckan_default
+ public | dashboard                     | table | ckan_default
+ public | group                         | table | ckan_default
+ public | group_extra                   | table | ckan_default
+ public | group_extra_revision          | table | ckan_default
+ public | group_revision                | table | ckan_default
+ public | member                        | table | ckan_default
+ public | member_revision               | table | ckan_default
+ public | package                       | table | ckan_default
+ public | package_extra                 | table | ckan_default
+ public | package_extra_revision        | table | ckan_default
+ public | package_member                | table | ckan_default
+ public | package_relationship          | table | ckan_default
+ public | package_relationship_revision | table | ckan_default
+ public | package_revision              | table | ckan_default
+ public | package_tag                   | table | ckan_default
+ public | package_tag_revision          | table | ckan_default
+ public | resource                      | table | ckan_default
+ public | resource_rating               | table | ckan_default
+ public | resource_revision             | table | ckan_default
+ public | resource_view                 | table | ckan_default
+ public | revision                      | table | ckan_default
+ public | system_info                   | table | ckan_default
+ public | system_info_revision          | table | ckan_default
+ public | tag                           | table | ckan_default
+ public | task_status                   | table | ckan_default
+ public | term_translation              | table | ckan_default
+ public | tracking_raw                  | table | ckan_default
+ public | tracking_summary              | table | ckan_default
+ public | user                          | table | ckan_default
+ public | user_following_dataset        | table | ckan_default
+ public | user_following_group          | table | ckan_default
+ public | user_following_user           | table | ckan_default
+ public | vocabulary                    | table | ckan_default
+(41 rows)
+
+\q para salir
+```
+
+# Dapapusher Configuraciones
+
+# Aplicando Permisos para BD Datapusher
+
+```bash
+docker exec -u ckan -it alcala-ckan-ckan-1 \
+ckan datastore set-permissions > ds.sql
+
+docker cp ds.sql docker_postgres-db-1:/ds.sql
+
+docker exec -it docker_postgres-db-1 psql -U ckan_default -d alcala_datastore_default -f /ds.sql
+```
+
+#resultado
+```bash
+REVOKE
+GRANT
+GRANT
+GRANT
+GRANT
+REVOKE
+GRANT
+GRANT
+GRANT
+ALTER DEFAULT PRIVILEGES
+CREATE VIEW
+ALTER VIEW
+GRANT
+CREATE FUNCTION
+ALTER FUNCTION
+DO
+```
+# Aplicando Permisos para BD Datapusher
+
+#creacion de Usuario y Tocken para API Datapusher
+
+```bash
+docker exec -u ckan -it alcala-ckan-ckan-1 \
+ckan -c /srv/app/ckan.ini sysadmin add federacion_api
+
+docker exec -u ckan -it alcala-ckan-ckan-1 \
+ckan -c /srv/app/ckan.ini user token add federacion_api federacion_api_token
+
+El resultado lo asignas a la variable  DATAPUSHER_API_TOKEN
+```
+
+```bash
+docker restart alcala-ckan-ckan-1
+docker logs -f --tail 50 alcala-ckan-ckan-1
+```
 
 # Autor
 

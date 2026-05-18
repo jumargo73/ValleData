@@ -1,8 +1,23 @@
 networks:
-  ckan-hijo-net:
-    name: ckan-hijo-net
-    driver: bridge 
+  # Redes para el CKAN Federado (Principal)
+  net-fed-internal:
+    driver: bridge
     external: true
+  
+  # Redes para el CKAN Hijo
+  net-hijo-internal:
+    driver: bridge
+    external: true
+
+  # Red común solo para la entrada de Nginx
+  net-nginx:
+    driver: bridge
+    external: true
+    
+  # DB Externo
+  net-db:
+    driver: bridge 
+    external: true    
 
 volumes:
   ckan_storage:
@@ -18,7 +33,8 @@ services:
     volumes:
       - solr_data:/var/solr
     networks:
-      - ckan-hijo-net
+      - net-fed-internal
+      - net-db
     healthcheck:
       test: ["CMD", "curl", "-f", "http://0.0.0.0:8983/solr"]
       interval: 10s
@@ -28,22 +44,10 @@ services:
   redis:
     image: CKAN/redis:7
     networks:
-      - ckan-hijo-net
+      - net-fed-internal
     healthcheck:
       test: ["CMD", "redis-cli", "-e", "QUIT"] 
       
-  datapusher:
-    networks:
-      - ckan-hijo-net  
-    image: ckan/ckan-base-datapusher:0.0.21    
-    volumes:
-      - datapusher_data:/srv/app/datapusher-src
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "timeout 1 bash -c '</dev/tcp/localhost/8800' || exit 1"]
-      interval: 60s
-      timeout: 10s
-      retries: 3        
       
   harvest:
     image: Harvest/ckan:2.11.4  
@@ -75,7 +79,10 @@ services:
       - site_packages:/usr/lib/python3.10/site-packages
     restart: unless-stopped  
     networks:
-      - ckan-hijo-net      
+      - net-fed-internal
+      - net-db
+      - net-nginx
+      - net-hijo-internal             
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest:5100/api/3/action/status_show"]
       interval: 30s
@@ -85,7 +92,9 @@ services:
   
   worker:
     networks:
-      - ckan-hijo-net
+      - net-fed-internal
+      - red-db
+      - red-ckan
     image: Harvest/ckan:2.11.4        
     command: ckan jobs worker
     environment:
@@ -106,7 +115,9 @@ services:
 
   harvest-gather:
     networks:
-      - ckan-hijo-net
+      - net-fed-internal
+      - red-db
+      - red-ckan
     image: Harvest/ckan:2.11.4   
     environment:
       - CKAN_SQLALCHEMY_URL           
@@ -127,7 +138,9 @@ services:
 
   harvest-fetch:
     networks:
-      - ckan-hijo-net
+      - net-fed-internal
+      - red-db
+      - red-ckan
     image: Harvest/ckan:2.11.4   
     environment:
       - CKAN_SQLALCHEMY_URL           

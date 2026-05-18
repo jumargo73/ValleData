@@ -1,6 +1,14 @@
 networks:
-  ckan-hijo-net:
-    name: ckan-hijo-net
+  net-db:
+    driver: bridge
+    external: true
+  net-nginx:
+    driver: bridge
+    external: true
+  net-hijo-internal:
+    driver: bridge
+    external: true    
+  net-fed-internal:
     driver: bridge 
     external: true
 
@@ -13,12 +21,16 @@ volumes:
     
 services:   
   solr:
+    build:
+      context: docker_solr/solr_image/
+      dockerfile: Dockerfile  
     image: CKAN/ckan-solr:2.10-solr9
     command: solr-precreate ckan
     volumes:
       - solr_data:/var/solr
     networks:
-      - ckan-hijo-net
+      - net-db
+      - net-hijo-internal
     healthcheck:
       test: ["CMD", "curl", "-f", "http://0.0.0.0:8983/solr"]
       interval: 10s
@@ -26,15 +38,23 @@ services:
       retries: 5 
 
   redis:
+    build:
+      context: docker_redis/redis-image/
+      dockerfile: Dockerfile 
     image: CKAN/redis:7
     networks:
-      - ckan-hijo-net
+      - net-hijo-internal
     healthcheck:
       test: ["CMD", "redis-cli", "-e", "QUIT"] 
       
   datapusher:
     networks:
-      - ckan-hijo-net  
+      - net-db
+      - net-hijo-internal 
+      
+    build:
+      context: docker_datapusher/datapusher_images/
+      dockerfile: Dockerfile   
     image: ckan/ckan-base-datapusher:0.0.21    
     volumes:
       - datapusher_data:/srv/app/datapusher-src
@@ -80,7 +100,10 @@ services:
       - site_packages:/usr/lib/python3.10/site-packages
     restart: unless-stopped  
     networks:
-      - ckan-hijo-net      
+      - net-nginx
+      - net-db
+      - net-hijo-internal
+      - net-fed-internal     
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://ckan:5000/api/3/action/status_show"]
       interval: 30s
