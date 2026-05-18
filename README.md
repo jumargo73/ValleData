@@ -394,7 +394,7 @@ http://<url>/report/reporte-federacion
 http://<url>/report/metrics-dashboard
 ```
 
-#Despliegue por Resource
+#Despliegue por Docker
 
 #Nos ubicamos en la Raiz de nuestro proyecto
 ```bash
@@ -480,6 +480,7 @@ c7944f95a9e6   ckan/ckan-base-datapusher:0.0.21   "/srv/app/datapusher…"   4 m
 405da041b6e7   CKAN/redis:7                       "docker-entrypoint.s…"   4 minutes ago   Up 4 minutes (healthy)   6379/tcp                                      alcala-ckan-redis-1
 b934b8307c8d   CKAN/postgres:15                   "docker-entrypoint.s…"   2 hours ago     Up 2 hours (healthy)     5432/tcp                                      docker_postgres-db-1
 ```
+
 
 # Configuración de Solr
 
@@ -611,6 +612,99 @@ El resultado lo asignas a la variable  DATAPUSHER_API_TOKEN
 docker restart alcala-ckan-ckan-1
 docker logs -f --tail 50 alcala-ckan-ckan-1
 ```
+
+#desplegando Harvest
+```bash
+docker compose -f harvest/docker-compose.yml up -d
+```
+
+#Inicializando DB Harvest
+```bash
+docker compose -f harvest/docker-compose.yml up -d
+```
+
+# Configuración de Solr
+
+## Crear Core CKAN
+
+```bash
+docker exec -u solr -it harvest-solr-1 \
+solr create_core -c ckan
+```
+
+
+# Inicializar las BD de Ckan
+
+```bash
+
+docker exec -u ckan -it harvest-harvest-1 \
+ckan db init
+
+docker exec -u ckan -it harvest-harvest-1 \
+ckan db upgrade
+```
+
+```bash
+docker restart harvest-harvest-1
+docker logs -f --tail 50 harvest-harvest-1
+```
+
+#ASi debe quedar el despliegue de ckan-alcala
+
+```bash
+CONTAINER ID   IMAGE                              COMMAND                  CREATED             STATUS                        PORTS                                                                                NAMES
+f6cd7e5f8f93   Harvest/ckan:2.11.4                "ckan -c /srv/app/ck…"   3 minutes ago       Up 3 minutes (healthy)        5000/tcp                                                                             harvest-harvest-gather-1
+75bd494e33b5   Harvest/ckan:2.11.4                "ckan jobs worker"       3 minutes ago       Up 3 minutes (healthy)        5000/tcp                                                                             harvest-worker-1
+7deadd494fd4   Harvest/ckan:2.11.4                "ckan -c /srv/app/ck…"   3 minutes ago       Up 3 minutes (healthy)        5000/tcp                                                                             harvest-harvest-fetch-1
+8220c2e71ba4   Harvest/ckan:2.11.4                "/srv/app/bin/uwsgi …"   3 minutes ago       Up About a minute (healthy)   0.0.0.0:5001->5000/tcp, [::]:5001->5000/tcp                                          harvest-harvest-1
+189d4c4637b0   CKAN/ckan-solr:2.10-solr9          "docker-entrypoint.s…"   3 minutes ago       Up 3 minutes (healthy)        8983/tcp                                                                             harvest-solr-1
+
+```
+--- 
+#Despliegue por Kubernate
+```bash
+kind load docker-image CKAN/ckan-solr:2.10-solr9 --name ckan-cluster
+kind load docker-image CKAN/ckan:2.11.4 --name ckan-cluster
+kind load docker-image CKAN/harvest:2.11.4 --name ckan-cluster
+kind load docker-image CKAN/redis:7  --name ckan-cluster
+kind load docker-image ckan/ckan-base-datapusher:0.0.21 --name ckan-cluster
+```
+---
+
+# 16. Configurar PostgreSQL Externo
+
+Obtener IP:
+
+```bash
+docker inspect docker_postgres-db-1 | grep -A 10 "kind"
+```
+
+Actualizar:
+
+```yaml
+endpoints:
+  - addresses:
+      - "172.18.0.3"
+```
+
+Archivo:
+
+```text
+k8s/postgres-external.yaml
+```
+
+---
+# 17. Despliegue Kubernetes
+
+```bash
+kubectl apply -f k8s/postgres-external.yaml
+kubectl apply -f k8s/ckan_app.yaml
+kubectl apply -f k8s/harvest_app.yaml
+```
+---
+
+# 17. Configuraciones
+Mismo Procedimiento de los pasos anteriones, debemos  garantizar en los archivos de configuracion que apunte a los servicios de cada despliegue
 
 # Autor
 

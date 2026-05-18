@@ -1,0 +1,348 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/var/local/redis-storage"
+    type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+  namespace: ckan # Asegúrate de que este sea tu namespace
+spec:
+  storageClassName: "" # Obliga a usar el PV de arriba
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+      
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: ckan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: CKAN/redis:7  # Imagen oficial con el esquema de CKAN
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+            - name: redis-data-volume 
+              mountPath: /data
+              subPath: data
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
+      volumes:
+        - name: redis-data-volume
+          persistentVolumeClaim:
+            claimName: redis-pvc    
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: ckan
+spec:
+  selector:
+    app: redis
+  ports:
+  - port: 6379
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: solr-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "manual" # Se añade para vincular correctamente
+  hostPath:
+    path: "/var/local/solr-storage"
+    type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: solr-pvc
+  namespace: ckan
+spec:
+  storageClassName: "manual" # Debe coincidir con el PV
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+      
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solr
+  namespace: ckan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: solr
+  template:
+    metadata:
+      labels:
+        app: solr
+    spec:
+      securityContext:
+        runAsUser: 8983
+        fsGroup: 8983
+      # 2. Init Container para asegurar que la carpeta sea de solr (8983)
+      containers:
+      - name: solr
+        image: CKAN/ckan-solr:2.10-solr9  # Imagen oficial con el esquema de CKAN
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 8983
+        ports:
+        - containerPort: 8983
+        env:
+        - name: SOLR_JAVA_MEM
+          value: "-Xms256m -Xmx512m" # <--- LIMITAMOS JAVA PARA TU PC
+        volumeMounts:
+            - name: solr-data-volume 
+              mountPath: /var/solr
+              subPath: solr
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi" # Margen para el contenedor
+            cpu: "500m"
+      volumes:
+        - name: solr-data-volume
+          persistentVolumeClaim:
+            claimName: solr-pvc 
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: solr
+  namespace: ckan
+spec:
+  selector:
+    app: solr
+  ports:
+  - port: 8983
+  
+---
+
+
+# 1. DEFINICIÓN DE LOS VOLÚMENES FÍSICOS (PV)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harvest-storage-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/var/local/ckan-storage/"
+
+# 2. SOLICITUDES DE ALMACENAMIENTO (PVC)
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: harvest-storage-pvc
+  namespace: harvest
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+      
+--- 
+# 3. DEPLOYMENT
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harvest
+  namespace: harvest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: harvest
+  template:
+    metadata:
+      labels:
+        app: harvest
+    spec:
+      securityContext:
+        runAsUser: 0 
+      containers:
+      - name: harvest
+        image: CKAN/harvest:2.11.4
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        volumeMounts:           
+            - name: storage-data
+              mountPath: /var/lib/ckan                         
+        env:
+        - name: CKAN_SITE_URL
+          value: "http://harvest:5000"
+        - name: CKAN_SQLALCHEMY_URL
+          value: "postgresql://ckan_default:K8#v2$$mP9!Zq*5tX@docker_postgres-db-1:5432/ckan_default"
+        - name: CKAN_REDIS_URL
+          value: "redis://redis:6379/2"
+        - name: CKAN_SOLR_URL
+          value: "http://solr:8983/solr/ckan_harvest"
+        - name: CKAN_DEBUG
+          value: "false"  
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "1"        # 1 CPU completo para que no sea lento
+            memory: "3Gi"   # <--- Aumenta esto a 2Gi o al menos 1.5Gi
+      volumes:
+        - name: storage-data
+          persistentVolumeClaim:
+            claimName: harvest-storage-pvc
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: harvest
+  namespace: harvest
+spec:
+  selector:
+    app: harvest
+  ports:
+    - port: 81
+      targetPort: 5000
+      protocol: TCP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: harvest-ingress
+  namespace: harvest
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: harvest.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: harvest
+            port:
+              number: 81	              
+              
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ckan-harvest-gather
+  namespace: harvest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: harvest-gather # <-- Esto soluciona el error de selector
+  template:
+    metadata:
+      labels:
+        app: harvest-gather # <-- Esto debe coincidir con el selector
+    spec:
+      containers:
+      - name: harvest-gather
+        image: CKAN/harvest:2.11.4
+        command: ["/bin/sh", "-c"]
+        args: ["ckan -c /srv/app/ckan.ini harvester gather-consumer"]
+        
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ckan-harvest-fetch
+  namespace: harvest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: harvest-fetch # <-- Esto soluciona el error de selector
+  template:
+    metadata:
+      labels:
+        app: harvest-fetch # <-- Esto debe coincidir con el selector
+    spec:
+      containers:
+      - name: harvest-fetch
+        image: CKAN/harvest:2.11.4
+        command: ["/bin/sh", "-c"]
+        args: ["ckan -c /srv/app/ckan.ini harvester fetch-consumer"]
+        
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harvest-worker
+  namespace: harvest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: harvest-worker
+  template:
+    metadata:
+      labels:
+        app: harvest-worker
+    spec:
+      containers:
+      - name: harvest-worker
+        image: CKAN/harvest:2.11.4
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c"]
+        args: ["ckan -c /srv/app/ckan.ini harvester run"]

@@ -55,9 +55,7 @@ services:
       solr:
         condition: service_healthy
       redis:
-        condition: service_healthy   
-      datapusher:
-        condition: service_healthy   
+        condition: service_healthy           
     environment:
       - CKAN_SITE_ID
       - CKAN_SECRET_KEY
@@ -72,7 +70,7 @@ services:
     env_file:
       - .env       
     ports:
-      - "5100:5000"
+      - "5001:5000"
     volumes:
       - ckan_storage:/var/lib/ckan
       - pip_cache:/root/.cache/pip
@@ -81,7 +79,7 @@ services:
     networks:
       - net-fed-internal
       - net-db
-      - net-nginx
+      - net-nginx 
       - net-hijo-internal             
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest:5100/api/3/action/status_show"]
@@ -93,8 +91,8 @@ services:
   worker:
     networks:
       - net-fed-internal
-      - red-db
-      - red-ckan
+      - net-db
+      - net-hijo-internal
     image: Harvest/ckan:2.11.4        
     command: ckan jobs worker
     environment:
@@ -116,8 +114,8 @@ services:
   harvest-gather:
     networks:
       - net-fed-internal
-      - red-db
-      - red-ckan
+      - net-db
+      - net-hijo-internal
     image: Harvest/ckan:2.11.4   
     environment:
       - CKAN_SQLALCHEMY_URL           
@@ -139,8 +137,8 @@ services:
   harvest-fetch:
     networks:
       - net-fed-internal
-      - red-db
-      - red-ckan
+      - net-db
+      - net-hijo-internal
     image: Harvest/ckan:2.11.4   
     environment:
       - CKAN_SQLALCHEMY_URL           

@@ -1,0 +1,342 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/var/local/redis-storage"
+    type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+  namespace: ckan # Asegúrate de que este sea tu namespace
+spec:
+  storageClassName: "" # Obliga a usar el PV de arriba
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+      
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: ckan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: CKAN/redis:7  # Imagen oficial con el esquema de CKAN
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+            - name: redis-data-volume 
+              mountPath: /data
+              subPath: data
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
+      volumes:
+        - name: redis-data-volume
+          persistentVolumeClaim:
+            claimName: redis-pvc    
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: ckan
+spec:
+  selector:
+    app: redis
+  ports:
+  - port: 6379
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: solr-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "manual" # Se añade para vincular correctamente
+  hostPath:
+    path: "/var/local/solr-storage"
+    type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: solr-pvc
+  namespace: ckan
+spec:
+  storageClassName: "manual" # Debe coincidir con el PV
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+      
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solr
+  namespace: ckan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: solr
+  template:
+    metadata:
+      labels:
+        app: solr
+    spec:
+      securityContext:
+        runAsUser: 8983
+        fsGroup: 8983
+      # 2. Init Container para asegurar que la carpeta sea de solr (8983)
+      containers:
+      - name: solr
+        image: CKAN/ckan-solr:2.10-solr9  # Imagen oficial con el esquema de CKAN
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 8983
+        ports:
+        - containerPort: 8983
+        env:
+        - name: SOLR_JAVA_MEM
+          value: "-Xms256m -Xmx512m" # <--- LIMITAMOS JAVA PARA TU PC
+        volumeMounts:
+            - name: solr-data-volume 
+              mountPath: /var/solr
+              subPath: solr
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi" # Margen para el contenedor
+            cpu: "500m"
+      volumes:
+        - name: solr-data-volume
+          persistentVolumeClaim:
+            claimName: solr-pvc 
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: solr
+  namespace: ckan
+spec:
+  selector:
+    app: solr
+  ports:
+  - port: 8983
+  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datapusher
+  namespace: ckan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: datapusher
+  template:
+    metadata:
+      labels:
+        app: datapusher
+    spec:
+      securityContext:
+        runAsUser: 33
+        fsGroup: 33
+      containers:
+      - name: datapusher
+        image: ckan/ckan-base-datapusher:0.0.21
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 33
+        env:
+          - name: DATAPUSHER_HOST
+            value: "0.0.0.0"
+          - name: DATAPUSHER_PORT
+            value: "8800"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+        ports:
+        - containerPort: 8800 # Puerto corregido
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: datapusher
+  namespace: ckan
+spec:
+  selector:
+    app: datapusher
+  ports:
+  - port: 8800
+
+---
+# 1. DEFINICIÓN DE LOS VOLÚMENES FÍSICOS (PV)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ckan-storage-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/var/local/ckan-storage/"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ckan-storage-pvc
+  namespace: ckan
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+      
+--- 
+# 3. DEPLOYMENT
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ckan
+  namespace: ckan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ckan
+  template:
+    metadata:
+      labels:
+        app: ckan
+    spec:
+      securityContext:
+        runAsUser: 900
+        fsGroup: 900
+      containers:
+      - name: ckan
+        image: CKAN/ckan:2.11.4
+        imagePullPolicy: IfNotPresent
+        securityContext:
+            runAsUser: 900
+            allowPrivilegeEscalation: false
+        ports:
+        - containerPort: 5000
+        volumeMounts:           
+        - name: storage-data
+          mountPath: /var/lib/ckan/storage # Ruta en la imagen
+          subPath: storage  
+        env:
+        - name: CKAN_WEBASSETS_PATH
+          value: "/tmp/webassets"
+        - name: CKAN_SITE_URL
+          value: "http://ckan:5000"
+        - name: CKAN_SQLALCHEMY_URL
+          value: "postgresql://ckan_default:K8#v2$$mP9!Zq*5tX@db-externa:5432/ckan_default"
+        - name: CKAN_DATASTORE_WRITE_URL
+          value: "postgresql://ckan_default:K8#v2$$mP9!Zq*5tX@db-externa:5432/datastore_default"
+        - name: CKAN_DATASTORE_READ_URL
+          value: "postgresql://datastore_default:K8#v2$$mP9!Zq*5tX@db-externa:5432/datastore_default"  
+        - name: CKAN_REDIS_URL
+          value: "redis://redis:6379/0"
+        - name: CKAN_DATAPUSHER_URL
+          value: "http://datapusher:8800"
+        - name: CKAN_SOLR_URL
+          value: "http://solr:8983/solr/ckan"
+        - name: CKAN_DEBUG
+          value: "false"  
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "1"
+            memory: "3Gi"
+      volumes:
+      - name: storage-data
+        persistentVolumeClaim:
+          claimName: ckan-storage-pvc     
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ckan
+  namespace: ckan
+spec:
+  selector:
+    app: ckan
+  ports:
+    - port: 80
+      targetPort: 5000
+      protocol: TCP
+
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ckan-ingress
+  namespace: ckan
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ckan.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ckan
+            port:
+              number: 80
