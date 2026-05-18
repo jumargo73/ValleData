@@ -1,17 +1,9 @@
-# instalacion del core de ckan para harvest e hijos
--r /srv/app/src/ckan/requirements.txt
--e /srv/app/src/ckan/
+# instalacion de las extensiones locales solo para harvest
 
+-r /srv/app/src/extensions/ckanext-harvest/requirements.txt
+-e /srv/app/src/extensions/ckanext-harvest
 
-# extensiones para ckan(hijos)
-
--e /srv/app/src/extensions/ckanext-ckanplugin
--r /srv/app/src/extensions/ckanext-ckanplugin/requirements.txt
-
--e /srv/app/src/extensions/ckanext-geoview
-
--r /srv/app/src/extensions/ckanext-spatial/requirements.txt
--e /srv/app/src/extensions/ckanext-spatial
+-e /srv/app/src/extensions/ckanext-harvestplugin
 
 
 # instalacion de extensiones globales tanto para uso en harvest y ckan(hijos)

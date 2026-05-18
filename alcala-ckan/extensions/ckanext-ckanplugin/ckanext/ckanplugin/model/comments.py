@@ -1,11 +1,14 @@
 from sqlalchemy import Column, UnicodeText, Integer, ForeignKey,String,UniqueConstraint,DateTime
-from ckan.model.meta import metadata
 from ckan.model.types import make_uuid
-from sqlalchemy.ext.declarative import declarative_base
 import datetime as datetime
 from zoneinfo import ZoneInfo
-
-Base = declarative_base(metadata=metadata)
+try:
+    from ckan.plugins.toolkit import BaseModel
+except ImportError:
+    # CKAN <= 2.9
+    from ckan.model.meta import metadata
+    from sqlalchemy.ext.declarative import declarative_base
+    BaseModel = declarative_base(metadata=metadata)
 
 import json, logging,os,  mimetypes
 
@@ -14,9 +17,9 @@ log = logging.getLogger(__name__)
 def get_local_time():
     return datetime.datetime.now(ZoneInfo("America/Bogota")) 
 
-class Comments(Base):
+class Comments(BaseModel):
 
-    __tablename__ = 'Comments'
+    __tablename__ = 'comments'
 
     id = Column(Integer, primary_key=True,autoincrement=True)
     package_Id = Column(String, nullable=False)

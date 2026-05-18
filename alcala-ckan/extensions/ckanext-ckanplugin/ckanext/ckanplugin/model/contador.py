@@ -1,17 +1,20 @@
-
 from sqlalchemy import Column, UnicodeText, Integer, ForeignKey,String,UniqueConstraint
-from ckan.model.meta import metadata
 from ckan.model.types import make_uuid
-from sqlalchemy.ext.declarative import declarative_base
 import logging
+try:
+    from ckan.plugins.toolkit import BaseModel
+except ImportError:
+    # CKAN <= 2.9
+    from ckan.model.meta import metadata
+    from sqlalchemy.ext.declarative import declarative_base
+    BaseModel = declarative_base(metadata=metadata)
 
 log = logging.getLogger(__name__)
 
-Base = declarative_base(metadata=metadata)
 
-class Contador(Base):
+class Contador(BaseModel):
 
-    __tablename__ = 'contadores'
+    __tablename__ = 'contador'
 
     id = Column(Integer, primary_key=True,autoincrement=True)
     package_Id = Column(String, nullable=False)

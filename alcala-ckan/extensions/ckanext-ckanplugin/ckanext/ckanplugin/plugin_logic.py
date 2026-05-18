@@ -29,6 +29,7 @@ from ckanext.ckanplugin.views.estadistica import estadistica
 from ckanext.ckanplugin.views.noticias import noticias
 from ckanext.ckanplugin.views.contador import contador
 from ckan.plugins.interfaces import IClick 
+import ckanext.ckanplugin.model
 
 
 

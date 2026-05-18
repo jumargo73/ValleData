@@ -1,4 +1,3 @@
-from ckanext.ckanplugin.model.contador import Contador
 import ckan.model as model
 from typing import (
     Any, Callable, Match, NoReturn, cast, Dict,
@@ -10,70 +9,14 @@ from ckan.model import Session
 
 log = logging.getLogger(__name__)
 
-
-def obtener_contador_package(package_id):
-
-    try:
-
-        data={}
-        datasetList=[]
-
-        contVistas=0
-        contDownload=0
-
-        log.warning("[helplers][obtener_contador_package] ejecutado")
-
-        
-        #log.warning("[helplers][obtener_contador_package] package_id %s",package_id)
-
-        registros = Session.query(Contador).filter(
-            Contador.package_Id==package_id
-        ).all()
-
-        #log.warning("[helplers][obtener_contador_package] registros %s",registros)
-
-        if not registros:
-            
-            data['package_id']=package_id
-            data['contVistas']=0
-            data['contDownload']=0
-
-            datasetList.append(data)
-
-            #log.warning("[helplers][obtener_contador_package] datasetList %s",datasetList)
-
-            return datasetList
-        
-        for row in registros:
-            contVistas+=row.contVistas
-            contDownload+=row.contDownload
-
-        data['package_id']=package_id
-        data['contVistas']=contVistas
-        data['contDownload']=contDownload
-        datasetList.append(data)
-
-        #log.warning("[helplers][obtener_contador_package] datasetList %s",datasetList)
-        
-        return datasetList
-
-    except Exception as e:
-        log.error(
-            f"[Helplers][obtener_contador_package] Error en obtener el contador: {str(e)}"
-        ) 
-
-        return {}
-
-
-
-def dataset_ciudad(pkg):
-    return getattr(pkg, 'city', '')
-
-def dataset_departamento(pkg):
-    return getattr(pkg, 'department', '')
-
-def dataset_frecuencia(pkg):
-    return getattr(pkg, 'update_frequency', '')
+def get_site_statistics() -> dict[str, int]:
+    stats = {}
+    stats['dataset_count'] = logic.get_action('package_search')(
+        {}, {"rows": 1})['count']
+    stats['group_count'] = len(logic.get_action('group_list')({}, {}))
+    stats['organization_count'] = len(
+        logic.get_action('organization_list')({}, {}))
+    return stats
 
 def get_featured_dataset():
     """
@@ -255,14 +198,4 @@ def get_group_new(org: Optional[str] = None,
             {}, {'id': org, 'include_datasets': include_datasets})
     except (logic.NotFound, logic.ValidationError, logic.NotAuthorized):
         return {}
-
-
-
-def contar_visualizacion(resource_id, package_id):
-    guardar_contador(package_id, resource_id, "Visualizacion")
-
-
-def contar_descargas(resource_id, package_id):
-    guardar_contador(package_id, resource_id, "DownLoad")
-
 

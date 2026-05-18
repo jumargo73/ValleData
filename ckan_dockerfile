@@ -33,8 +33,9 @@ WORKDIR /srv/app/src
 
 # 1. Asegurar rutas relativas exactas en minúsculas y sin espacios
 COPY ./alcala-ckan/config/ckan.ini  /srv/app/ckan.ini
-COPY ./alcala-ckan/config/requeriments.txt  /srv/app/src/config/requeriments.txt
-COPY ./alcala-ckan/config/ckanpluginmigrate.py /srv/app/src/config/ckanpluginmigrate.py
+COPY ./alcala-ckan/config/ckan.ini  /srv/app/src/ckan/ckan.ini
+COPY ./alcala-ckan/config/alcala_ckan_requeriments.txt  /srv/app/src/config/alcala_ckan_requeriments.txt
+
 
 # 2. Copiar despliegue y extensiones federadas
 COPY ./alcala-ckan/deployment  /srv/app/src/deployment
@@ -42,12 +43,14 @@ COPY ./alcala-ckan/extensions   /srv/app/src/extensions
 
 COPY ./extensions   /srv/app/extensions
 
-RUN /srv/app/bin/pip install --upgrade pip uwsgi wheel setuptools==65.5.1 Werkzeug==2.2.3 Flask==2.3.3 
+RUN /srv/app/bin/pip install --upgrade pip 
 
-RUN pip install -r /srv/app/src/config/requeriments.txt --no-deps --force-reinstall
+RUN pip install uwsgi wheel "rq>=1.14.0,<2.0.0" "setuptools>=44.1.0,<82" Werkzeug==2.3.7 Flask==2.3.3 
 
-RUN sed -i 's/\r$//' /srv/app/src/config/ckanpluginmigrate.py
-RUN chmod +x /srv/app/src/config/ckanpluginmigrate.py
+RUN pip install -r /srv/app/src/ckan/requirements.txt
+RUN pip install -e /srv/app/src/ckan
+
+RUN pip install -r /srv/app/src/config/alcala_ckan_requeriments.txt
 
 WORKDIR /srv/app
 

@@ -63,6 +63,16 @@ def obtener_contador_package(package_id):
 
         return {}
 
+
+def get_site_statistics() -> dict[str, int]:
+    stats = {}
+    stats['dataset_count'] = logic.get_action('package_search')(
+        {}, {"rows": 1})['count']
+    stats['group_count'] = len(logic.get_action('group_list')({}, {}))
+    stats['organization_count'] = len(
+        logic.get_action('organization_list')({}, {}))
+    return stats
+
 def obtener_contador_resource(package_id, resource_id):
 
     try:

@@ -11,6 +11,9 @@ from flask import Blueprint, jsonify, redirect, request, Response
 from ckan.types import Context 
 from typing import Any
 from sqlalchemy import func
+from sqlalchemy.exc import ProgrammingError, OperationalError
+from ckan.plugins.toolkit import ObjectNotFound, ValidationError
+
 
 
 import logging, json, subprocess, os
@@ -1038,10 +1041,10 @@ class DataJsonAPI(SingletonPlugin):
 
         return [
             {
-                "resource_id": row.source_Id,
-                "visualizaciones": row.contVistas,
-                "descargas": row.contDownload,
-                "package_id": row.package_Id,
+                "source_Id": row.source_Id,
+                "contVistas": row.contVistas,
+                "contDownload": row.contDownload,
+                "package_Id": row.package_Id,
             }
             for row in rows
         ]  
@@ -1237,8 +1240,8 @@ class DataJsonAPI(SingletonPlugin):
                 
                
 
-        except Exception as e:
-            log.error(f"[DataJsonAPI] get_filas_columnas con id {id} error={e}")
+        except (ProgrammingError, OperationalError, ObjectNotFound, ValidationError, Exception) as e:
+            log.warning(f"[CkanPlugin][datastore_search] No se pudo consultar el DataStore para el recurso {id}. Tabla inexistente o ID no cargado. Error original: {str(e)}")
             return {
                     "resource_id": id,
                     "filas": 0,

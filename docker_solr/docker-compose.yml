@@ -1,0 +1,22 @@
+networks:
+  ckan-hijo-net:
+    name: ckan-hijo-net
+    driver: bridge
+    external: true
+    
+volumes:
+  solr_data:
+  
+services:
+  solr:
+    image: CKAN/ckan-solr:2.10-solr9
+    command: solr-precreate ckan
+    volumes:
+      - solr_data:/var/solr
+    networks:
+      - ckan-hijo-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:8983/solr"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  

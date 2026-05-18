@@ -1,0 +1,15 @@
+networks:
+  ckan-hijo-net:
+    name: ckan-hijo-net
+    driver: bridge
+    external: true    
+
+services:  
+  redis:
+    image: CKAN/redis:7
+    networks:
+      - ckan-hijo-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-e", "QUIT"]    
+
+  

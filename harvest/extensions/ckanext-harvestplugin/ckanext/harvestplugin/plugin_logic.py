@@ -6,7 +6,6 @@ import logging
 from ckan.model import Package
 from sqlalchemy import Column, Unicode
 import os
-import ckanext.harvestplugin.model as model
 from typing import Any
 from ckan.types import Context 
 from ckan.model import Session
@@ -76,7 +75,7 @@ class HarvestPlugin(DefaultDatasetForm,p.SingletonPlugin):
         
     def get_helpers(self):
         return {
-            "obtener_contador_package": helpers.obtener_contador_package,
+            "get_site_statistics":helpers.get_site_statistics,
             "get_featured_noticia":helpers.get_featured_noticia,
             "get_featured_general":helpers.get_featured_general,
             "get_featured_estadistica":helpers.get_featured_estadistica,

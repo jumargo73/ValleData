@@ -1,0 +1,148 @@
+networks:
+  ckan-hijo-net:
+    name: ckan-hijo-net
+    driver: bridge 
+    external: true
+
+volumes:
+  ckan_storage:
+  pip_cache:
+  site_packages: 
+  solr_data:
+  datapusher_data:
+    
+services:   
+  solr:
+    image: CKAN/ckan-solr:2.10-solr9
+    command: solr-precreate ckan
+    volumes:
+      - solr_data:/var/solr
+    networks:
+      - ckan-hijo-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:8983/solr"]
+      interval: 10s
+      timeout: 5s
+      retries: 5 
+
+  redis:
+    image: CKAN/redis:7
+    networks:
+      - ckan-hijo-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-e", "QUIT"] 
+      
+  datapusher:
+    networks:
+      - ckan-hijo-net  
+    image: ckan/ckan-base-datapusher:0.0.21    
+    volumes:
+      - datapusher_data:/srv/app/datapusher-src
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 1 bash -c '</dev/tcp/localhost/8800' || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3        
+      
+  harvest:
+    image: Harvest/ckan:2.11.4  
+    depends_on:      
+      solr:
+        condition: service_healthy
+      redis:
+        condition: service_healthy   
+      datapusher:
+        condition: service_healthy   
+    environment:
+      - CKAN_SITE_ID
+      - CKAN_SECRET_KEY
+      - CKAN_SITE_URL
+      - CKAN_SQLALCHEMY_URL     
+      - CKAN_BEAKER__SESSION__SECRET
+      - CKAN_API_TOKEN__JWT__ENCODE__SECRET
+      - CKAN_API_TOKEN__JWT__DECODE__SECRET
+      - CKAN_SOLR_URL
+      - CKAN_REDIS_URL      
+      - CKAN__PLUGINS
+    env_file:
+      - .env       
+    ports:
+      - "5100:5000"
+    volumes:
+      - ckan_storage:/var/lib/ckan
+      - pip_cache:/root/.cache/pip
+      - site_packages:/usr/lib/python3.10/site-packages
+    restart: unless-stopped  
+    networks:
+      - ckan-hijo-net      
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest:5100/api/3/action/status_show"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 60s       
+  
+  worker:
+    networks:
+      - ckan-hijo-net
+    image: Harvest/ckan:2.11.4        
+    command: ckan jobs worker
+    environment:
+      - CKAN_SQLALCHEMY_URL           
+    env_file:
+      - .env 
+    depends_on:
+      harvest:
+        condition: service_healthy
+      redis:
+        condition: service_healthy      
+    restart: unless-stopped  
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest:5100/api/3/action/status_show"]
+      interval: 60s
+      timeout: 10s
+      retries: 3   
+
+  harvest-gather:
+    networks:
+      - ckan-hijo-net
+    image: Harvest/ckan:2.11.4   
+    environment:
+      - CKAN_SQLALCHEMY_URL           
+    env_file:
+      - .env      
+    depends_on:
+      harvest:
+        condition: service_healthy
+      redis:
+        condition: service_healthy  
+    command: ckan -c /srv/app/ckan.ini harvester gather-consumer        
+    restart: unless-stopped  
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest:5100/api/3/action/status_show"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+
+  harvest-fetch:
+    networks:
+      - ckan-hijo-net
+    image: Harvest/ckan:2.11.4   
+    environment:
+      - CKAN_SQLALCHEMY_URL           
+    env_file:
+      - .env 
+    depends_on:
+      harvest:
+        condition: service_healthy
+      redis:
+        condition: service_healthy 
+    command: ckan -c /srv/app/ckan.ini harvester fetch-consumer      
+    restart: unless-stopped  
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest:5100/api/3/action/status_show"]
+      interval: 60s
+      timeout: 10s
+      retries: 3      
+  

@@ -1,8 +1,3 @@
-# instalacion del core de ckan para harvest e hijos
--r /srv/app/src/ckan/requirements.txt
--e /srv/app/src/ckan/
-
-
 # extensiones para ckan(hijos)
 
 -e /srv/app/src/extensions/ckanext-ckanplugin

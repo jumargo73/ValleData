@@ -323,7 +323,7 @@ sudo chmod -R 777  /usr/lib/ckan/default/
 ```
 ___
 
-#Instalacion Ckan(alcala_ckan)
+#Instalacion Ckan(alcala_ckan)  2.11.5
 ```bash
 	. /usr/lib/ckan/default/ckan/bin/activate
 
@@ -348,7 +348,7 @@ ___
 	ckan db upgrade -p CkanPlugin
 ```
 
-#Instalacion Ckan(harvest)
+#Instalacion Ckan(harvest) 2.11.5
 ```bash
 
 . /usr/lib/ckan/default/harvest/bin/activate
