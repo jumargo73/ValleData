@@ -1,6 +1,6 @@
 networks:
   ckan-hijo-net:
-    name: ckan-hijo-net
+    name: net-hijo-internal
     driver: bridge
     external: true    
     
@@ -11,7 +11,7 @@ services:
   datapusher:
     networks:
       - ckan-hijo-net  
-    image: ckan/ckan-base-datapusher:0.0.21
+    image: CKAN/datapusher_ckan:latest
     environment:
       DATAPUSHER_API_TOKEN: ${DATAPUSHER_API_TOKEN}
     volumes:

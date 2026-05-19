@@ -5,7 +5,7 @@
 ```mermaid
 graph TD
     subgraph central ["PROYECTO VALLE-DATA"]
-        Root[📁 valle_data] --> Conf[📁 config]
+        Root[📁 ValleData] --> Conf[📁 config]
         Root --> ExtG[📁 extensions/generales]
         Root --> Harv[📁 harvest]
         Root --> Hijos[📁 Municipios/Hijos]
@@ -37,7 +37,7 @@ graph TD
 # Arquitectura del Proyecto Valle-Data
 
 ```bash
-valle_data/
+ValleData/
 ├── ⚙️ config/               # Despliegue uWsgi (alcala-ckan-uwsgi.ini)
 ├── 🧩 extensions/           # Plugins Globales (Auth, LDAP, Spatial)
 ├── 🌾 harvest/              # Módulo de Recolección Central
@@ -298,6 +298,27 @@ VALLE DATA busca consolidar un ecosistema interoperable de datos abiertos que pe
 
 ___
 
+#Ruta del Proyecto
+
+```bash
+cd  /usr/lib/ckan/default/src/
+```
+___
+
+#Nos ubicamos en donde vamos a decargar el proyecto
+```bash
+	git clone https://github.com/jumargo73/ValleData.git
+```
+___
+
+#Copiamos los archivos de Configuracion
+```bash
+copy /usr/lib/ckan/default/src/datosabiertos-ckan/alcala-ckan/config/ckan.iniexample /usr/lib/ckan/default/src/datosabiertos-ckan/alcala-ckan/config/ckan.ini
+copy /usr/lib/ckan/default/src/datosabiertos-ckan/harvest/config/ckan.iniexample /usr/lib/ckan/default/src/datosabiertos-ckan/harvest/config/ckan.
+copy /usr/lib/ckan/default/src/datosabiertos-ckan/docker_datapusher/datapusher_images/deployment/datapusher-uwsgi.iniexample /usr/lib/ckan/default/src/datosabiertos-ckan/docker_datapusher/datapusher_images/deployment/datapusher-uwsgi.ini
+```
+___
+
 #Despliegue por Resource
 
 #Creacion Entornos virtuales
@@ -323,24 +344,26 @@ sudo chmod -R 777  /usr/lib/ckan/default/
 ```
 ___
 
+# Ingresamos al proyecto
+
+```bash
+	cd /usr/lib/ckan/default/src/ValleData
+```
+___
+
 #Instalacion Ckan(alcala_ckan)  2.11.5
 ```bash
 	. /usr/lib/ckan/default/ckan/bin/activate
-
-	cd  /usr/lib/ckan/default/src/
-
-	git clone  https://github.com/jumargo73/ValleData.git
-
-	cd ValleData
+	
 	sudo chmod +x instalar_ckan.sh
 
 	pip install --upgrade pip uwsgi wheel rq>=1.14.0,<2.0.0 "setuptools>=44.1.0,<82" Werkzeug==2.3.7 Flask==2.3.3 
 
-	cd /usr/lib/ckan/default/src/valle_data/alcala-ckan/ckan
+	cd /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan
 	pip install -r requirements.txt
 	pip install -e .
 
-	sudo cp -r /usr/lib/ckan/default/src/valle_data/alcala-ckan/config/ckan.ini /usr/lib/ckan/default/src/valle_data/alcala-ckan/ckan
+	sudo cp -r /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan
 
 	Inicializar la BD
 	cd alcala-ckan/ckan
@@ -349,24 +372,22 @@ ___
 ```
 
 #Instalacion Ckan(harvest) 2.11.5
+
 ```bash
 
 . /usr/lib/ckan/default/harvest/bin/activate
-
-cd  /usr/lib/ckan/default/src/ValleData
 
 sudo chmod +x instalar_harvest.sh
 sed -i 's/\r$//' instalar_harvest.sh
 bash instalar_harvest.sh
 
-
 pip install --upgrade pip uwsgi wheel rq>=1.14.0,<2.0.0 "setuptools>=44.1.0,<82" Werkzeug==2.3.7 Flask==2.3.3 
 
-cd /usr/lib/ckan/default/src/valle_data/harvest/ckan
+cd /usr/lib/ckan/default/src/ValleData/harvest/ckan
 pip install -r requirements.txt
 pip install -e .
 
-sudo cp -r /usr/lib/ckan/default/src/valle_data/harvest/config/ckan.ini /usr/lib/ckan/default/src/valle_data/harvest/ckan
+sudo cp -r /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini /usr/lib/ckan/default/src/ValleData/harvest/ckan
 
 Inicializar la BD
 cd harvest/ckan
@@ -375,22 +396,21 @@ ckan  db upgrade -p harvest
 ckan  db upgrade -p report
 ```
 
-
-#Reconstruir los asset para Ckan(ejemplo alcala)
+#Reconstruir los asset para Ckan(ejemplo alcala) si y solo si sale error de permisos en webassets al despliegue
 Si tu ruta de de trabajo (Entorno Virtual) es  /usr/lib/ckan/default/ y el directorio de trabajo es /usr/lib/ckan/default/src/
 
 ```bash
-rm -rf /usr/lib/ckan/default/src/valle_data/alcala-ckan/ckan/public/webassets/*
-/usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/valle_data/alcala-ckan/ckan/ckan.ini asset build
+rm -rf /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/public/webassets/*
+/usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/ckan.ini asset build
 chmod -R 775 /var/lib/ckan/
 ```
 
-#Reportes Aplica a Harvest
+#Generacion de Reportes para Harvest
 
 ```bash
-/usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/valle_data/harvest/ckan/ckan.ini report generate reporte-federacion
+/usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/ValleData/harvest/ckan/ckan.ini report generate reporte-federacion
 http://<url>/report/reporte-federacion
-/usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/valle_data/harvest/ckan/ckan.ini report metrics-dashboard
+/usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/ValleData/harvest/ckan/ckan.ini report metrics-dashboard
 http://<url>/report/metrics-dashboard
 ```
 
@@ -398,7 +418,7 @@ http://<url>/report/metrics-dashboard
 
 #Nos ubicamos en la Raiz de nuestro proyecto
 ```bash
-cd  /usr/lib/ckan/default/src/valle_data/
+cd  /usr/lib/ckan/default/src/ValleData/
 ```
 
 #Crear Imagen para Ckan_Hijos

@@ -1,0 +1,38 @@
+[uwsgi]
+# --- RED Y PUERTO ---
+http            = 127.0.0.1:8800
+buffer-size     = 65536     # Aumentado para manejar cabeceras grandes
+
+# --- IDENTIDAD Y RUTAS ---
+uid             = www-data
+gid             = www-data  # Corregido: es gid, no guid
+wsgi-file       = /usr/app/datapusher-src/deployment/datapusher.wsgi
+virtualenv      = /usr/app/
+module          = datapusher.main:application
+callable        = application
+env				= DATAPUSHER_SETTINGS=/usr/app/datapusher-src/deployment/datapusher_settings.py
+
+# --- CONCURRENCIA (ESTABILIDAD) ---
+master          = true
+processes       = 1         # DataPusher es pesado, no pongas demasiados workers
+threads         = 2         # Permite varias subtareas por worker
+enable-threads  = true
+lazy-apps       = true      # Evita errores de base de datos entre workers
+thunder-lock    = true      # Evita el "thundering herd" en el socket
+
+# --- TIEMPOS Y AUTORECUPERACIÓN ---
+harakiri        = 1800      # ¡Crucial! 30 minutos para archivos gigantes
+harakiri-verbose = true
+http-timeout    = 1800
+socket-timeout  = 1800
+
+# --- GESTIÓN DE RECURSOS ---
+max-requests    = 500       # Reinicia frecuentemente para liberar RAM (DataPusher fuga memoria)
+vacuum          = true
+pidfile         = /tmp/%n.pid
+post-buffering  = 32768     # Buffer mayor para subidas de archivos
+
+
+# Importante para Python 3.12
+# Añadimos la carpeta raíz de datapusher al path
+pythonpath      = /usr/app/datapusher-src/
