@@ -4,13 +4,28 @@ http            = 127.0.0.1:8800
 buffer-size     = 65536     # Aumentado para manejar cabeceras grandes
 
 # --- IDENTIDAD Y RUTAS ---
-uid             = www-data
-gid             = www-data  # Corregido: es gid, no guid
-wsgi-file       = /usr/app/datapusher-src/deployment/datapusher.wsgi
+uid             = datapusher
+gid             = datapusher
+
+# Directorio base del proyecto (ajusta si tu raíz es /usr/app o /srv/app)
+chdir           = /usr/app/src/datapusher/
+
+# Ruta absoluta al archivo WSGI de arranque
+wsgi-file       = /usr/app/src/datapusher/deployment/datapusher.wsgi
+
+
+# Entorno virtual de Python (Virtualenv)
 virtualenv      = /usr/app/
+
+# Aplicación y ejecutable
 module          = datapusher.main:application
 callable        = application
-env				= DATAPUSHER_SETTINGS=/usr/app/datapusher-src/deployment/datapusher_settings.py
+
+# Variables de entorno para la configuración interna de Datapusher
+env             = DATAPUSHER_SETTINGS=/usr/app/datapusher-src/deployment/datapusher_settings.py
+
+# Rutas de Python para que encuentre los módulos
+pythonpath      = /usr/app/src/datapusher/
 
 # --- CONCURRENCIA (ESTABILIDAD) ---
 master          = true
@@ -33,6 +48,3 @@ pidfile         = /tmp/%n.pid
 post-buffering  = 32768     # Buffer mayor para subidas de archivos
 
 
-# Importante para Python 3.12
-# Añadimos la carpeta raíz de datapusher al path
-pythonpath      = /usr/app/datapusher-src/

@@ -71,12 +71,12 @@ PERMANENT_SESSION_LIFETIME = 31536000
 SESSION_USE_SIGNER = false
 
 ## Database settings ###########################################################
-sqlalchemy.url = postgresql://ckan_default:car2986@localhost:5432/ckan_default
+sqlalchemy.url = postgresql://ckan_default:car2986@docker_postgres-db-1/ckan_default
 sqlalchemy.pool_pre_ping = true
 # sqlalchemy.<OPTION> = 
 
 ## Site Settings ###############################################################
-ckan.site_url = http://localhost:5100
+ckan.site_url = harvest.governaciondelvalle.gov.co
 apitoken_header_name = Authorization
 ckan.cache_expires = 0
 ckan.cache_enabled = false
@@ -121,7 +121,7 @@ ckan.auth.enable_cookie_auth_in_api = true
 ckan.auth.route_after_login = harvest.search
 ckanext.auth.passkey_enabled = true
 ckanext.auth.passkey_rp_name = ckan
-ckanext.auth.passkey_rp_id = http://padre.midominio.com
+
 
 ## CSRF Protection #############################################################
 WTF_CSRF_ENABLED = true
@@ -152,7 +152,7 @@ api_token.jwt.algorithm = HS256
 
 ## Search Settings #############################################################
 ckan.site_id = default
-solr_url = http://localhost:8983/solr/ckan_harvest
+solr_url = http://harvest-solr-1:8983/solr/ckan
 solr_user = 
 solr_password = 
 ckan.search.remove_deleted_packages = true
@@ -171,10 +171,10 @@ ckan.group_and_organization_list_all_fields_max = 25
 solr_timeout = 60
 
 ## Redis Settings ##############################################################
-ckan.redis.url = redis://localhost:6379/2
+ckan.redis.url = redis://harvest-redis-1:6379/0
 ckan.worker_enabled = true
-ckan.celery_broker_url = redis://localhost:6379/2
-ckan.celery_backend_url = redis://localhost:6379/3
+ckan.celery_broker_url = redis://harvest-redis-1:6379/0
+ckan.celery_backend_url = redis://harvest-redis-1:6379/1
 
 ## CORS Settings ###############################################################
 ckan.cors.origin_allow_all = false
@@ -271,7 +271,7 @@ ckan.i18n.rtl_languages = he ar fa_IR
 ckan.i18n.rtl_theme = css/main-rtl
 ckan.display_timezone = UTC
 ckan.root_path = 
-ckan.resource_formats = /usr/lib/ckan/default/src/valle_data/harvest/ckan/ckan/config/resource_formats.json
+ckan.resource_formats = /srv/app/src/ckan/ckan/config/resource_formats.json
 
 ## Form Settings ###############################################################
 ckan.dataset.create_on_ui_requires_resources = true

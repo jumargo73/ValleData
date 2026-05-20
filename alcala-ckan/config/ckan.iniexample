@@ -48,7 +48,7 @@ config.mode = strict
 ## Development settings ########################################################
 # testing = false
 ckan.devserver.host = 0.0.0.0
-ckan.devserver.port = 5050
+ckan.devserver.port = 5000
 ckan.devserver.threaded = false
 ckan.devserver.multiprocess = 1
 ckan.devserver.watch_patterns = 
@@ -72,14 +72,14 @@ PERMANENT_SESSION_LIFETIME = 31536000
 SESSION_USE_SIGNER = false
 
 ## Database settings ###########################################################
-sqlalchemy.url = postgresql://ckan_default:car2986@localhost/alcala_ckan_default
+sqlalchemy.url = postgresql://ckan_default:car2986@docker_postgres-db-1:5432/alcala_ckan_default
 sqlalchemy.pool_pre_ping = true
-ckan.datastore.write_url = postgresql://ckan_default:car2986@localhost/alcala_datastore_default
-ckan.datastore.read_url = postgresql://datastore_default:car2986@localhost/alcala_datastore_default
+ckan.datastore.write_url = postgresql://ckan_default:car2986@docker_postgres-db-1:5432/alcala_datastore_default
+ckan.datastore.read_url = postgresql://datastore_default:car2986@docker_postgres-db-1:5432/alcala_datastore_default
 # sqlalchemy.<OPTION> = 
 
 ## Site Settings ###############################################################
-ckan.site_url = http://hijo.midominio.com
+ckan.site_url = http://alcala.governaciondelvalle.gov.co
 apitoken_header_name = Authorization
 ckan.cache_expires = 0
 ckan.cache_enabled = false
@@ -89,13 +89,13 @@ ckan.requests.timeout = 5
 ckan.hide_version = false
 
 #configuracion datapush
-ckan.datapusher.url=http://localhost:8800
+ckan.datapusher.url=http://alcala-ckan-datapusher-1:8800
 ckan.datapusher.debug = true
 ckan.datapusher.ssl_verify=false
 ckan.datapusher.api_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJ0OFJHcGxncnBMQ0UwZnFQU0d6OW9OYm1mUWlDejY0YU14S0p5cXRkN0RrIiwiaWF0IjoxNzc1NTIwNTU2fQ.gacCfUh6iJ1B-V1twX36RObHxU7vZUZwTqrHA7jF9VE
 ckan.datapusher.formats = csv xls xlsx
 ckan.datapusher.assume_task_stale_after = 3600
-ckan.datapusher.callback_url_base= http://hijo.midominio.com
+ckan.datapusher.callback_url_base= http://alcala-ckan-ckan-1:5000
 
 ## spatial Settings ##############################################################
 ckanext.spatial.common_map.type = OpenStreetMap.Mapnik
@@ -171,7 +171,7 @@ api_token.jwt.algorithm = HS256
 
 ## Search Settings #############################################################
 ckan.site_id = default
-solr_url = http://127.0.0.1:8983/solr/ckan
+solr_url = http://alcala-ckan-solr-1:8983/solr/ckan
 solr_user = 
 solr_password = 
 ckan.search.remove_deleted_packages = true
@@ -190,7 +190,7 @@ ckan.group_and_organization_list_all_fields_max = 25
 solr_timeout = 60
 
 ## Redis Settings ##############################################################
-ckan.redis.url = redis://localhost:6379/0
+ckan.redis.url = redis://alcala-ckan-redis-1:6379/0
 
 ## CORS Settings ###############################################################
 ckan.cors.origin_allow_all = false
@@ -285,7 +285,7 @@ ckan.i18n.rtl_languages = he ar fa_IR
 ckan.i18n.rtl_theme = css/main-rtl
 ckan.display_timezone = UTC
 ckan.root_path = 
-ckan.resource_formats = /usr/lib/ckan/default/src/valle_data/alcala-ckan/ckan/ckan/config/resource_formats.json
+ckan.resource_formats = /srv/app/src/ckan/ckan/config/resource_formats.json
 
 ## Form Settings ###############################################################
 ckan.dataset.create_on_ui_requires_resources = true
