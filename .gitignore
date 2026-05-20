@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# CKAN
+**/ckan/
+*.ini
+!ckan.ini.example
+# Ignorar todos los archivos de configuración local con contraseñas
+**/*.ini
+!alembic.ini
+
+data/
+storage/
+
+# Logs y Temporales
+*.log
+.DS_Store
+
+
+# Ignorar metadatos de bloqueo de archivos de Windows
+*:Zone.Identifier
+
+# Ignorar archivos de variables de entorno y credenciales
+**/.env
+**/.env.*
+
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*:Zone.Identifier
+**/.env
+**/*.ini
+!alembic.ini
+**/ckan/
+
+# Archivos de configuración local de CKAN
+ckan.ini
+ckan-uwsgi.ini
+
+
+
+
+
