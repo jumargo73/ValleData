@@ -313,9 +313,12 @@ ___
 
 #Copiamos los archivos de Configuracion
 ```bash
-copy /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.iniexample /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini
-copy /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.iniexample /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.
-copy /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher-uwsgi.iniexample /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher-uwsgi.ini
+cp -r /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.iniexample /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini
+cp -r /usr/lib/ckan/default/src/ValleData/alcala-ckan/deployment/ckan-uwsgi.iniexample /usr/lib/ckan/default/src/ValleData/alcala-ckan/deployment/ckan-uwsgi.ini
+cp -r /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.iniexample /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini
+cp -r /usr/lib/ckan/default/src/ValleData/harvest/deployment/ckan-uwsgi.iniexample /usr/lib/ckan/default/src/ValleData/harvest/deployment/ckan-uwsgi.ini
+cp -r /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher-uwsgi.iniexample /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher-uwsgi.ini
+
 ```
 ___
 
