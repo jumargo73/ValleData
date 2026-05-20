@@ -47,3 +47,9 @@ ckan-uwsgi.ini
 
 
 
+**/ckan.ini
+**/ckan-uwsgi.ini
+**/datapusher-uwsgi.ini
+**/ckan.ini
+**/ckan-uwsgi.ini
+**/datapusher-uwsgi.ini
