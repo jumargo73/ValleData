@@ -56,6 +56,11 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy 
+    environment:
+      # 1. Fuerza a uWSGI/Python a leer este archivo
+      - CKAN_INI=/srv/app/ckan.ini
+      # 2. Refuerza el dominio exterior directo en el entorno
+      - CKAN_SITE_URL=http://harvest.gobernaciondelvalle.gov.co       
     ports:
       - "5100:5000"
     volumes:

@@ -79,7 +79,7 @@ ckan.datastore.read_url = postgresql://datastore_default:car2986@docker_postgres
 # sqlalchemy.<OPTION> = 
 
 ## Site Settings ###############################################################
-ckan.site_url = http://alcala.governaciondelvalle.gov.co
+ckan.site_url = http://alcala.gobernaciondelvalle.gov.co
 apitoken_header_name = Authorization
 ckan.cache_expires = 0
 ckan.cache_enabled = false
@@ -92,7 +92,7 @@ ckan.hide_version = false
 ckan.datapusher.url=http://alcala-ckan-datapusher-1:8800
 ckan.datapusher.debug = true
 ckan.datapusher.ssl_verify=false
-ckan.datapusher.api_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJ0OFJHcGxncnBMQ0UwZnFQU0d6OW9OYm1mUWlDejY0YU14S0p5cXRkN0RrIiwiaWF0IjoxNzc1NTIwNTU2fQ.gacCfUh6iJ1B-V1twX36RObHxU7vZUZwTqrHA7jF9VE
+ckan.datapusher.api_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJSTVdtRHo3YlhXbmN6eHRXeWlVVEN4eEROSmZJZ1l6WTk2bVozdDJhYU9ZIiwiaWF0IjoxNzc5NDA3MjgzfQ.QeAyhHzsO39NmEiTDDBUq3hbBX3o-nSiFCusF9IGkbA
 ckan.datapusher.formats = csv xls xlsx
 ckan.datapusher.assume_task_stale_after = 3600
 ckan.datapusher.callback_url_base= http://alcala-ckan-ckan-1:5000
@@ -170,7 +170,7 @@ api_token.jwt.decode.secret = string:%(SECRET_KEY)s
 api_token.jwt.algorithm = HS256
 
 ## Search Settings #############################################################
-ckan.site_id = default
+ckan.site_id = alcala_prod
 solr_url = http://alcala-ckan-solr-1:8983/solr/ckan
 solr_user = 
 solr_password = 
@@ -201,7 +201,7 @@ ckan.plugins = activity stats text_view image_view geojson_view wmts_view shp_vi
 ckan.download_proxy = 
 
 ## Front-End Settings ##########################################################
-ckan.site_title = ALCALA
+ckan.site_title = Gobernación del Valle - Alcala
 ckan.site_description = 
 ckan.site_intro_text = 
 ckan.site_logo = /base/images/ckan-logo.png

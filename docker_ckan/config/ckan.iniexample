@@ -79,7 +79,7 @@ ckan.datastore.read_url = postgresql://datastore_default:car2986@docker_postgres
 # sqlalchemy.<OPTION> = 
 
 ## Site Settings ###############################################################
-ckan.site_url = http://name.governaciondelvalle.gov.co
+ckan.site_url = http://name.gobernaciondelvalle.gov.co
 apitoken_header_name = Authorization
 ckan.cache_expires = 0
 ckan.cache_enabled = false

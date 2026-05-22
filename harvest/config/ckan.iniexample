@@ -48,7 +48,7 @@ config.mode = strict
 ## Development settings ########################################################
 # testing = false
 ckan.devserver.host = 0.0.0.0
-ckan.devserver.port = 5100
+ckan.devserver.port = 5000
 ckan.devserver.threaded = false
 ckan.devserver.multiprocess = 1
 ckan.devserver.watch_patterns = 
@@ -71,12 +71,12 @@ PERMANENT_SESSION_LIFETIME = 31536000
 SESSION_USE_SIGNER = false
 
 ## Database settings ###########################################################
-sqlalchemy.url = postgresql://ckan_default:car2986@docker_postgres-db-1/ckan_default
+sqlalchemy.url = postgresql://ckan_default:car2986@docker_postgres-db-1:5432/ckan_default
 sqlalchemy.pool_pre_ping = true
 # sqlalchemy.<OPTION> = 
 
 ## Site Settings ###############################################################
-ckan.site_url = harvest.governaciondelvalle.gov.co
+ckan.site_url = http://harvest.gobernaciondelvalle.gov.co
 apitoken_header_name = Authorization
 ckan.cache_expires = 0
 ckan.cache_enabled = false
@@ -181,7 +181,7 @@ ckan.cors.origin_allow_all = false
 ckan.cors.origin_whitelist = 
 
 ## Plugins Settings ############################################################
-ckan.plugins = stats text_view image_view datatables_view harvest ckan_harvester dcat dcat_json_harvester dcat_rdf_harvester dcat_json_interface auth report tagless_report metrics_dashboard HarvestPlugin
+ckan.plugins = stats text_view image_view datatables_view harvest ckan_harvester dcat dcat_json_harvester dcat_rdf_harvester dcat_json_interface report tagless_report metrics_dashboard HarvestPlugin
 ckan.download_proxy = 
 
 ## Front-End Settings ##########################################################

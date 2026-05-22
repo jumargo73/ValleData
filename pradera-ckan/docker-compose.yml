@@ -65,16 +65,18 @@ services:
       redis:
         condition: service_healthy   
       datapusher:
-        condition: service_healthy   
+        condition: service_healthy  
     ports:
       - "5001:5000"
     environment:
       - CKAN_INI=/srv/app/ckan.ini  
+      - CKAN_SITE_URL=http://pradera.gobernaciondelvalle.gov.co  
     volumes:
       - pradera_ckan_storage:/var/lib/ckan
       - pradera_pip_cache:/root/.cache/pip
       - pradera_site_packages:/usr/lib/python3.10/site_packages
       - /usr/lib/ckan/default/src/ValleData/pradera-ckan/config/ckan.ini:/srv/app/ckan.ini
+      - /usr/lib/ckan/default/src/ValleData/pradera-ckan/config/ckan.ini:/srv/app/src/deployment/ckan.ini
       - /usr/lib/ckan/default/src/ValleData/pradera-ckan/deployment/ckan-uwsgi.ini:/srv/app/src/deployment/ckan-uwsgi.ini
     restart: unless-stopped  
     networks:

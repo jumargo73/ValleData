@@ -1,6 +1,6 @@
 [uwsgi]
 # --- RED Y PUERTO ---
-http            = 127.0.0.1:8800
+http            = 0.0.0.0:8800
 buffer-size     = 65536     # Aumentado para manejar cabeceras grandes
 
 # --- IDENTIDAD Y RUTAS ---

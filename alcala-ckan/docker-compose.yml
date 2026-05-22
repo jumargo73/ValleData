@@ -50,8 +50,7 @@ services:
   datapusher:
     networks:
       - net-db
-      - net-hijo-internal 
-      
+      - net-hijo-internal       
     build:
       context: ../docker_datapusher/datapusher_images/
       dockerfile: Dockerfile   
@@ -75,6 +74,11 @@ services:
         condition: service_healthy   
       datapusher:
         condition: service_healthy
+    environment:
+      # 1. Fuerza a uWSGI/Python a leer este archivo
+      - CKAN_INI=/srv/app/ckan.ini
+      # 2. Refuerza el dominio exterior directo en el entorno
+      - CKAN_SITE_URL=http://alcala.gobernaciondelvalle.gov.co    
     ports:
       - "5000:5000"
     volumes:
@@ -82,7 +86,7 @@ services:
       - pip_cache:/root/.cache/pip
       - site_packages:/usr/lib/python3.10/site-packages
       - /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini:/srv/app/ckan.ini
-      - /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini:/srv/app/src/deolyment/ckan.ini
+      - /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini:/srv/app/src/deployment/ckan.ini
       - /usr/lib/ckan/default/src/ValleData/alcala-ckan/deployment/ckan-uwsgi.ini:/srv/app/src/deployment/ckan-uwsgi.ini
     restart: unless-stopped  
     networks:
