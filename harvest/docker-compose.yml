@@ -55,26 +55,15 @@ services:
       solr:
         condition: service_healthy
       redis:
-        condition: service_healthy           
-    environment:
-      - CKAN_SITE_ID
-      - CKAN_SECRET_KEY
-      - CKAN_SITE_URL
-      - CKAN_SQLALCHEMY_URL     
-      - CKAN_BEAKER__SESSION__SECRET
-      - CKAN_API_TOKEN__JWT__ENCODE__SECRET
-      - CKAN_API_TOKEN__JWT__DECODE__SECRET
-      - CKAN_SOLR_URL
-      - CKAN_REDIS_URL      
-      - CKAN__PLUGINS
-    env_file:
-      - .env       
+        condition: service_healthy 
     ports:
-      - "5001:5000"
+      - "5100:5000"
     volumes:
       - ckan_storage:/var/lib/ckan
       - pip_cache:/root/.cache/pip
       - site_packages:/usr/lib/python3.10/site-packages
+      - /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini:/srv/app/ckan.ini
+      - /usr/lib/ckan/default/src/ValleData/harvest/deployment/ckan-uwsgi.ini:/srv/app/src/deployment/ckan-uwsgi.ini
     restart: unless-stopped  
     networks:
       - net-fed-internal
@@ -82,7 +71,7 @@ services:
       - net-nginx 
       - net-hijo-internal             
     healthcheck:
-      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest:5100/api/3/action/status_show"]
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest-harvest-1:5000/api/3/action/status_show"]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -94,11 +83,9 @@ services:
       - net-db
       - net-hijo-internal
     image: Harvest/ckan:2.11.4        
-    command: ckan jobs worker
-    environment:
-      - CKAN_SQLALCHEMY_URL           
-    env_file:
-      - .env 
+    command: ckan -c /srv/app/ckan.ini harvester run
+    volumes:
+      - /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini:/srv/app/ckan.ini 
     depends_on:
       harvest:
         condition: service_healthy
@@ -106,7 +93,7 @@ services:
         condition: service_healthy      
     restart: unless-stopped  
     healthcheck:
-      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest:5100/api/3/action/status_show"]
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest-harvest-1:5000/api/3/action/status_show"]
       interval: 60s
       timeout: 10s
       retries: 3   
@@ -117,19 +104,17 @@ services:
       - net-db
       - net-hijo-internal
     image: Harvest/ckan:2.11.4   
-    environment:
-      - CKAN_SQLALCHEMY_URL           
-    env_file:
-      - .env      
     depends_on:
       harvest:
         condition: service_healthy
       redis:
-        condition: service_healthy  
+        condition: service_healthy
+    volumes:
+      - /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini:/srv/app/ckan.ini      
     command: ckan -c /srv/app/ckan.ini harvester gather-consumer        
     restart: unless-stopped  
     healthcheck:
-      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest:5100/api/3/action/status_show"]
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest-harvest-1:5000/api/3/action/status_show"]
       interval: 60s
       timeout: 10s
       retries: 3
@@ -140,19 +125,17 @@ services:
       - net-db
       - net-hijo-internal
     image: Harvest/ckan:2.11.4   
-    environment:
-      - CKAN_SQLALCHEMY_URL           
-    env_file:
-      - .env 
     depends_on:
       harvest:
         condition: service_healthy
       redis:
         condition: service_healthy 
+    volumes:
+      - /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini:/srv/app/ckan.ini     
     command: ckan -c /srv/app/ckan.ini harvester fetch-consumer      
     restart: unless-stopped  
     healthcheck:
-      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest:5100/api/3/action/status_show"]
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://harvest-harvest-1:5000/api/3/action/status_show"]
       interval: 60s
       timeout: 10s
       retries: 3      

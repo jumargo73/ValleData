@@ -61,7 +61,8 @@ RUN groupadd -r ckan && usermod -aG ckan ckan
 RUN mkdir -p /var/lib/ckan/storage /var/lib/ckan/webassets && \
     chown -R ckan:ckan /var/lib/ckan
 	
-RUN chown -R ckan:ckan /srv/app/src /srv/app/ckan.ini		
+RUN chown -R ckan:ckan /srv/app/src /srv/app/ckan.ini	
+RUN chmod -R 755 /srv/app/src /srv/app/ckan.ini
 
 # Cambiar al usuario ckan
 USER ckan

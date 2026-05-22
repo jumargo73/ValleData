@@ -13,21 +13,19 @@ networks:
     external: true
 
 volumes:
-  ckan_storage:
-  pip_cache:
-  site_packages: 
-  solr_data:
-  datapusher_data:
+  name_ckan_storage:
+  name_pip_cache:
+  name_site_packages: 
+  name_solr_data:
+  name_datapusher_data:
     
 services:   
   solr:
-    build:
-      context: ../docker_solr/solr_image/
-      dockerfile: Dockerfile  
     image: CKAN/ckan-solr:2.10-solr9
     command: solr-precreate ckan
+    restart: always
     volumes:
-      - solr_data:/var/solr
+      - name_solr_data:/var/solr
     networks:
       - net-db
       - net-hijo-internal
@@ -38,9 +36,6 @@ services:
       retries: 5 
 
   redis:
-    build:
-      context: ../docker_redis/redis-image/
-      dockerfile: Dockerfile 
     image: CKAN/redis:7
     networks:
       - net-hijo-internal
@@ -50,14 +45,10 @@ services:
   datapusher:
     networks:
       - net-db
-      - net-hijo-internal 
-      
-    build:
-      context: ../docker_datapusher/datapusher_images/
-      dockerfile: Dockerfile   
+      - net-hijo-internal       
     image: ckan/ckan-base-datapusher:0.0.21    
     volumes:
-      - datapusher_data:/srv/app/src/datapusher
+      - name_datapusher_data:/srv/app/src/datapusher
       - /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher-uwsgi.ini:/srv/app/src/datapusher/deployment/datapusher-uwsgi.ini
     restart: unless-stopped
     healthcheck:
@@ -74,16 +65,15 @@ services:
       redis:
         condition: service_healthy   
       datapusher:
-        condition: service_healthy
+        condition: service_healthy   
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
-      - ckan_storage:/var/lib/ckan
-      - pip_cache:/root/.cache/pip
-      - site_packages:/usr/lib/python3.10/site-packages
-      - /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini:/srv/app/ckan.ini
-      - /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini:/srv/app/src/deolyment/ckan.ini
-      - /usr/lib/ckan/default/src/ValleData/alcala-ckan/deployment/ckan-uwsgi.ini:/srv/app/src/deployment/ckan-uwsgi.ini
+      - name_ckan_storage:/var/lib/ckan
+      - name_pip_cache:/root/.cache/pip
+      - name_site_packages:/usr/lib/python3.10/site_packages,
+      - /usr/lib/ckan/default/src/ValleData/name-ckan/config/ckan.ini:/srv/app/ckan.ini,
+      - /usr/lib/ckan/default/src/ValleData/name-ckan/deployment/ckan-uwsgi.ini:/srv/app/src/deployment/ckan-uwsgi.ini
     restart: unless-stopped  
     networks:
       - net-nginx 

@@ -50,7 +50,102 @@ ValleData/
 │
 └── 📄 requirements.txt      # Dependencias generales
 ```
+--- 
 
+## 📊 Diagrama de Relaciones de CKAN (Tablas Core)
+erDiagram
+    USER ||--o{ MEMBER : "tiene roles en"
+    GROUP ||--o{ MEMBER : "pertenece a"
+    GROUP ||--o{ PACKAGE : "es dueño de (Organización)"
+    PACKAGE ||--o{ RESOURCE : "contiene"
+    PACKAGE ||--o{ PACKAGE_EXTRA : "extiende metadatos"
+    PACKAGE ||--o{ PACKAGE_TAG : "clasificado en"
+    TAG ||--o{ PACKAGE_TAG : "asociado a"
+    USER ||--o{ ACTIVITY : "realiza"
+
+    USER {
+        varchar id PK
+        varchar name UK
+        varchar fullname
+        varchar email
+        varchar password
+        boolean sysadmin
+        timestamp created
+        varchar apikey
+    }
+
+    GROUP {
+        varchar id PK
+        varchar name UK
+        varchar title
+        text description
+        varchar type "group / organization"
+        varchar state "active / deleted"
+        timestamp created
+    }
+
+    MEMBER {
+        varchar id PK
+        varchar group_id FK
+        varchar user_id FK
+        varchar table_name "indica si es user o group"
+        varchar capacity "admin / editor / member"
+        varchar state "active / deleted"
+    }
+
+    PACKAGE {
+        varchar id PK
+        varchar name UK "URL slug"
+        varchar title
+        text notes "Descripción del Dataset"
+        varchar license_id
+        varchar owner_org FK "Group ID de la Org"
+        varchar state "active / deleted"
+        timestamp metadata_created
+        timestamp metadata_modified
+    }
+
+    RESOURCE {
+        varchar id PK
+        varchar package_id FK
+        varchar url "Ruta al archivo o API"
+        varchar format "csv, pdf, json, etc"
+        varchar name
+        text description
+        bigint size
+        varchar state "active / deleted"
+        timestamp created
+        timestamp last_modified
+    }
+
+    PACKAGE_EXTRA {
+        varchar id PK
+        varchar package_id FK
+        text key "Nombre del campo"
+        text value "Valor del campo"
+    }
+
+    TAG {
+        varchar id PK
+        varchar name UK
+        varchar vocabulary_id FK
+    }
+
+    PACKAGE_TAG {
+        varchar package_id PK, FK
+        varchar tag_id PK, FK
+        varchar state "active / deleted"
+    }
+
+    ACTIVITY {
+        varchar id PK
+        timestamp timestamp
+        varchar user_id FK
+        varchar object_id "ID del elemento afectado"
+        varchar activity_type "new_package, changed_resource, etc"
+        text data "JSON resumido del cambio"
+    }
+--- 
 
 --- 
 ## Cómo agregar un nuevo Municipio (Hijo)
@@ -726,7 +821,80 @@ kubectl apply -f k8s/harvest_app.yaml
 ```
 ---
 
-# 17. Configuraciones
+## 18 Creando Nuevos Hijos
+# Creando Nuevos Hijos si ya esta alcala funcional 100%
+
+Se duplica la carpeta  docker_ckan que se encuentra en nuestro proyecto y lo renombras por ejemplo si vamos a montar pradera quedaria pradera_ckan
+
+- En el archivo docker_compose.yml en la parte de volumenes cambiar name_ por pradera_ , name- por pradera- y en el puerto ports: - "5001:5000", (si 5001 este libre sino 500x donde xx es el puerto libre)
+  en el service ckan, pradera va por el puerto 5001 debido a que alcala esta por el 5000 asi susesivamente para los demas hijos, hay que garantizar que los puertos no se repitan
+
+- En /config/ckan.ini  cambiar  name- por pradera- , name. por pradera. name_ por  pradera_ Y ckan.site_title = NAME(ENTIDAD) Ejemplo pradera
+
+# Inicializar app
+
+```bash
+docker compose -f pradera-ckan/docker-compose.yml up -d
+```
+
+Crear la BD de ckan_default como pradera_ckan y datastore_default  pradera_datastore_default
+
+## Ingresar a PostgreSQL:
+
+```bash
+docker exec -it docker_postgres-db-1 psql -U postgres
+```
+
+## Listar Bases de Datos
+
+```sql
+\l
+```
+
+```bash
+docker exec -it docker_postgres-db-1 \
+psql -U postgres -c "CREATE DATABASE pradera_ckan_default OWNER ckan_default;"
+
+docker exec -it docker_postgres-db-1 \
+psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE pradera_ckan_default TO ckan_default;"
+
+docker exec -it docker_postgres-db-1 \
+psql -U postgres -c "CREATE DATABASE pradera_datastore_default OWNER ckan_default ENCODING 'UTF8';"
+
+```
+
+Inicializar las BD de Ckan en pradera dento del contenedor pradera-ckan-ckan-1 con los comandos 
+
+
+El resto de configuraciones que se ejecutaron para levantar el core de alcala se aplican para todos los  hijos es decir ejecutar migraciones, permisos datapusher, creacion usuario y tocker , etc 
+
+```bash
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan db init
+
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan db upgrade
+
+docker cp ds.sql docker_postgres-db-1:/ds.sql
+
+docker exec -it docker_postgres-db-1 psql -U ckan_default -d pradera_datastore_default -f /ds.sql
+
+docker exec -u solr -it pradera-ckan-solr-1 \
+solr create_core -c ckan
+
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan -c /srv/app/ckan.ini sysadmin add federacion_api
+
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan -c /srv/app/ckan.ini user token add federacion_api federacion_api_token
+
+
+```
+---
+
+
+
+# 19. Configuraciones
 Mismo Procedimiento de los pasos anteriones, debemos  garantizar en los archivos de configuracion que apunte a los servicios de cada despliegue
 
 # Autor
