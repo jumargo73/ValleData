@@ -554,7 +554,7 @@ docker network create net-nginx
 
 ```
 
-## Subir el contenerod de la BD
+## Subir el contenedor de la BD
 
 ```bash
 docker compose -f docker_postgres/docker-compose.yml build
@@ -884,6 +884,9 @@ ckan db init
 
 docker exec -u ckan -it pradera-ckan-ckan-1 \
 ckan db upgrade
+
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan db upgrade -p CkanPlugin
 
 docker exec -u ckan -it pradera-ckan-ckan-1 \
 ckan datastore set-permissions > ds.sql

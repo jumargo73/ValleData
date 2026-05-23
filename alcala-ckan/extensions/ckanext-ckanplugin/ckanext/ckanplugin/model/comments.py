@@ -23,7 +23,7 @@ class Comments(BaseModel):
 
     id = Column(Integer, primary_key=True,autoincrement=True)
     package_Id = Column(String, nullable=False)
-    comments = Column(String, nullable=False)
+    comment = Column(String, nullable=False)
     user_id = Column(String, nullable=False)
     created = Column(DateTime, default=get_local_time)
 
@@ -35,7 +35,7 @@ class Comments(BaseModel):
         super().__init__(**kwargs)
         self.package_Id = package_Id
         self.user_id = user_id
-        self.comments = comments
+        self.tcommen = comments
 
 
       
