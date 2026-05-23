@@ -20,18 +20,17 @@ networks:
     external: true    
 
 volumes:
-  ckan_storage:
-  pip_cache:
-  site_packages: 
-  solr_data:
-  datapusher_data:
+  harvest_ckan_storage:
+  harvest_pip_cache:
+  harvest_site_packages: 
+  harvest_solr_data:
     
 services:   
   solr:
     image: CKAN/ckan-solr:2.10-solr9
     command: solr-precreate ckan
     volumes:
-      - solr_data:/var/solr
+      - harvest_solr_data:/var/solr
     networks:
       - net-fed-internal
       - net-db
@@ -64,10 +63,11 @@ services:
     ports:
       - "5100:5000"
     volumes:
-      - ckan_storage:/var/lib/ckan
-      - pip_cache:/root/.cache/pip
-      - site_packages:/usr/lib/python3.10/site-packages
+      - harvest_ckan_storage:/var/lib/ckan
+      - harvest_pip_cache:/root/.cache/pip
+      - harvest_site_packages:/usr/lib/python3.10/site-packages
       - /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini:/srv/app/ckan.ini
+      - /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini:/srv/app/src/deployment/ckan.ini
       - /usr/lib/ckan/default/src/ValleData/harvest/deployment/ckan-uwsgi.ini:/srv/app/src/deployment/ckan-uwsgi.ini
     restart: unless-stopped  
     networks:

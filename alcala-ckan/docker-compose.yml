@@ -58,6 +58,8 @@ services:
     volumes:
       - datapusher_data:/srv/app/src/datapusher
       - /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher-uwsgi.ini:/srv/app/src/datapusher/deployment/datapusher-uwsgi.ini
+      - /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher_settings.py:/srv/app/src/datapusher/deployment/datapusher_settings.py
+      - /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher.wsgi:/srv/app/src/datapusher/deployment/datapusher.wsgi
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "timeout 1 bash -c '</dev/tcp/localhost/8800' || exit 1"]
@@ -101,3 +103,23 @@ services:
       retries: 10
       start_period: 60s       
   
+  worker:
+    networks:
+      - net-fed-internal
+      - net-db
+      - net-hijo-internal
+    image: CKAN/ckan:2.11.4        
+    command: ckan -c /srv/app/ckan.ini jobs worker
+    volumes:
+      - /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini:/srv/app/ckan.ini 
+    depends_on:
+      ckan:
+        condition: service_healthy
+      redis:
+        condition: service_healthy      
+    restart: unless-stopped  
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://alcala-ckan-ckan-1:5000/api/3/action/status_show"]
+      interval: 60s
+      timeout: 10s
+      retries: 3  

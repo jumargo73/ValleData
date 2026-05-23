@@ -449,7 +449,7 @@ ___
 ```
 ___
 
-#Instalacion Ckan(alcala_ckan)  2.11.5
+# Instalacion Ckan(alcala_ckan)  2.11.5
 ```bash
 	. /usr/lib/ckan/default/ckan/bin/activate
 	
@@ -469,7 +469,7 @@ ___
 	ckan db upgrade -p CkanPlugin
 ```
 
-#Instalacion Ckan(harvest) 2.11.5
+# Instalacion Ckan(harvest) 2.11.5
 
 ```bash
 
@@ -494,7 +494,7 @@ ckan  db upgrade -p harvest
 ckan  db upgrade -p report
 ```
 
-#Reconstruir los asset para Ckan(ejemplo alcala) si y solo si sale error de permisos en webassets al despliegue
+# Reconstruir los asset para Ckan(ejemplo alcala) si y solo si sale error de permisos en webassets al despliegue
 Si tu ruta de de trabajo (Entorno Virtual) es  /usr/lib/ckan/default/ y el directorio de trabajo es /usr/lib/ckan/default/src/
 
 ```bash
@@ -503,7 +503,7 @@ rm -rf /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/public/webassets/*
 chmod -R 775 /var/lib/ckan/
 ```
 
-#Generacion de Reportes para Harvest
+# Generacion de Reportes para Harvest
 
 ```bash
 /usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/ValleData/harvest/ckan/ckan.ini report generate reporte-federacion
@@ -512,9 +512,9 @@ http://<url>/report/reporte-federacion
 http://<url>/report/metrics-dashboard
 ```
 
-#Despliegue por Docker
+# Despliegue por Docker
 
-#Nos ubicamos en la Raiz de nuestro proyecto
+# Nos ubicamos en la Raiz de nuestro proyecto
 ```bash
 cd  /usr/lib/ckan/default/src/ValleData/
 ```
@@ -532,7 +532,7 @@ docker build -t Harvest/ckan:2.11.4 \
 .
 ```
 
-#Comandos para crear tus redes
+# Comandos para crear tus redes
 ```bash
 # Redes para el CKAN Federado
 docker network create net-db
@@ -546,7 +546,7 @@ docker network create net-nginx
 
 ```
 
-#Subir el contenerod de la BD
+# Subir el contenerod de la BD
 
 ```bash
 docker compose -f docker_postgres/docker-compose.yml build
@@ -554,7 +554,7 @@ docker compose -f docker_postgres/docker-compose.yml up -d
 
 ```
 
-#Validar si se crearon las BD de Alcala y Harvest
+# Validar si se crearon las BD de Alcala y Harvest
 
 ```bash
 docker exec -u root -it docker_postgres-db-1 bash
@@ -573,13 +573,13 @@ psql -U postgres
 ```
 
 
-#Subir el proyecto alcala
+# Subir el proyecto alcala
 ```bash
 docker compose -f alcala-ckan/docker-compose.yml build
 docker compose -f alcala-ckan/docker-compose.yml up -d
 ```
 
-#Subir el contenerod ngix
+# Subir el contenerod ngix
 
 ```bash
 #si y solo si la aplicacion este arriba
@@ -588,7 +588,7 @@ docker compose -f nginx/docker-compose.yml up -d
 
 ```
 
-#ASi debe quedar el despliegue de ckan-alcala
+# ASi debe quedar el despliegue de ckan-alcala
 
 ```bash
 CONTAINER ID   IMAGE                              COMMAND                  CREATED         STATUS                   PORTS                                         NAMES
@@ -624,7 +624,7 @@ docker exec -u ckan -it alcala-ckan-ckan-1 \
 ckan db upgrade -p CkanPlugin
 
 ```
-#validar las migraciones
+# validar las migraciones
 ```bash
 docker exec -u root -it docker_postgres-db-1  psql -U postgres
 \c alcala_ckan_default
@@ -714,7 +714,7 @@ DO
 ```
 # Aplicando Permisos para BD Datapusher
 
-#creacion de Usuario y Tocken para API Datapusher
+# creacion de Usuario y Tocken para API Datapusher
 
 ```bash
 docker exec -u ckan -it alcala-ckan-ckan-1 \
@@ -731,12 +731,14 @@ docker restart alcala-ckan-ckan-1
 docker logs -f --tail 50 alcala-ckan-ckan-1
 ```
 
-#desplegando Harvest
+# desplegando Harvest
+
 ```bash
 docker compose -f harvest/docker-compose.yml up -d
 ```
 
-#Inicializando DB Harvest
+# Inicializando DB Harvest
+
 ```bash
 docker compose -f harvest/docker-compose.yml up -d
 ```
@@ -875,6 +877,9 @@ ckan db init
 docker exec -u ckan -it pradera-ckan-ckan-1 \
 ckan db upgrade
 
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan datastore set-permissions > ds.sql
+
 docker cp ds.sql docker_postgres-db-1:/ds.sql
 
 docker exec -it docker_postgres-db-1 psql -U ckan_default -d pradera_datastore_default -f /ds.sql
@@ -887,7 +892,6 @@ ckan -c /srv/app/ckan.ini sysadmin add federacion_api
 
 docker exec -u ckan -it pradera-ckan-ckan-1 \
 ckan -c /srv/app/ckan.ini user token add federacion_api federacion_api_token
-
 
 ```
 ---
