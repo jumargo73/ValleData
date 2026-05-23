@@ -587,7 +587,7 @@ docker compose -f alcala-ckan/docker-compose.yml build
 docker compose -f alcala-ckan/docker-compose.yml up -d
 ```
 
-# Subir el contenerod ngix
+# Subir el contenedor ngix
 
 ```bash
 #si y solo si la aplicacion este arriba

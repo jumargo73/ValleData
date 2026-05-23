@@ -47,7 +47,7 @@ def comments_get(context, data_dict):
                 'id': ultimo_comentario.id,
                 'dataset_id': ultimo_comentario.package_Id,
                 'user_guid': ultimo_comentario.user_id,
-                'comment_text': ultimo_comentario.comments,
+                'comment_text': ultimo_comentario.comment,
                 'created': ultimo_comentario.created.strftime('%d/%m/%Y %H:%M')
             }
         }
@@ -90,7 +90,7 @@ def comments_set(context, data_dict):
             new_comments = Comments(
                 package_Id=resource_id,
                 user_id=user_id,          
-                comments=comment,
+                comment=comment,
             )
 
             #log.warning("[action][resource_rating_set][new_rating] %s",new_rating)
@@ -103,6 +103,6 @@ def comments_set(context, data_dict):
             return {'success': True}
     except Exception as e:
         log.error(
-            f"[Action][comments_set] Error al guardar la calificacion: {str(e)}"
+            f"[Action][comments_set] Error al guardar el comentario: {str(e)}"
         )
         return {'success': False}

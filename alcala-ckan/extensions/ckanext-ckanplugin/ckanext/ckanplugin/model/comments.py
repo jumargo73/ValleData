@@ -31,11 +31,11 @@ class Comments(BaseModel):
         UniqueConstraint('package_Id',name='uix_source_package'),
     )
 
-    def __init__(self,  package_Id=None,user_id=None,comments=None, **kwargs ):
+    def __init__(self,  package_Id=None,user_id=None,comment=None, **kwargs ):
         super().__init__(**kwargs)
         self.package_Id = package_Id
         self.user_id = user_id
-        self.comment = comments
+        self.comment = comment
 
 
       
