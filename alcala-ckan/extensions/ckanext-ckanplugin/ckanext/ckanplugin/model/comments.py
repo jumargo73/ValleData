@@ -35,7 +35,7 @@ class Comments(BaseModel):
         super().__init__(**kwargs)
         self.package_Id = package_Id
         self.user_id = user_id
-        self.tcommen = comments
+        self.comment = comments
 
 
       
