@@ -393,20 +393,22 @@ VALLE DATA busca consolidar un ecosistema interoperable de datos abiertos que pe
 
 ___
 
-#Ruta del Proyecto
+# Ruta del Proyecto
 
 ```bash
 cd  /usr/lib/ckan/default/src/
 ```
 ___
 
-#Nos ubicamos en donde vamos a decargar el proyecto
+# Nos ubicamos en donde vamos a decargar el proyecto
+
 ```bash
 	git clone https://github.com/jumargo73/ValleData.git
 ```
 ___
 
-#Copiamos los archivos de Configuracion
+# Copiamos los archivos de Configuracion
+
 ```bash
 cp -r /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.iniexample /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini
 cp -r /usr/lib/ckan/default/src/ValleData/alcala-ckan/deployment/ckan-uwsgi.iniexample /usr/lib/ckan/default/src/ValleData/alcala-ckan/deployment/ckan-uwsgi.ini
@@ -417,9 +419,9 @@ cp -r /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/de
 ```
 ___
 
-#Despliegue por Resource
+# Despliegue por Resource
 
-#Creacion Entornos virtuales
+## Creacion Entornos virtuales
 ```bash
 	mkdir -p /usr/lib/ckan/default/ckan
 	python3 -m venv /usr/lib/ckan/default/ckan
@@ -436,20 +438,20 @@ ___
 ```
 ___
 
-# se aplica permisos
+## Se aplica permisos
 ```bash
 sudo chmod -R 777  /usr/lib/ckan/default/
 ```
 ___
 
-# Ingresamos al proyecto
+## Ingresamos al proyecto
 
 ```bash
 	cd /usr/lib/ckan/default/src/ValleData
 ```
 ___
 
-# Instalacion Ckan(alcala_ckan)  2.11.5
+## Instalacion Ckan(alcala_ckan)  2.11.5
 ```bash
 	. /usr/lib/ckan/default/ckan/bin/activate
 	
@@ -469,7 +471,7 @@ ___
 	ckan db upgrade -p CkanPlugin
 ```
 
-# Instalacion Ckan(harvest) 2.11.5
+## Instalacion Ckan(harvest) 2.11.5
 
 ```bash
 
@@ -494,8 +496,11 @@ ckan  db upgrade -p harvest
 ckan  db upgrade -p report
 ```
 
-# Reconstruir los asset para Ckan(ejemplo alcala) si y solo si sale error de permisos en webassets al despliegue
-Si tu ruta de de trabajo (Entorno Virtual) es  /usr/lib/ckan/default/ y el directorio de trabajo es /usr/lib/ckan/default/src/
+## Reconstruir los asset para Ckan(ejemplo alcala) si y solo si sale error de permisos en webassets al despliegue
+
+## Si tu ruta de de trabajo (Entorno Virtual) es  /usr/lib/ckan/default/ 
+
+## El directorio de trabajo es /usr/lib/ckan/default/src/
 
 ```bash
 rm -rf /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/public/webassets/*
@@ -514,12 +519,14 @@ http://<url>/report/metrics-dashboard
 
 # Despliegue por Docker
 
-# Nos ubicamos en la Raiz de nuestro proyecto
+## Nos ubicamos en la Raiz de nuestro proyecto
+
 ```bash
 cd  /usr/lib/ckan/default/src/ValleData/
 ```
 
-#Crear Imagen para Ckan_Hijos
+## Crear Imagen para Ckan_Hijos
+
 ```bash
 docker build -t CKAN/ckan:2.11.4 \
 -f ckan_dockerfile \
@@ -532,7 +539,8 @@ docker build -t Harvest/ckan:2.11.4 \
 .
 ```
 
-# Comandos para crear tus redes
+## Comandos para crear tus redes
+
 ```bash
 # Redes para el CKAN Federado
 docker network create net-db
@@ -546,7 +554,7 @@ docker network create net-nginx
 
 ```
 
-# Subir el contenerod de la BD
+## Subir el contenerod de la BD
 
 ```bash
 docker compose -f docker_postgres/docker-compose.yml build
@@ -554,7 +562,7 @@ docker compose -f docker_postgres/docker-compose.yml up -d
 
 ```
 
-# Validar si se crearon las BD de Alcala y Harvest
+## Validar si se crearon las BD de Alcala y Harvest
 
 ```bash
 docker exec -u root -it docker_postgres-db-1 bash
@@ -619,7 +627,7 @@ ckan db init
 docker exec -u ckan -it alcala-ckan-ckan-1 \
 ckan db upgrade
 
-si y silo si con upgrade no la vez reflejado
+## si y solo si con upgrade no la vez reflejado
 docker exec -u ckan -it alcala-ckan-ckan-1 \
 ckan db upgrade -p CkanPlugin
 
@@ -769,7 +777,7 @@ docker restart harvest-harvest-1
 docker logs -f --tail 50 harvest-harvest-1
 ```
 
-#ASi debe quedar el despliegue de ckan-alcala
+### ASi debe quedar el despliegue de ckan-alcala
 
 ```bash
 CONTAINER ID   IMAGE                              COMMAND                  CREATED             STATUS                        PORTS                                                                                NAMES
@@ -781,7 +789,7 @@ f6cd7e5f8f93   Harvest/ckan:2.11.4                "ckan -c /srv/app/ck…"   3 m
 
 ```
 --- 
-#Despliegue por Kubernate
+## Despliegue por Kubernate
 ```bash
 kind load docker-image CKAN/ckan-solr:2.10-solr9 --name ckan-cluster
 kind load docker-image CKAN/ckan:2.11.4 --name ckan-cluster
@@ -895,8 +903,6 @@ ckan -c /srv/app/ckan.ini user token add federacion_api federacion_api_token
 
 ```
 ---
-
-
 
 # 19. Configuraciones
 Mismo Procedimiento de los pasos anteriones, debemos  garantizar en los archivos de configuracion que apunte a los servicios de cada despliegue
