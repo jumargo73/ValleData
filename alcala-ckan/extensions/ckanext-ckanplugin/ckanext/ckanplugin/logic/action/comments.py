@@ -9,6 +9,9 @@ log = logging.getLogger(__name__)
 
 def comments_get(context, data_dict):
 
+    dataset_id = None
+    user_id=None
+
     try:
 
         

@@ -71,6 +71,9 @@ def resource_rating_set(context, data_dict):
 
 def resource_rating_get(context, data_dict):
 
+    resource_id = None
+    user_id=None
+
     try:
 
         log.warning("[action][resource_rating_get] ejecutado")

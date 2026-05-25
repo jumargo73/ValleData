@@ -13,19 +13,42 @@ networks:
     external: true
 
 volumes:
-  pradera_ckan_storage:
-  pradera_pip_cache:
-  pradera_site_packages: 
-  pradera_solr_data:
-  pradera_datapusher_data:
-    
+  solr_root:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/storage/solr/pradera/var_solr    
+
+  storage_root:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/storage/ckan/pradera/storage
+
+  site_packages_root:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/storage/ckan/pradera/site_packages    
+
+  pip_cache_root:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/storage/ckan/pradera/pip_cache      
+
 services:   
   solr:
     image: CKAN/ckan-solr:2.10-solr9
     command: solr-precreate ckan
     restart: always
     volumes:
-      - pradera_solr_data:/var/solr
+      - solr_root:/var/solr
+      - /mnt/storage/solr/schema/schema.xml:/var/solr/data/ckan/conf/managed-schema:ro
     networks:
       - net-db
       - net-hijo-internal
@@ -49,10 +72,7 @@ services:
     image: ckan/ckan-base-datapusher:0.0.21   
     # Dentro de tu docker-compose.yml en el servicio datapusher:
     volumes:
-      - pradera_datapusher_data:/srv/app/src/datapusher
-      - /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher-uwsgi.ini:/srv/app/src/datapusher/deployment/datapusher-uwsgi.ini
-      - /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher_settings.py:/srv/app/src/datapusher/deployment/datapusher_settings.py
-      - /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment/datapusher.wsgi:/srv/app/src/datapusher/deployment/datapusher.wsgi
+      - /mnt/storage/datapusher/deployment:/srv/app/src/datapusher/deployment:ro
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "timeout 1 bash -c '</dev/tcp/localhost/8800' || exit 1"]
@@ -76,12 +96,11 @@ services:
       - CKAN_SITE_URL=http://pradera.gobernaciondelvalle.gov.co  
       - DATAPUSHER_CKAN_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJrRVFFekttaldfWFNTOWFDcm5BUDJVeW9sc1FVWmlVYVVRbndyY252U0g0IiwiaWF0IjoxNzc5NTM5MjY2fQ.nguhpsHrYxaGZisCMP72nNQSrBNL6CVzLVLkAS-vRzk
     volumes:
-      - pradera_ckan_storage:/var/lib/ckan
-      - pradera_pip_cache:/root/.cache/pip
-      - pradera_site_packages:/usr/lib/python3.10/site_packages
-      - /usr/lib/ckan/default/src/ValleData/pradera-ckan/config/ckan.ini:/srv/app/ckan.ini
-      - /usr/lib/ckan/default/src/ValleData/pradera-ckan/config/ckan.ini:/srv/app/src/deployment/ckan.ini
-      - /usr/lib/ckan/default/src/ValleData/pradera-ckan/deployment/ckan-uwsgi.ini:/srv/app/src/deployment/ckan-uwsgi.ini
+      - storage_root:/var/lib/ckan
+      - pip_cache_root:/root/.cache/pip
+      - site_packages_root:/usr/lib/python3.10/site-packages
+      - /mnt/storage/ckan/deployment:/srv/app/src/deployment
+      - /mnt/storage/ckan/pradera/config/ckan.ini:/srv/app/ckan.ini
     restart: unless-stopped  
     networks:
       - net-nginx 

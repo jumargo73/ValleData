@@ -120,6 +120,7 @@ def guardar_contador(package_id, resource_id, tipo):
         log.warning("[helplers][guardar_contador] ejecutado")
         #log.warning("[helplers][guardar_contador] package_id %s",package_id)
         #log.warning("[helplers][guardar_contador] resource_id %s",resource_id)
+        #log.warning("[helplers][guardar_contador] tipo %s",tipo)
         
         registro = Session.query(Contador).filter(           
             Contador.package_Id == package_id,
@@ -131,10 +132,10 @@ def guardar_contador(package_id, resource_id, tipo):
 
         if not registro:
            
-            if tipo == "Visualizacion":
+            if tipo == "View":
                 contVistas=1
                 contDownload = 0
-            elif tipo == "DownLoad":
+            elif tipo == "Download":
                 contVistas=0
                 contDownload = 1
             
@@ -146,9 +147,9 @@ def guardar_contador(package_id, resource_id, tipo):
             )
             Session.add(registro)
         else:
-            if tipo == "Visualizacion":
+            if tipo == "View":
                 registro.contVistas += 1                
-            elif tipo == "DownLoad":
+            elif tipo == "Download":
                 registro.contDownload += 1
                 
         

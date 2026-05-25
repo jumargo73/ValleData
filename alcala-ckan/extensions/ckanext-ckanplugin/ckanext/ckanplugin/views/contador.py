@@ -13,17 +13,21 @@ contador = Blueprint(
 )
 
 @contador.route('/dataset/<dataset>/resource/<resource_id>/download/<filename>')
-def resource_download(package_id, resource_id, filename):
+def resource_download(dataset, resource_id, filename):
 
     log.info("[views][contador][resource_download] ejecutado")
 
-    helpers.guardar_contador(package_id, resource_id, 'Download')
+    # 1. Ejecuta tu lógica de guardado de forma segura
+    try:
+        helpers.guardar_contador(dataset, resource_id, 'Download')
+    except Exception as e:
+        log.error(f"Error al guardar el contador: {str(e)}")
 
-    return redirect(
-        tk.url_for(
-            'resource.download',
-            dataset=dataset,
-            resource_id=resource_id,
-            filename=filename
-        )
+    # 2. Redirige de forma invisible al descargador oficial de CKAN
+    # CKAN internamente mapea el paquete con el parámetro 'id'
+    return tk.redirect_to(
+        'resource.download',
+        id=dataset,
+        resource_id=resource_id,
+        filename=filename
     )

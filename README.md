@@ -419,9 +419,9 @@ cp -r /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/de
 ```
 ___
 
-# Despliegue por Resource
+# 1. Despliegue por Resource
 
-## Creacion Entornos virtuales
+## 1.1 Creacion Entornos virtuales
 ```bash
 	mkdir -p /usr/lib/ckan/default/ckan
 	python3 -m venv /usr/lib/ckan/default/ckan
@@ -438,77 +438,140 @@ ___
 ```
 ___
 
-## Se aplica permisos
+## 1.2 Se aplica permisos
 ```bash
 sudo chmod -R 777  /usr/lib/ckan/default/
 ```
 ___
 
-## Ingresamos al proyecto
+## 1.3 Ingresamos al proyecto
 
 ```bash
 	cd /usr/lib/ckan/default/src/ValleData
 ```
 ___
 
-## Instalacion Ckan(alcala_ckan)  2.11.5
+## 1.4 Instalacion Ckan(alcala_ckan)  2.11.5
+
+### 1.4.1 Activar entorno virtual
 ```bash
 	. /usr/lib/ckan/default/ckan/bin/activate
-	
-	sudo chmod +x instalar_ckan.sh
 
-	pip install --upgrade pip uwsgi wheel rq>=1.14.0,<2.0.0 "setuptools>=44.1.0,<82" Werkzeug==2.3.7 Flask==2.3.3 
-
-	cd /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan
-	pip install -r requirements.txt
-	pip install -e .
-
-	sudo cp -r /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan
-
-	Inicializar la BD
-	cd alcala-ckan/ckan
-	ckan db init
-	ckan db upgrade -p CkanPlugin
 ```
 
-## Instalacion Ckan(harvest) 2.11.5
+### 1.4.2 Instalacion de extensiones y sus dependiencias
+
+```bash	
+	sudo chmod +x instalar_ckan.sh
+    sed -i 's/\r$//' instalar_ckan.sh
+    bash instalar_ckan.sh
+```  
+
+### 1.4.3 Instalar dependencias Globales
+```bash
+	/usr/lib/ckan/default/ckan/bin/pip install --upgrade pip uwsgi wheel rq>=1.14.0,<2.0.0 "setuptools>=44.1.0,<82" Werkzeug==2.3.7 Flask==2.3.3 
+```
+
+### 1.4.4 Instalacion del Core de CKan Hijo (Alcala)
+
+
+```bash
+	/usr/lib/ckan/default/ckan/bin/pip install -r /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/requirements.txt
+```
+
+```bash
+	/usr/lib/ckan/default/ckan/bin/pip install -e /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan
+```    
+
+
+
+###	1.4.5 Inicializar la BD
+
+
+```bash    
+	/usr/lib/ckan/default/ckan/bin/ckan -c /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/ckan.ini  db init
+```  
+
+```bash    
+	/usr/lib/ckan/default/ckan/bin/ckan -c /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/ckan.ini db upgrade
+``` 
+
+ ```bash   
+	/usr/lib/ckan/default/ckan/bin/ckan -c /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/ckan.ini db upgrade -p CkanPlugin
+```
+
+### 1.4.5 Reconstruir los asset para Ckan(ejemplo alcala) si y solo si sale error de permisos en webassets al despliegue
+
+```bash
+rm -rf /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/public/webassets/*
+/usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/ValleData/harvest/ckan/ckan.ini asset build
+chmod -R 775 /var/lib/ckan/
+```
+
+## 1.5 Instalacion Ckan(harvest) 2.11.5
+
+### 1.5.1 Activar entorno virtual
 
 ```bash
 
 . /usr/lib/ckan/default/harvest/bin/activate
 
+```
+
+### 1.5.2 Instalacion de extensiones y sus dependiencias
+
+```bash   
 sudo chmod +x instalar_harvest.sh
 sed -i 's/\r$//' instalar_harvest.sh
 bash instalar_harvest.sh
-
-pip install --upgrade pip uwsgi wheel rq>=1.14.0,<2.0.0 "setuptools>=44.1.0,<82" Werkzeug==2.3.7 Flask==2.3.3 
-
-cd /usr/lib/ckan/default/src/ValleData/harvest/ckan
-pip install -r requirements.txt
-pip install -e .
-
-sudo cp -r /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini /usr/lib/ckan/default/src/ValleData/harvest/ckan
-
-Inicializar la BD
-cd harvest/ckan
-ckan db init
-ckan  db upgrade -p harvest
-ckan  db upgrade -p report
 ```
 
-## Reconstruir los asset para Ckan(ejemplo alcala) si y solo si sale error de permisos en webassets al despliegue
+### 1.4.3 Instalar dependencias Globales
 
-## Si tu ruta de de trabajo (Entorno Virtual) es  /usr/lib/ckan/default/ 
+```bash   
+/usr/lib/ckan/default/harvest/bin/pip install --upgrade pip uwsgi wheel rq>=1.14.0,<2.0.0 "setuptools>=44.1.0,<82" Werkzeug==2.3.7 Flask==2.3.3 
 
-## El directorio de trabajo es /usr/lib/ckan/default/src/
+```
+
+
+### 1.5.4 Instalacion del Core de Harvest
+
+```bash   
+/usr/lib/ckan/default/harvest/bin/pip install -r /usr/lib/ckan/default/src/ValleData/harvest/ckan/requirements.txt
+```
+
+```bash  
+/usr/lib/ckan/default/harvest/bin/pip install -e /usr/lib/ckan/default/src/ValleData/harvest/ckan/
+```
+
+```bash   
+sudo cp -r /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini /usr/lib/ckan/default/src/ValleData/harvest/ckan
+```
+
+###	1.5.5 Inicializar la BD
+
+```bash   
+/usr/lib/ckan/default/ckan/bin/ckan -c /usr/lib/ckan/default/src/ValleData/harvest/ckan/ckan.ini db init
+```
+
+```bash   
+/usr/lib/ckan/default/ckan/bin/ckan -c /usr/lib/ckan/default/src/ValleData/harvest/ckan/ckan.ini  db upgrade -p harvest
+```
+
+```bash   
+/usr/lib/ckan/default/ckan/bin/ckan -c /usr/lib/ckan/default/src/ValleData/harvest/ckan/ckan.ini  db upgrade -p report
+```
+
+
+## 1.5.6 Reconstruir los asset para Ckan(ejemplo alcala) si y solo si sale error de permisos en webassets al despliegue
 
 ```bash
 rm -rf /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/public/webassets/*
-/usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/ValleData/alcala-ckan/ckan/ckan.ini asset build
+/usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/ValleData/harvest/ckan/ckan.ini asset build
 chmod -R 775 /var/lib/ckan/
 ```
 
-# Generacion de Reportes para Harvest
+# 1.5.6 Generacion de Reportes para Harvest
 
 ```bash
 /usr/lib/ckan/default/bin/ckan -c /usr/lib/ckan/default/src/ValleData/harvest/ckan/ckan.ini report generate reporte-federacion
@@ -517,15 +580,15 @@ http://<url>/report/reporte-federacion
 http://<url>/report/metrics-dashboard
 ```
 
-# Despliegue por Docker
+# 2 Despliegue por Docker
 
-## Nos ubicamos en la Raiz de nuestro proyecto
+## 2.1 Nos ubicamos en la Raiz de nuestro proyecto
 
 ```bash
 cd  /usr/lib/ckan/default/src/ValleData/
 ```
 
-## Crear Imagen para Ckan_Hijos
+## 2.2 Crear Imagen para Ckan_Hijos
 
 ```bash
 docker build -t CKAN/ckan:2.11.4 \
@@ -539,7 +602,7 @@ docker build -t Harvest/ckan:2.11.4 \
 .
 ```
 
-## Comandos para crear tus redes
+## 2.3 Comandos para crear tus redes
 
 ```bash
 # Redes para el CKAN Federado
@@ -554,7 +617,56 @@ docker network create net-nginx
 
 ```
 
-## Subir el contenedor de la BD
+## 2.4 Crear las subcarpetas del storage central en /mnt/
+
+```bash
+sudo mkdir -p /mnt/storage/solr/harvest/var_solr 
+sudo mkdir -p /mnt/storage/ckan/harvest/storage
+sudo mkdir -p /mnt/storage/ckan/harvest/pip_cache
+sudo mkdir -p /mnt/storage/ckan/harvest/site_packages
+sudo mkdir -p /mnt/storage/ckan/harvest/config
+
+sudo mkdir -p /mnt/storage/solr/alcala/var_solr 
+sudo mkdir -p /mnt/storage/ckan/alcala/storage
+sudo mkdir -p /mnt/storage/ckan/alcala/pip_cache
+sudo mkdir -p /mnt/storage/ckan/alcala/site_packages
+sudo mkdir -p /mnt/storage/ckan/alcala/config
+
+sudo mkdir -p /mnt/storage/datapusher/deployment
+sudo mkdir -p /mnt/storage/ckan/deployment
+sudo mkdir -p /mnt/storage/solr/schema
+```
+
+## 2.5 Otorgar permisos de lectura y escritura a tu usuario y a Docker
+
+```bash
+sudo chmod -R 777 /mnt/storage
+```
+
+## 2.5.1 Copiar archivos de despliegue
+
+```bash
+sudo cp -r /usr/lib/ckan/default/src/ValleData/docker_solr/solr_image/schema /mnt/storage/solr/schema
+```
+
+```bash
+sudo cp -r /usr/lib/ckan/default/src/ValleData/docker_datapusher/datapusher_images/deployment /mnt/storage/datapusher
+```
+
+```bash
+sudo cp -r /usr/lib/ckan/default/src/ValleData/alcala-ckan/deployment /mnt/storage/ckan
+```
+
+```bash
+sudo cp -r /usr/lib/ckan/default/src/ValleData/alcala-ckan/config/ckan.ini /mnt/storage/ckan/alcala/config/ckan.ini
+```
+
+
+```bash
+sudo cp -r /usr/lib/ckan/default/src/ValleData/harvest/config/ckan.ini /mnt/storage/ckan/harvest/config/ckan.ini
+```
+
+## 2.6 Subir el contenedor de la BD
 
 ```bash
 docker compose -f docker_postgres/docker-compose.yml build
@@ -562,12 +674,18 @@ docker compose -f docker_postgres/docker-compose.yml up -d
 
 ```
 
-## Validar si se crearon las BD de Alcala y Harvest
+### 3.6.1 Validar si se crearon las BD de Alcala y Harvest
 
 ```bash
-docker exec -u root -it docker_postgres-db-1 bash
-psql -U postgres
+docker exec -u root -it docker_postgres-db-1 psql -U postgres
+```
+
+```bash
 \l
+```
+
+```bash
+
                                                               List of databases
            Name           |    Owner     | Encoding |  Collate   |   Ctype    | ICU Locale | Locale Provider |       Access privileges
 --------------------------+--------------+----------+------------+------------+------------+-----------------+-------------------------------
@@ -581,22 +699,16 @@ psql -U postgres
 ```
 
 
-# Subir el proyecto alcala
+## 2.7 Subir el proyecto alcala
+
 ```bash
 docker compose -f alcala-ckan/docker-compose.yml build
+```
+```bash
 docker compose -f alcala-ckan/docker-compose.yml up -d
 ```
 
-# Subir el contenedor ngix
-
-```bash
-#si y solo si la aplicacion este arriba
-docker compose -f nginx/docker-compose.yml build
-docker compose -f nginx/docker-compose.yml up -d
-
-```
-
-# ASi debe quedar el despliegue de ckan-alcala
+### 2.7.1 ASi debe quedar el despliegue de ckan-alcala
 
 ```bash
 CONTAINER ID   IMAGE                              COMMAND                  CREATED         STATUS                   PORTS                                         NAMES
@@ -607,38 +719,50 @@ c7944f95a9e6   ckan/ckan-base-datapusher:0.0.21   "/srv/app/datapusher…"   4 m
 b934b8307c8d   CKAN/postgres:15                   "docker-entrypoint.s…"   2 hours ago     Up 2 hours (healthy)     5432/tcp                                      docker_postgres-db-1
 ```
 
+### 2.7.2 Configuración de Solr
 
-# Configuración de Solr
-
-## Crear Core CKAN
+#### 2.7.2.1 Crear Core CKAN
 
 ```bash
 docker exec -u solr -it alcala-ckan-solr-1 \
 solr create_core -c ckan
 ```
 
-# Inicializar las BD de Ckan
+### 2.7.3 Configuración Ckan(alcala)
+
+#### 2.7.3.1 Inicializar las BD de Ckan
 
 ```bash
 
 docker exec -u ckan -it alcala-ckan-ckan-1 \
 ckan db init
+```
 
+```bash
 docker exec -u ckan -it alcala-ckan-ckan-1 \
 ckan db upgrade
+```
 
-## si y solo si con upgrade no la vez reflejado
+```bash
 docker exec -u ckan -it alcala-ckan-ckan-1 \
 ckan db upgrade -p CkanPlugin
-
 ```
-# validar las migraciones
+
+#### 2.7.3.2 validar las migraciones
+
 ```bash
 docker exec -u root -it docker_postgres-db-1  psql -U postgres
-\c alcala_ckan_default
-\lt
+```
 
-alcala_ckan_default=# \dt
+```bash
+\c alcala_ckan_default
+```
+
+```bash
+\dt
+```
+
+```bash
                        List of relations
  Schema |             Name              | Type  |    Owner
 --------+-------------------------------+-------+--------------
@@ -684,24 +808,32 @@ alcala_ckan_default=# \dt
  public | user_following_user           | table | ckan_default
  public | vocabulary                    | table | ckan_default
 (41 rows)
-
-\q para salir
 ```
 
-# Dapapusher Configuraciones
+```bash
+\q 
 
-# Aplicando Permisos para BD Datapusher
+```
+
+### 2.7.4 Dapapusher Configuraciones
+
+#### 2.7.4.1 Aplicando Permisos para BD Datapusher
 
 ```bash
 docker exec -u ckan -it alcala-ckan-ckan-1 \
 ckan datastore set-permissions > ds.sql
+```
 
+```bash
 docker cp ds.sql docker_postgres-db-1:/ds.sql
+```
 
+```bash
 docker exec -it docker_postgres-db-1 psql -U ckan_default -d alcala_datastore_default -f /ds.sql
 ```
 
-#resultado
+#### 2.7.4.2 resultado esperado
+
 ```bash
 REVOKE
 GRANT
@@ -720,40 +852,44 @@ CREATE FUNCTION
 ALTER FUNCTION
 DO
 ```
-# Aplicando Permisos para BD Datapusher
 
-# creacion de Usuario y Tocken para API Datapusher
+
+#### 2.7.4.2 creacion de Usuario y Tocken para API Datapusher
 
 ```bash
 docker exec -u ckan -it alcala-ckan-ckan-1 \
 ckan -c /srv/app/ckan.ini sysadmin add federacion_api
-
-docker exec -u ckan -it alcala-ckan-ckan-1 \
-ckan -c /srv/app/ckan.ini user token add federacion_api federacion_api_token
-
-El resultado lo asignas a la variable  DATAPUSHER_API_TOKEN
 ```
 
+```bash
+docker exec -u ckan -it alcala-ckan-ckan-1 \
+ckan -c /srv/app/ckan.ini user token add federacion_api federacion_api_token
+```
+
+El resultado lo asignas a la variable  DATAPUSHER_API_TOKEN
+
+#### 2.7.4.3 Ver el log del contenedor(alcala)
 ```bash
 docker restart alcala-ckan-ckan-1
 docker logs -f --tail 50 alcala-ckan-ckan-1
 ```
 
-# desplegando Harvest
+
+## 2.8 desplegando Harvest
 
 ```bash
 docker compose -f harvest/docker-compose.yml up -d
 ```
 
-# Inicializando DB Harvest
+### 2.8.1 Inicializando DB Harvest
 
 ```bash
 docker compose -f harvest/docker-compose.yml up -d
 ```
 
-# Configuración de Solr
+### 2.8.2 Configuración de Solr
 
-## Crear Core CKAN
+#### 2.8.2.1 Crear Core CKAN
 
 ```bash
 docker exec -u solr -it harvest-solr-1 \
@@ -761,23 +897,34 @@ solr create_core -c ckan
 ```
 
 
-# Inicializar las BD de Ckan
+### 2.8.3 Inicializar las BD de Ckan
 
 ```bash
-
 docker exec -u ckan -it harvest-harvest-1 \
 ckan db init
+```
 
+```bash
 docker exec -u ckan -it harvest-harvest-1 \
 ckan db upgrade
 ```
 
 ```bash
+docker exec -u ckan -it alcala-ckan-ckan-1 \
+ckan db upgrade -p harvest
+```
+
+```bash
+docker exec -u ckan -it alcala-ckan-ckan-1 \
+ckan db upgrade -p report
+```
+#### 2.8.3.1 Inicializar las BD de Ckan
+```bash
 docker restart harvest-harvest-1
 docker logs -f --tail 50 harvest-harvest-1
 ```
 
-### ASi debe quedar el despliegue de ckan-alcala
+### 2.8.4 ASi debe quedar el despliegue de ckan-alcala
 
 ```bash
 CONTAINER ID   IMAGE                              COMMAND                  CREATED             STATUS                        PORTS                                                                                NAMES
@@ -788,8 +935,120 @@ f6cd7e5f8f93   Harvest/ckan:2.11.4                "ckan -c /srv/app/ck…"   3 m
 189d4c4637b0   CKAN/ckan-solr:2.10-solr9          "docker-entrypoint.s…"   3 minutes ago       Up 3 minutes (healthy)        8983/tcp                                                                             harvest-solr-1
 
 ```
+---
+## 2.9 Creando Nuevos Hijos
+
+### 2.9.1 Creando Nuevos Hijos si ya esta alcala funcional 100%
+
+Se duplica la carpeta  docker_ckan que se encuentra en nuestro proyecto y lo renombras por ejemplo si vamos a montar pradera quedaria pradera_ckan
+
+- En el archivo docker_compose.yml en la parte de volumenes cambiar name_ por pradera_ , name- por pradera- y en el puerto ports: - "5001:5000", (si 5001 este libre sino 500x donde xx es el puerto libre)
+  en el service ckan, pradera va por el puerto 5001 debido a que alcala esta por el 5000 asi susesivamente para los demas hijos, hay que garantizar que los puertos no se repitan
+
+- En /config/ckan.ini  cambiar  name- por pradera- , name. por pradera. name_ por  pradera_ Y ckan.site_title = NAME(ENTIDAD) Ejemplo pradera
+
+### 2.9.2 Inicializar app
+
+```bash
+docker compose -f pradera-ckan/docker-compose.yml up -d
+```
+
+Crear la BD de ckan_default como pradera_ckan y datastore_default  pradera_datastore_default
+
+### 2.9.3 Crear BD(Pradera):
+
+
+```bash
+docker exec -it docker_postgres-db-1 \
+psql -U postgres -c "CREATE DATABASE pradera_ckan_default OWNER ckan_default;"
+```
+
+```bash
+docker exec -it docker_postgres-db-1 \
+psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE pradera_ckan_default TO ckan_default;"
+```
+
+```bash
+docker exec -it docker_postgres-db-1 \
+psql -U postgres -c "CREATE DATABASE pradera_datastore_default OWNER ckan_default ENCODING 'UTF8';"
+
+```
+
+Las configuraciones que se aplica al nuevo contenedor son exactamente lo que se ejecutaron para alcala
+
+### 2.9.4 inicializar BD y Permisos
+
+```bash
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan db init
+```
+
+```bash
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan db upgrade
+```
+
+```bash
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan db upgrade -p CkanPlugin
+```
+
+```bash
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan datastore set-permissions > ds.sql
+```
+
+```bash
+docker cp ds.sql docker_postgres-db-1:/ds.sql
+```
+
+```bash
+docker exec -it docker_postgres-db-1 psql -U ckan_default -d pradera_datastore_default -f /ds.sql
+```
+
+```bash
+docker exec -u solr -it pradera-ckan-solr-1 \
+solr create_core -c ckan
+```
+
+```bash
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan -c /srv/app/ckan.ini sysadmin add federacion_api
+```
+
+```bash
+docker exec -u ckan -it pradera-ckan-ckan-1 \
+ckan -c /srv/app/ckan.ini user token add federacion_api federacion_api_token
+
+```
+
+```bash
+sudo cp -r /usr/lib/ckan/default/src/ValleData/pradera-ckan/config/ckan.ini /mnt/storage/ckan/pradera/config/ckan.ini
+```
+
+```bash
+sudo mkdir -p /mnt/storage/solr/pradera/var_solr 
+sudo mkdir -p /mnt/storage/ckan/pradera/storage
+sudo mkdir -p /mnt/storage/ckan/pradera/pip_cache
+sudo mkdir -p /mnt/storage/ckan/pradera/site_packages
+sudo mkdir -p /mnt/storage/ckan/pradera/config
+```
+
 --- 
-## Despliegue por Kubernate
+## 2.10 Subir el contenedor ngix
+
+```bash
+docker compose -f nginx/docker-compose.yml build
+
+```
+
+```bash
+docker compose -f nginx/docker-compose.yml up -d
+
+```
+
+--- 
+# 3 Despliegue por Kubernate
 ```bash
 kind load docker-image CKAN/ckan-solr:2.10-solr9 --name ckan-cluster
 kind load docker-image CKAN/ckan:2.11.4 --name ckan-cluster
@@ -799,7 +1058,7 @@ kind load docker-image ckan/ckan-base-datapusher:0.0.21 --name ckan-cluster
 ```
 ---
 
-# 16. Configurar PostgreSQL Externo
+## 3.1. Configurar PostgreSQL Externo
 
 Obtener IP:
 
@@ -822,7 +1081,7 @@ k8s/postgres-external.yaml
 ```
 
 ---
-# 17. Despliegue Kubernetes
+## 3.2. Despliegue Kubernetes
 
 ```bash
 kubectl apply -f k8s/postgres-external.yaml
@@ -831,86 +1090,12 @@ kubectl apply -f k8s/harvest_app.yaml
 ```
 ---
 
-## 18 Creando Nuevos Hijos
-# Creando Nuevos Hijos si ya esta alcala funcional 100%
-
-Se duplica la carpeta  docker_ckan que se encuentra en nuestro proyecto y lo renombras por ejemplo si vamos a montar pradera quedaria pradera_ckan
-
-- En el archivo docker_compose.yml en la parte de volumenes cambiar name_ por pradera_ , name- por pradera- y en el puerto ports: - "5001:5000", (si 5001 este libre sino 500x donde xx es el puerto libre)
-  en el service ckan, pradera va por el puerto 5001 debido a que alcala esta por el 5000 asi susesivamente para los demas hijos, hay que garantizar que los puertos no se repitan
-
-- En /config/ckan.ini  cambiar  name- por pradera- , name. por pradera. name_ por  pradera_ Y ckan.site_title = NAME(ENTIDAD) Ejemplo pradera
-
-# Inicializar app
-
-```bash
-docker compose -f pradera-ckan/docker-compose.yml up -d
-```
-
-Crear la BD de ckan_default como pradera_ckan y datastore_default  pradera_datastore_default
-
-## Ingresar a PostgreSQL:
-
-```bash
-docker exec -it docker_postgres-db-1 psql -U postgres
-```
-
-## Listar Bases de Datos
-
-```sql
-\l
-```
-
-```bash
-docker exec -it docker_postgres-db-1 \
-psql -U postgres -c "CREATE DATABASE pradera_ckan_default OWNER ckan_default;"
-
-docker exec -it docker_postgres-db-1 \
-psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE pradera_ckan_default TO ckan_default;"
-
-docker exec -it docker_postgres-db-1 \
-psql -U postgres -c "CREATE DATABASE pradera_datastore_default OWNER ckan_default ENCODING 'UTF8';"
-
-```
-
-Inicializar las BD de Ckan en pradera dento del contenedor pradera-ckan-ckan-1 con los comandos 
 
 
-El resto de configuraciones que se ejecutaron para levantar el core de alcala se aplican para todos los  hijos es decir ejecutar migraciones, permisos datapusher, creacion usuario y tocker , etc 
-
-```bash
-docker exec -u ckan -it pradera-ckan-ckan-1 \
-ckan db init
-
-docker exec -u ckan -it pradera-ckan-ckan-1 \
-ckan db upgrade
-
-docker exec -u ckan -it pradera-ckan-ckan-1 \
-ckan db upgrade -p CkanPlugin
-
-docker exec -u ckan -it pradera-ckan-ckan-1 \
-ckan datastore set-permissions > ds.sql
-
-docker cp ds.sql docker_postgres-db-1:/ds.sql
-
-docker exec -it docker_postgres-db-1 psql -U ckan_default -d pradera_datastore_default -f /ds.sql
-
-docker exec -u solr -it pradera-ckan-solr-1 \
-solr create_core -c ckan
-
-docker exec -u ckan -it pradera-ckan-ckan-1 \
-ckan -c /srv/app/ckan.ini sysadmin add federacion_api
-
-docker exec -u ckan -it pradera-ckan-ckan-1 \
-ckan -c /srv/app/ckan.ini user token add federacion_api federacion_api_token
-
-```
----
-
-# 19. Configuraciones
+# 4. Configuraciones
 Mismo Procedimiento de los pasos anteriones, debemos  garantizar en los archivos de configuracion que apunte a los servicios de cada despliegue
 
-# Autor
+# 5 Autor
 
 Proyecto desarrollado para la federación de datos abiertos del departamento del Valle del Cauca.
 Ingeniero Julian Gonzalez y Ingenieroa Paula Quevedo
