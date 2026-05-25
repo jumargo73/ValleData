@@ -20,7 +20,7 @@ def obtener_contador_package(package_id):
         contVistas=0
         contDownload=0
 
-        log.warning("[helplers][obtener_contador_package] ejecutado")
+        #log.warning("[helplers][obtener_contador_package] ejecutado")
 
         
         #log.warning("[helplers][obtener_contador_package] package_id %s",package_id)
@@ -117,7 +117,7 @@ def obtener_contador_resource(package_id, resource_id):
 def guardar_contador(package_id, resource_id, tipo):
 
     try:
-        log.warning("[helplers][guardar_contador] ejecutado")
+        #log.warning("[helplers][guardar_contador] ejecutado")
         #log.warning("[helplers][guardar_contador] package_id %s",package_id)
         #log.warning("[helplers][guardar_contador] resource_id %s",resource_id)
         #log.warning("[helplers][guardar_contador] tipo %s",tipo)

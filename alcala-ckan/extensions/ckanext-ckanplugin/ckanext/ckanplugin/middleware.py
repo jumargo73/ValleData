@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 def registrar_analytics():
     try:
 
-        log.warning("[middleware][registrar_analytics] ejecutado")
+        #log.warning("[middleware][registrar_analytics] ejecutado")
         path = request.path
 
         # ----------------------------
@@ -24,7 +24,7 @@ def registrar_analytics():
                 dataset_id = parts[dataset_index + 1]
                 resource_id = parts[resource_index + 1]
 
-                log.warning("[analytics] Vista resource %s", resource_id)
+                #log.warning("[analytics] Vista resource %s", resource_id)
 
                 toolkit.get_action("guardar_contador")(
                     {"ignore_auth": True},
@@ -48,7 +48,7 @@ def registrar_analytics():
             dataset_id = parts[dataset_index + 1]
             resource_id = parts[resource_index + 1]
 
-            log.warning("[analytics] Download resource %s", resource_id)
+            #log.warning("[analytics] Download resource %s", resource_id)
 
             toolkit.get_action("guardar_contador")(
                 {"ignore_auth": True},
@@ -66,7 +66,7 @@ def registrar_analytics():
 
             resource_id = path.split("/")[-1].split("?")[0]
 
-            log.warning("[analytics] Download datastore %s", resource_id)
+            #log.warning("[analytics] Download datastore %s", resource_id)
 
             toolkit.get_action("guardar_contador")(
                 {"ignore_auth": True},

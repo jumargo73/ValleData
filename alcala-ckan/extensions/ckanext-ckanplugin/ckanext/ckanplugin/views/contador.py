@@ -15,7 +15,7 @@ contador = Blueprint(
 @contador.route('/dataset/<dataset>/resource/<resource_id>/download/<filename>')
 def resource_download(dataset, resource_id, filename):
 
-    log.info("[views][contador][resource_download] ejecutado")
+    #log.info("[views][contador][resource_download] ejecutado")
 
     # 1. Ejecuta tu lógica de guardado de forma segura
     try:

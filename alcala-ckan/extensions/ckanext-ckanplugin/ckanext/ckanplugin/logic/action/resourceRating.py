@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 def resource_rating_set(context, data_dict):
 
     try:
-        log.warning("[action][resource_rating_set] ejecutado")
+        #log.warning("[action][resource_rating_set] ejecutado")
         tk.check_access('resource_rating_set', context, data_dict)
 
         resource_id = data_dict.get('resource_id')
@@ -76,7 +76,7 @@ def resource_rating_get(context, data_dict):
 
     try:
 
-        log.warning("[action][resource_rating_get] ejecutado")
+        #log.warning("[action][resource_rating_get] ejecutado")
 
         tk.check_access('resource_rating_get', context, data_dict)
 

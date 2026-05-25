@@ -8,20 +8,23 @@ import logging
 from ckan.model import Session
 from ckanext.ckanplugin.model.contador import Contador
 
+
+log = logging.getLogger(__name__)
+
 def guardar_contador(package_id, resource_id, tipo):
 
     try:
-        log.warning("[helplers][guardar_contador] ejecutado")
-        log.warning("[helplers][guardar_contador] package_id %s",package_id)
-        log.warning("[helplers][guardar_contador] resource_id %s",resource_id)
+        #log.warning("[helplers][guardar_contador] ejecutado")
+        #log.warning("[helplers][guardar_contador] package_id %s",package_id)
+        #log.warning("[helplers][guardar_contador] resource_id %s",resource_id)
         
         registro = Session.query(Contador).filter(           
             Contador.package_Id == package_id,
             Contador.source_Id == resource_id            
         ).first()
 
-        log.warning("[helplers][guardar_contador] registro %s",registro)
-        log.warning("[helplers][guardar_contador] tipo %s",tipo)   
+        #log.warning("[helplers][guardar_contador] registro %s",registro)
+        #log.warning("[helplers][guardar_contador] tipo %s",tipo)   
 
         if not registro:
            
@@ -46,10 +49,10 @@ def guardar_contador(package_id, resource_id, tipo):
                 registro.contDownload += 1
             #session.add(registro)
         
-        log.warning("[helplers][guardar_contador] registro despues de contar package_Id %s",registro.package_Id) 
-        log.warning("[helplers][guardar_contador] registro despues de contar source_Id %s",registro.source_Id)   
-        log.warning("[helplers][guardar_contador] registro despues de contar contVistas %s",registro.contVistas)   
-        log.warning("[helplers][guardar_contador] registro despues de contar contDownload %s",registro.contDownload)      
+        #log.warning("[helplers][guardar_contador] registro despues de contar package_Id %s",registro.package_Id) 
+        #log.warning("[helplers][guardar_contador] registro despues de contar source_Id %s",registro.source_Id)   
+        #log.warning("[helplers][guardar_contador] registro despues de contar contVistas %s",registro.contVistas)   
+        #log.warning("[helplers][guardar_contador] registro despues de contar contDownload %s",registro.contDownload)      
         
         Session.commit()  
         return True

@@ -36,8 +36,8 @@ class Contador(BaseModel):
         self.contVistas = contVistas
         self.contDownload = contDownload
         
-        log.warning("[Model][Contador][__init__] package_Id %s",self.package_Id)
-        log.warning("[Model][Contador][__init__] source_Id %s",self.source_Id) 
-        log.warning("[Model][Contador][__init__] contVistas %s",self.contVistas)
-        log.warning("[Model][Contador][__init__] contDownload %s",self.contDownload)  
+        #log.warning("[Model][Contador][__init__] package_Id %s",self.package_Id)
+        #log.warning("[Model][Contador][__init__] source_Id %s",self.source_Id) 
+        #log.warning("[Model][Contador][__init__] contVistas %s",self.contVistas)
+        #log.warning("[Model][Contador][__init__] contDownload %s",self.contDownload)  
         

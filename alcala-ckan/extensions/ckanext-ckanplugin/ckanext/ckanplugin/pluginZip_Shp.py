@@ -23,11 +23,11 @@ log = logging.getLogger(__name__)
 class ApiZipShpToGeojsonView(SingletonPlugin):
 
     implements(IBlueprint)
-    log.info("[pluginZip_Shp][ApiZipShpToGeojsonView] ejecutado")
+    #log.info("[pluginZip_Shp][ApiZipShpToGeojsonView] ejecutado")
 
     def get_ckan_config(self):
 
-        log.info("[convert_job][get_ckan_config] ejecutado")
+        #log.info("[convert_job][get_ckan_config] ejecutado")
         
         
         # Ruta a tu production.ini
@@ -50,10 +50,10 @@ class ApiZipShpToGeojsonView(SingletonPlugin):
 
         #api_key = os.environ.get("CKAN_API_KEY")  # mejor manejarlo como variable de entorno
 
-        log.info("[get_ckan_config] site_url: %s", site_url)
-        log.info("[get_ckan_config] api_key: %s", api_key)
-        log.info("[get_ckan_config] storage_path: %s", storage_path)
-        log.info("[get_ckan_config] ssl_cert: %s", ssl_cert)
+        #log.info("[get_ckan_config] site_url: %s", site_url)
+        #log.info("[get_ckan_config] api_key: %s", api_key)
+        #log.info("[get_ckan_config] storage_path: %s", storage_path)
+        #log.info("[get_ckan_config] ssl_cert: %s", ssl_cert)
         
         return site_url, api_key,storage_path,ssl_cert
 
@@ -62,7 +62,7 @@ class ApiZipShpToGeojsonView(SingletonPlugin):
 
         ckan_shp_geojson_bp = Blueprint("Shp_GeoJson", __name__)
 
-        log.info("[ApiZipShpToGeojsonView][get_blueprint][Shp_GeoJson] ejecutado") 
+        #log.info("[ApiZipShpToGeojsonView][get_blueprint][Shp_GeoJson] ejecutado") 
 
         @ckan_shp_geojson_bp.route("/ckan/shp_to_geojson")
         def shp_to_geojson():
@@ -70,7 +70,7 @@ class ApiZipShpToGeojsonView(SingletonPlugin):
             organizations=Zip_Shp_JSONConverter.listar_organizaciones()
             datasets=Zip_Shp_JSONConverter.listar_dataset()
 
-            log.info("[ApiZipShpToGeojsonView] shp_to_geojson ejecutado") 
+            #log.info("[ApiZipShpToGeojsonView] shp_to_geojson ejecutado") 
             return toolkit.render('convertSHPToGeoJSOB.html',
                                     {
                                         'csrf_field': h.csrf_input(),
@@ -83,16 +83,16 @@ class ApiZipShpToGeojsonView(SingletonPlugin):
         @ckan_shp_geojson_bp.route("/ckan/shp_to_geojson/convert",methods=['POST'])
         def convert_shp_geojson():
 
-            log.info("[ApiZipShpToGeojsonView][convert_shp_geojson]  ejecutado") 
+            #log.info("[ApiZipShpToGeojsonView][convert_shp_geojson]  ejecutado") 
             
             archivo = toolkit.request.files.get('upload')  
             package_id=toolkit.request.form.get('dataset_org') 
             owner_org=toolkit.request.form.get('owner_org') 
             isEvent=toolkit.request.form.get('owner_org') or False
 
-            log.info("[ApiZipShpToGeojsonView][convert_shp_geojson] archivo=%s",archivo) 
-            log.info("[ApiZipShpToGeojsonView][convert_shp_geojson] package_id=%s",package_id) 
-            log.info("[ApiZipShpToGeojsonView][convert_shp_geojson] owner_org=%s",owner_org) 
+            #$log.info("[ApiZipShpToGeojsonView][convert_shp_geojson] archivo=%s",archivo) 
+            #log.info("[ApiZipShpToGeojsonView][convert_shp_geojson] package_id=%s",package_id) 
+            #log.info("[ApiZipShpToGeojsonView][convert_shp_geojson] owner_org=%s",owner_org) 
             site_url, api_key,storage_path,ssl_cert = self.get_ckan_config()
 
             # Guardar archivo en /tmp
@@ -136,13 +136,13 @@ class ApiZipShpToGeojsonView(SingletonPlugin):
 class ApiZipShpToGeojson(SingletonPlugin):
                     
     implements(IResourceController)
-    log.info("[pluginZip_Shp][ApiZipShpToGeojson] ejecutado")
+    #log.info("[pluginZip_Shp][ApiZipShpToGeojson] ejecutado")
 
     def before_resource_create(self,context: Context, resource: dict[str, Any]):
         pass
 
     def after_resource_create(self,context: Context, resource: dict[str, Any]):
-        log.info("[pluginZip_Shp][ApiZipShpToGeojson][after_resource_create] ejecutado")
+        #log.info("[pluginZip_Shp][ApiZipShpToGeojson][after_resource_create] ejecutado")
         isEvent=False
         # 1. Verificar si es ZIP
         format = resource.get('format', '').lower()
@@ -215,7 +215,7 @@ class ApiZipShpToGeojson(SingletonPlugin):
         pass
 
     def after_resource_update(self, context, resource):
-        log.warning("[CSVtoGeoJSONPlugin] after_resource_update ejecutado")
+        #log.warning("[CSVtoGeoJSONPlugin] after_resource_update ejecutado")
         
         # Procesar solo CSV
         if resource.get('format', '').lower() == 'csv':
@@ -231,10 +231,10 @@ class ApiZipShpToGeojson(SingletonPlugin):
             )
 
             if geojson_resource:
-                log.warning("[CSVtoGeoJSONPlugin] GeoJSON ya existe, será actualizado (ID: %s)", geojson_resource['id'])
+                #log.warning("[CSVtoGeoJSONPlugin] GeoJSON ya existe, será actualizado (ID: %s)", geojson_resource['id'])
                 GeoJSONConverter.convertir_csv_geojson(resource['id'], geojson_resource['id'])  # Pasar ID para update
             else:
-                log.warning("[CSVtoGeoJSONPlugin] No hay GeoJSON, creando nuevo")
+                #log.warning("[CSVtoGeoJSONPlugin] No hay GeoJSON, creando nuevo")
                 GeoJSONConverter.convertir_csv_geojson(resource['id'])
 
 

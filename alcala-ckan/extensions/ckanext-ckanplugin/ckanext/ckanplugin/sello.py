@@ -27,7 +27,7 @@ class SelloExcelenciaView(SingletonPlugin):
     implements(IBlueprint)
    
     
-    log.info("[sello][SelloExcelenciaView] Cargado con Exito")    
+    #log.info("[sello][SelloExcelenciaView] Cargado con Exito")    
     
     def get_blueprint(self):    
         
@@ -138,7 +138,7 @@ class SelloExcelenciaView(SingletonPlugin):
         def sello_edit(id):
 
             
-            log.info("[SelloExcelenciaView][sello_edit] Ejecutado") 
+            #log.info("[SelloExcelenciaView][sello_edit] Ejecutado") 
            
             # 🔹 Log completo de la lista sellos
             #log.info("[SelloExcelenciaView] sello_edit id: %s", id)
@@ -200,7 +200,7 @@ class SelloExcelenciaView(SingletonPlugin):
         @sello_bp.route('/sello/update/<id>', methods=['POST'])   
         def update_sello_resource(id):
 
-            log.info("[SelloExcelenciaView][update_sello_resource] Ejecutado") 
+            #log.info("[SelloExcelenciaView][update_sello_resource] Ejecutado") 
 
             context = {'model': model, 'session': model.Session, 'user': toolkit.c.user}
             # 1️⃣ Recibir los textos
@@ -274,7 +274,7 @@ class SelloExcelenciaView(SingletonPlugin):
         @sello_bp.route('/sello/delete/<id>', methods=['POST'])
         def sello_delete(id):
 
-            log.info("[SelloExcelenciaView][sello_delete] ejecutado")
+            #log.info("[SelloExcelenciaView][sello_delete] ejecutado")
 
             context = {
                 "model": model,
@@ -301,7 +301,7 @@ class SelloExcelenciaView(SingletonPlugin):
     
             try:
                 
-                log.info("[SelloExcelenciaView][new_sello_resource] ejecutado")
+                #log.info("[SelloExcelenciaView][new_sello_resource] ejecutado")
                 
                 # Obtener el dataset
                 package = toolkit.get_action('package_show')(
@@ -400,7 +400,7 @@ class SelloExcelenciaView(SingletonPlugin):
         @sello_bp.app_context_processor
         def inject_sello_extras():
 
-            log.info("[SelloExcelenciaView][injenject_sello_extras]   Ejecutado")
+            #log.info("[SelloExcelenciaView][injenject_sello_extras]   Ejecutado")
            
             if request.endpoint == 'dataset.edit':
                 try:
@@ -425,7 +425,7 @@ class SelloExcelenciaView(SingletonPlugin):
     def get_sello(self, id,context):
 
         
-        log.info("[SelloExcelenciaView]  get_sello Ejecutado")
+        #log.info("[SelloExcelenciaView]  get_sello Ejecutado")
         
         resource = Session.query(Resource).filter(
             Resource.format.ilike('PDF'),
@@ -435,14 +435,14 @@ class SelloExcelenciaView(SingletonPlugin):
         return resource
 
     def sello_edit(self, id,context):
-        log.info("[SelloExcelenciaView]  sello_edit Ejecutado")
+        #log.info("[SelloExcelenciaView]  sello_edit Ejecutado")
         resource = toolkit.get_action('resource_show')(context, {'id': id})
         return resource
         
 
 
     def sello_delete(self, id,context):
-        log.info("[SelloExcelenciaView]  sello_delete Ejecutado")
+        #log.info("[SelloExcelenciaView]  sello_delete Ejecutado")
         resource = toolkit.get_action('resource_delete')(context, {'id': id})
         return resource
 
@@ -451,7 +451,7 @@ class SelloExcelenciaView(SingletonPlugin):
         
         
         try:
-            log.info("[SelloExcelenciaView]  save_sello_excelencia Ejecutado")
+            #log.info("[SelloExcelenciaView]  save_sello_excelencia Ejecutado")
 
             """
             Crea un recurso placeholder y luego actualiza con extras y datos reales.
@@ -561,7 +561,7 @@ class SelloExcelenciaView(SingletonPlugin):
 
         try:
 
-            log.info("[SelloExcelenciaView]  marcar_recurso_sello Ejecutado")
+            #log.info("[SelloExcelenciaView]  marcar_recurso_sello Ejecutado")
 
             # El context suele incluir al usuario (puede ser sysadmin)
             context = {
@@ -599,7 +599,7 @@ class SelloExcelenciaView(SingletonPlugin):
   
                 # Sumar 1 año
                 fecha_vencimiento = (fecha_dt + relativedelta(years=1)).date()
-                log.info("[SelloExcelenciaView] fecha_obtencion: %s → fecha_vencimiento: %s", fecha_dt.date(), fecha_vencimiento)
+                #log.info("[SelloExcelenciaView] fecha_obtencion: %s → fecha_vencimiento: %s", fecha_dt.date(), fecha_vencimiento)
             except Exception as e:
                 log.error(">>> ERROR calculando fecha_vencimiento: %s", e)
 
@@ -649,7 +649,7 @@ class SelloExcelenciaView(SingletonPlugin):
         pass
 
     def listar_organizaciones(self):
-        log.info("[SelloExcelenciaView]  listar_organizaciones Ejecutado")
+        #log.info("[SelloExcelenciaView]  listar_organizaciones Ejecutado")
         # El context suele incluir al usuario (puede ser sysadmin)
         context = {
             'model': model,
@@ -675,14 +675,14 @@ class SelloExcelenciaView(SingletonPlugin):
 class SelloExcelenciaAPI(SingletonPlugin):
 
     implements(IPackageController)
-    log.info("[pluginZip_Shp][ApiZipShpToGeojson] ejecutado")
+    #log.info("[pluginZip_Shp][ApiZipShpToGeojson] ejecutado")
 
     def after_dataset_create(self,context: Context,  pkg_dict: dict[str, Any]):        
         return pkg_dict
     
     def after_dataset_update(self,context: Context, pkg_dict: dict[str, Any]):
 
-        log.info("[CSVtoGeoJSONPlugin] after_dataset_update ejecutado")
+        #log.info("[CSVtoGeoJSONPlugin] after_dataset_update ejecutado")
 
         if context.get('skip_sello_excelencia'):
             return    

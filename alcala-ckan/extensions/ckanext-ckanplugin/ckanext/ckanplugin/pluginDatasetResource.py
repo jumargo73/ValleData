@@ -28,7 +28,7 @@ class CSVtoGeoJSONDatasetResourcePlugin(SingletonPlugin):
 
    
     
-    log.info("[CSVtoGeoJSONPlugin] CSVtoGeoJSONDatasetResourcePlugin Cargado con Exito")
+    #log.info("[CSVtoGeoJSONPlugin] CSVtoGeoJSONDatasetResourcePlugin Cargado con Exito")
     
     
     # --- resource_create ---        
@@ -55,7 +55,7 @@ class CSVtoGeoJSONDatasetResourcePlugin(SingletonPlugin):
     
     def after_dataset_update(self,context: Context, pkg_dict: dict[str, Any]):
 
-        log.info("[CSVtoGeoJSONPlugin] after_dataset_update ejecutado")
+        #log.info("[CSVtoGeoJSONPlugin] after_dataset_update ejecutado")
         pass
 
     # --- resource_delete ---
@@ -91,11 +91,11 @@ class CSVtoGeoJSONDatasetResourcePlugin(SingletonPlugin):
         
     # --- dataset_search ---    
     def before_dataset_search(self,search_params: dict[str, Any]):
-        log.info("[CSVtoGeoJSONPlugin] before_dataset_search ejecutado")
+        #log.info("[CSVtoGeoJSONPlugin] before_dataset_search ejecutado")
         return search_params    
     
     def before_resource_search(self,search_params: dict[str, Any]):
-        log.info("[CSVtoGeoJSONPlugin] before_resource_search ejecutado")
+        #log.info("[CSVtoGeoJSONPlugin] before_resource_search ejecutado")
         return search_params  
 
     def after_dataset_search(self,search_results: dict[str, Any], search_params: dict[str, Any]):

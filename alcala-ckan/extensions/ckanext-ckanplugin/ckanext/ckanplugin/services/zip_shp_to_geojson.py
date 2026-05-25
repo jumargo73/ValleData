@@ -15,7 +15,7 @@ class Zip_Shp_JSONConverter:
     @staticmethod
     def zip_shp_to_geojson(file_storage, output_path=None,dataset_name=None):
 
-        log.info("[Zip_Shp_JSONConverter] zip_shp_to_geojson ejecutado")
+        #log.info("[Zip_Shp_JSONConverter] zip_shp_to_geojson ejecutado")
         """
         Convierte un shapefile dentro de un ZIP (recibido como FileStorage) a GeoJSON.
         """
@@ -161,13 +161,13 @@ class Zip_Shp_JSONConverter:
             return package  # o `output_path` si prefieres solo la ruta
 
         except Exception as e:
-            log.info("[Zip_Shp_JSONConverter] Error: %s",e)           
+            log.error("[Zip_Shp_JSONConverter] Error: %s",e)           
             return  False
     
     @classmethod
     def listar_dataset(self):
         
-        log.info("[Zip_Shp_JSONConverter] listar_dataset ejecutado")
+        #log.info("[Zip_Shp_JSONConverter] listar_dataset ejecutado")
         # El context suele incluir al usuario (puede ser sysadmin)
         context = {
             'model': model,
@@ -190,7 +190,7 @@ class Zip_Shp_JSONConverter:
     
     @classmethod
     def listar_organizaciones(self):
-        log.info("[Zip_Shp_JSONConverter] listar_organizaciones ejecutado")
+        #log.info("[Zip_Shp_JSONConverter] listar_organizaciones ejecutado")
         # El context suele incluir al usuario (puede ser sysadmin)
         context = {
             'model': model,

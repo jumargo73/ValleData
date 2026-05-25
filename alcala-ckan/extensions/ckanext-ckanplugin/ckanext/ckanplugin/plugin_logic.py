@@ -48,7 +48,7 @@ class CkanPluginLogin(DefaultDatasetForm,p.SingletonPlugin):
     p.implements(IClick)
    
 
-    log.info("[ckanplugin][CkanPluginLogin] Cargado con Exito")
+    #log.info("[ckanplugin][CkanPluginLogin] Cargado con Exito")
    
     
     def get_blueprint(self):
@@ -74,13 +74,13 @@ class CkanPluginLogin(DefaultDatasetForm,p.SingletonPlugin):
                         if not getattr(g, download_flag, False):
                             setattr(g, download_flag, True)
                             
-                            log.info(f"[contador] ACCIÓN DETECTADA: Descarga Datastore Dump de {resource_id}")
+                            #log.info(f"[contador] ACCIÓN DETECTADA: Descarga Datastore Dump de {resource_id}")
                             try:
                                 resource = model_ckan.Resource.get(resource_id)
                                 
                                 if resource:
                                     package_id = resource.package_id
-                                    log.info(f"[contador] Relación encontrada: Recurso {resource_id} -> Paquete {package_id}")
+                                    #log.info(f"[contador] Relación encontrada: Recurso {resource_id} -> Paquete {package_id}")
                                     
                                     # Ejecutamos tu función helper 100% funcional con los datos completos
                                     helpers.guardar_contador(package_id, resource_id, 'Download')
@@ -105,7 +105,7 @@ class CkanPluginLogin(DefaultDatasetForm,p.SingletonPlugin):
         
     def update_config(self, config):
 
-        log.warning("[CkanPlugin][update_config] ejecutado")
+        #log.warning("[CkanPlugin][update_config] ejecutado")
 
         if not getattr(config, '_ckanplugin_loaded', False):
             tk.add_template_directory(config, 'templates')                          
@@ -120,11 +120,10 @@ class CkanPluginLogin(DefaultDatasetForm,p.SingletonPlugin):
         return {}
 
     def package_types(self):
-        log.warning("[CkanPlugin][package_types] ejecutado") 
+        #log.warning("[CkanPlugin][package_types] ejecutado") 
         return ['reporte_dataset']
 
     def is_fallback(self):
-        print("🔥 is_fallback ejecutado")
         return True    
 
     def create_package_schema(self):
@@ -228,31 +227,31 @@ class CkanPluginPackageResourcePlugin(p.SingletonPlugin):
     p.implements(p.IDatasetForm)
    
     
-    log.info("[ckanplugin][CkanPluginPackageResourcePlugin] Cargado con Exito")
+    #log.info("[ckanplugin][CkanPluginPackageResourcePlugin] Cargado con Exito")
     
     
     # --- resource_create ---        
     def before_resource_create(self,context: Context, resource: dict[str, Any]):
-        log.info("[ckanplugin][CkanPluginPackageResourcePlugin][before_resource_create] ¡Evento capturado!")
+        #log.info("[ckanplugin][CkanPluginPackageResourcePlugin][before_resource_create] ¡Evento capturado!")
         pass
 
     def after_resource_create(self,context: Context, resource: dict[str, Any]):
-        log.info("[ckanplugin][CkanPluginPackageResourcePlugin][after_resource_create] ¡Evento capturado!")
+        #log.info("[ckanplugin][CkanPluginPackageResourcePlugin][after_resource_create] ¡Evento capturado!")
         pass
         
     # --- dataset_create ---     
     def after_dataset_create(self,context: Context,  pkg_dict: dict[str, Any]):
-        log.info("[ckanplugin][CkanPluginPackageResourcePlugin][after_dataset_create] ¡Evento capturado!")
+        #log.info("[ckanplugin][CkanPluginPackageResourcePlugin][after_dataset_create] ¡Evento capturado!")
         return pkg_dict
     
     # --- resource_update ---    
 
     def before_resource_update(self,context: Context, current: dict[str, Any], resource: dict[str, Any]):
-        log.info("[ckanplugin][CkanPluginPackageResourcePlugin][before_resource_update] ¡Evento capturado!")
+        #log.info("[ckanplugin][CkanPluginPackageResourcePlugin][before_resource_update] ¡Evento capturado!")
         pass
 
     def after_resource_update(self, context, resource):
-        log.info("[ckanplugin][CkanPluginPackageResourcePlugin][after_resource_update] ¡Evento capturado!")
+        #log.info("[ckanplugin][CkanPluginPackageResourcePlugin][after_resource_update] ¡Evento capturado!")
         pass
     
     # --- dataset_update ---
@@ -263,11 +262,11 @@ class CkanPluginPackageResourcePlugin(p.SingletonPlugin):
     # --- resource_delete ---
         
     def before_resource_delete(self,context: Context, resource: dict[str, Any], resources: list[dict[str, Any]]):
-        log.info("[ckanplugin][CkanPluginPackageResourcePlugin][before_resource_delete] ¡Evento capturado!")
+        #log.info("[ckanplugin][CkanPluginPackageResourcePlugin][before_resource_delete] ¡Evento capturado!")
         pass
 
     def after_resource_delete(self,context: Context, resources: list[dict[str, Any]]):
-        log.info("[ckanplugin][CkanPluginPackageResourcePlugin][after_resource_delete] ¡Evento capturado!")
+        #log.info("[ckanplugin][CkanPluginPackageResourcePlugin][after_resource_delete] ¡Evento capturado!")
         pass
 
     # --- dataset_delete ---
@@ -277,7 +276,7 @@ class CkanPluginPackageResourcePlugin(p.SingletonPlugin):
     # --- resource_show ---
     
     def before_resource_show(self,resource_dict: dict[str, Any]):
-        log.info("[ckanplugin][CkanPluginPackageResourcePlugin][before_resource_show] ¡Evento capturado!")
+        #log.info("[ckanplugin][CkanPluginPackageResourcePlugin][before_resource_show] ¡Evento capturado!")
         
         try:
             # Extraemos los IDs necesarios del diccionario del recurso
@@ -314,7 +313,7 @@ class CkanPluginPackageResourcePlugin(p.SingletonPlugin):
         
     
     def after_resource_search(self,context: Context,data_dict: dict[str, Any], search_params: dict[str, Any]):
-        log.info("[ckanplugin][CkanPluginPackageResourcePlugin][after_resource_search] ¡Evento capturado!")
+        #log.info("[ckanplugin][CkanPluginPackageResourcePlugin][after_resource_search] ¡Evento capturado!")
         return data_dict
        
     
@@ -338,12 +337,13 @@ class CkanPluginPackageResourcePlugin(p.SingletonPlugin):
         
     # --- READ ---      
     def read(self,entity: model_ckan.Package):
-        log.info("[ckanplugin][CkanPluginPackageResourcePlugin][read] ¡Evento capturado!")
+        #log.info("[ckanplugin][CkanPluginPackageResourcePlugin][read] ¡Evento capturado!")
         pass
 
 
     def before_resource_view(self, *args, **kwargs):
-        log.info("[ckanplugin][contador][before_resource_view] Vista de recurso detectada")
+        pass
+        #log.info("[ckanplugin][contador][before_resource_view] Vista de recurso detectada")
         
     def before_resource_show(self, *args, **kwargs):
         # 1. Extraemos el diccionario del recurso de forma segura
@@ -376,7 +376,7 @@ class CkanPluginPackageResourcePlugin(p.SingletonPlugin):
                 if resource_id not in g.recursos_vistos:
                     g.recursos_vistos.append(resource_id) # Candado para las múltiples ejecuciones de CKAN
                     
-                    log.info(f"[contador] ACCIÓN DETECTADA (ÚNICA): Carga de página real del recurso {resource_id}")
+                    #log.info(f"[contador] ACCIÓN DETECTADA (ÚNICA): Carga de página real del recurso {resource_id}")
                     try:
                         helpers.guardar_contador(package_id, resource_id, 'View')
                     except Exception as e:
@@ -387,7 +387,7 @@ class CkanPluginPackageResourcePlugin(p.SingletonPlugin):
                 if resource_id not in g.recursos_descargados:
                     g.recursos_descargados.append(resource_id) # Candado para las múltiples ejecuciones de CKAN
                     
-                    log.info(f"[contador] ACCIÓN DETECTADA (ÚNICA): Descarga real del recurso {resource_id}")
+                    #log.info(f"[contador] ACCIÓN DETECTADA (ÚNICA): Descarga real del recurso {resource_id}")
                     try:
                         # NOTA: Cambiado a 'Download' para diferenciar la acción en tu base de datos si aplica
                         helpers.guardar_contador(package_id, resource_id, 'Download')
@@ -398,7 +398,7 @@ class CkanPluginPackageResourcePlugin(p.SingletonPlugin):
         return res_dict
 
     def before_dataset_view(self, *args, **kwargs):
-        log.info("[ckanplugin] Entrando a before_dataset_view con *args")       
+        #log.info("[ckanplugin] Entrando a before_dataset_view con *args")       
     
         # 1. Extraemos el data_dict de forma segura sin importar de dónde venga la llamada
         data_dict = None

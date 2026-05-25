@@ -20,7 +20,7 @@ class ODataView(SingletonPlugin):
     
     
 
-    log.info("[ApiODataPluginView] Cargado con Exito")
+    #log.info("[ApiODataPluginView] Cargado con Exito")
 
    
 
@@ -28,7 +28,7 @@ class ODataView(SingletonPlugin):
     def get_blueprint(self):
 
         ckan_proxy_bp = Blueprint("ckan_proxy", __name__)
-        log.info("[ApiODataPluginView][get_blueprint][ckan_proxy] ejecutado")
+        #log.info("[ApiODataPluginView][get_blueprint][ckan_proxy] ejecutado")
 
 
         @ckan_proxy_bp.route("/ckan-proxy/<resource_id>/query.json")
@@ -36,7 +36,7 @@ class ODataView(SingletonPlugin):
             """
             Devuelve tal cual la respuesta del API nativo de CKAN para que PowerBI lo consuma.
             """
-            log.info("[ApiODataPluginView][proxy_datastore] ejecutado")
+            #log.info("[ApiODataPluginView][proxy_datastore] ejecutado")
 
             limit = request.args.get("limit", 50000)
             offset = request.args.get("offset", 0)

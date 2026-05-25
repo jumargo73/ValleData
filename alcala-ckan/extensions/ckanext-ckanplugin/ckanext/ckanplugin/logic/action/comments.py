@@ -17,9 +17,9 @@ def comments_get(context, data_dict):
         
         # 1. Obtener los parámetros enviados en el data_dict
         dataset_id = data_dict.get('dataset_id')
-        log.warning(
+        '''log.warning(
             f"[Action][comments_get] ejecutado id: {dataset_id}"
-        )
+        )'''
 
         if not dataset_id:
             return {'success': False, 'error': 'Falta el dataset_id'}
@@ -31,9 +31,9 @@ def comments_get(context, data_dict):
 
         ultimo_comentario = query.first()
 
-        log.warning(
+        '''log.warning(
             f"[Action][comments_get][ultimo_comentario]: {ultimo_comentario}"
-        )
+        )'''
 
         # 3. Validar si se encontró el registro
         if not ultimo_comentario:
@@ -69,16 +69,16 @@ def comments_get(context, data_dict):
 def comments_set(context, data_dict):
     
     try:
-        log.warning("[action][resource_rating_set] ejecutado")
+        #log.warning("[action][resource_rating_set] ejecutado")
         tk.check_access('resource_rating_set', context, data_dict)
 
         resource_id = data_dict.get('dataset_id')
         comment = data_dict.get('comment_text')
         user_id = data_dict.get('user_id')
     
-        log.warning("[action][comments_set] resource_id %s",resource_id)
-        log.warning("[action][comments_set] rating %s",comment)
-        log.warning("[action][comments_set] user_id %s",user_id)
+        #log.warning("[action][comments_set] resource_id %s",resource_id)
+        #log.warning("[action][comments_set] rating %s",comment)
+        #log.warning("[action][comments_set] user_id %s",user_id)
 
         if not resource_id:
             raise tk.ValidationError({'resource_id': 'Missing resource_id'})
@@ -101,7 +101,7 @@ def comments_set(context, data_dict):
             model.Session.add(new_comments)            
 
             resutl=model.Session.commit()
-            log.warning("[action][comments_set] store resutl %s",resutl)
+            #log.warning("[action][comments_set] store resutl %s",resutl)
 
             return {'success': True}
     except Exception as e:

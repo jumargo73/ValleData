@@ -43,7 +43,7 @@ class GeoJSONConverter:
     @staticmethod
     def detectar_columnas_coord(columnas):
         
-        log.info("[GeoJSONConverter] detectar_columnas_coord ejecutado")
+        #log.info("[GeoJSONConverter] detectar_columnas_coord ejecutado")
         
         lat_variants = ['lat', 'latitude', 'latitud','Latitud']
         lon_variants = ['lon', 'lng', 'longitud', 'longitude','Longitud']
@@ -54,9 +54,9 @@ class GeoJSONConverter:
     @staticmethod
     def convertir_a_geojson(self,records, lat_col, lon_col):
         
-        log.info("[GeoJSONConverter][convertir_a_geojson] ejecutado")
-        log.info(f"[GeoJSONConverter][convertir_a_geojson][lat_col] ={lat_col}")
-        log.info(f"[GeoJSONConverter][convertir_a_geojson][lon_col]={lon_col}")
+        #log.info("[GeoJSONConverter][convertir_a_geojson] ejecutado")
+        #log.info(f"[GeoJSONConverter][convertir_a_geojson][lat_col] ={lat_col}")
+        #log.info(f"[GeoJSONConverter][convertir_a_geojson][lon_col]={lon_col}")
         features = []
         for row in records:
             try:
@@ -69,7 +69,7 @@ class GeoJSONConverter:
                     "geometry": mapping(Point(lon, lat)),
                     "properties": row
                 })
-                log.warning("[GeoJSONConverter] convertir_a_geojson features detectar_columnas_coord %s",features)
+                #log.warning("[GeoJSONConverter] convertir_a_geojson features detectar_columnas_coord %s",features)
             except (ValueError, TypeError):
                 log.error("[GeoJSONConverter] convertir_a_geojson ValueError detectar_columnas_coord %s",ValueError)
                 log.error("[GeoJSONConverter] convertir_a_geojson TypeError detectar_columnas_coord %s",TypeError)
@@ -88,7 +88,7 @@ class GeoJSONConverter:
         si no, crea uno nuevo.
         """
         try:
-            log.info("[GeoJSONConverter][convertir_csv_geojson] ejecutado")
+            #log.info("[GeoJSONConverter][convertir_csv_geojson] ejecutado")
             #log.info("[CSVtoGeoJSONPlugin] convertir_csv_geojson ejecutado para recurso CSV %s", resource_id)
 
             context = {
@@ -113,7 +113,7 @@ class GeoJSONConverter:
             #log.info("[CSVtoGeoJSONPlugin] convertir_csv_geojson data Encontrado: %s", data)
             records = data.get('records', [])
             if not records:
-                log.error("[CSVtoGeoJSONPlugin] convertir_csv_geojson Sin datos en DataStore para %s", resource_id)
+                log.warning("[CSVtoGeoJSONPlugin] convertir_csv_geojson Sin datos en DataStore para %s", resource_id)
                 return
 
             # 3. Detectar columnas lat/lon
@@ -149,7 +149,7 @@ class GeoJSONConverter:
             # 6. Crear o actualizar recurso GeoJSON
             if geojson_id:
                 # Actualizar recurso existente
-                log.info("[CSVtoGeoJSONPlugin] convertir_csv_geojson Actualizando recurso GeoJSON existente ID=%s", geojson_id)
+                #log.info("[CSVtoGeoJSONPlugin] convertir_csv_geojson Actualizando recurso GeoJSON existente ID=%s", geojson_id)
                 update_data = {
                     'id': geojson_id,
                     'format': 'GeoJSON',
@@ -161,11 +161,11 @@ class GeoJSONConverter:
                 }
                 #log.warning("[GeoJSONConverter][convertir_csv_geojson] update_data = %s", update_data)   
                 response =  get_action('resource_update')(context, update_data)
-                log.warning("[GeoJSONConverter][convertir_csv_geojson] response  = %s", response )   
+                #log.warning("[GeoJSONConverter][convertir_csv_geojson] response  = %s", response )   
                 
             else:
                 # Crear recurso nuevo
-                log.info("[CSVtoGeoJSONPlugin] convertir_csv_geojson Creando nuevo recurso GeoJSON para paquete %s", package_id)
+                #log.info("[CSVtoGeoJSONPlugin] convertir_csv_geojson Creando nuevo recurso GeoJSON para paquete %s", package_id)
                 create_data = {
                     'package_id': package_id,
                     'name': f"{base_name} (GeoJSON)",

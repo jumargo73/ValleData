@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 class FixDateFormatPlugin(SingletonPlugin):
     implements(IResourceController)
 
-    log.info("[pluginFixDateFormatPlugin] FixDateFormatPlugin Cargado con Exito")
+    #log.info("[pluginFixDateFormatPlugin] FixDateFormatPlugin Cargado con Exito")
     
     
     # --- resource_create ---        
@@ -26,7 +26,7 @@ class FixDateFormatPlugin(SingletonPlugin):
 
     def after_resource_update(self, context, resource):
 
-        log.info("[pluginFixDateFormatPlugin][after_resource_update] ejecutado") 
+        #log.info("[pluginFixDateFormatPlugin][after_resource_update] ejecutado") 
         connection = context['model'].Session.connection()
         query = sa.text("""
             UPDATE resource_view

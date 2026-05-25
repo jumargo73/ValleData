@@ -258,7 +258,7 @@ class DataJsonView(SingletonPlugin):
                             tags=package_response.get('tags') 
                             resources=package_response.get('resources') 
 
-                            log.warning(f"[PluginApi][powerBI] resources: {resources}")
+                            #log.warning(f"[PluginApi][powerBI] resources: {resources}")
 
                             # Filtrar solo CSV con datastore activo
                             csv_resources = [
@@ -267,7 +267,7 @@ class DataJsonView(SingletonPlugin):
                                 and r.get("datastore_active")
                             ]
 
-                            log.warning(f"[PluginApi][powerBI] csv_resources: {csv_resources}")
+                            #log.warning(f"[PluginApi][powerBI] csv_resources: {csv_resources}")
 
                             if not csv_resources:
                                 continue
@@ -279,7 +279,7 @@ class DataJsonView(SingletonPlugin):
                                 key=lambda r: datetime.fromisoformat(r["created"])
                             )        
                             
-                            log.warning(f"[PluginApi][powerBI] latest_resource: {latest_resource}")
+                            #log.warning(f"[PluginApi][powerBI] latest_resource: {latest_resource}")
 
                             estado=None    
                             if package_response.get('private')==True:
@@ -379,7 +379,7 @@ class DataJsonView(SingletonPlugin):
 
         @bp.route('/api/3/action/dataset_huerfanos', methods=['GET'])        
         def dataset_huerfanos():
-            log.info("[data_json][dataset_huerfanos] ejecutado")
+            #log.info("[data_json][dataset_huerfanos] ejecutado")
              
             context = {'model': model, 'session': model.Session, 'ignore_auth': True, 'user': 'opendata'}
 
@@ -418,7 +418,7 @@ class DataJsonView(SingletonPlugin):
         @bp.route('/api/3/action/dashboard_stats', methods=['GET'])        
         def dashboard_stats():
 
-            log.info("[data_json][dashboard_stats] ejecutado")
+            #log.info("[data_json][dashboard_stats] ejecutado")
             
 
             # Usamos ignore_auth para que el dashboard sea público pero vea todo
@@ -479,7 +479,7 @@ class DataJsonView(SingletonPlugin):
                 'consolidado_contador_organizaciones':consolidado_contador_organizaciones,
                 'consolidado_contador_dataset':consolidado_contador_dataset
             })    
-            log.warning(f"[DataJson[dashboard_stats][data]={data}")
+            #log.warning(f"[DataJson[dashboard_stats][data]={data}")
 
             return data
             
@@ -504,7 +504,7 @@ class DataJsonView(SingletonPlugin):
 
         organizacion_limpios['Total_Datasets']=resultado['count']
 
-        log.warning(f"[DataJson[dashboard_stats][grupos_raw][data]={organizacion_limpios}")
+        #log.warning(f"[DataJson[dashboard_stats][grupos_raw][data]={organizacion_limpios}")
 
         return organizacion_limpios    
     
@@ -528,13 +528,13 @@ class DataJsonView(SingletonPlugin):
 
         grupos_limpios['Total_Datasets']=resultado['count']
 
-        log.warning(f"[DataJson[dashboard_stats][grupos_raw][data]={grupos_limpios}")
+        #log.warning(f"[DataJson[dashboard_stats][grupos_raw][data]={grupos_limpios}")
 
         return grupos_limpios
 
     def obtener_huerfanos_totales(self,context:Context,registros):
         # 'ignore_auth': True es lo que permite ver los privados sin restricciones
-        log.info("[data_json][obtener_huerfanos_totales] ejecutado")
+        #log.info("[data_json][obtener_huerfanos_totales] ejecutado")
 
         context = {'model': model, 'session': model.Session, 'ignore_auth': True, 'user': 'opendata'}
 
@@ -584,7 +584,7 @@ class DataJsonView(SingletonPlugin):
         }
         
         resultado = toolkit.get_action('package_search')(context, data_dict)
-        log.warning(f"[DataJson[dashboard_stats][contar_privados][resultado]={resultado}")
+        #log.warning(f"[DataJson[dashboard_stats][contar_privados][resultado]={resultado}")
         return resultado['count']
     
     def get_stats_formatos(self,context:Context,registros):
@@ -625,7 +625,7 @@ class DataJsonView(SingletonPlugin):
         
         total_recursos={'nombre': 'total_recursos', 'cantidad': total_recursos}
         formatos_json.append(total_recursos)
-        log.info(f"[DataJson][[dashboard_stats]][get_stats_formatos][total_recursos]={total_recursos}")
+        #log.info(f"[DataJson][[dashboard_stats]][get_stats_formatos][total_recursos]={total_recursos}")
         
         # Ordenamos de mayor a menor
         formatos_json.sort(key=lambda x: x['cantidad'], reverse=True)
@@ -641,7 +641,7 @@ class DataJsonView(SingletonPlugin):
             'fq': '+state:active'
         }
         results = toolkit.get_action('package_search')(context, search_params)
-        log.info("[data_json][get_stats_tematicas][results]",results)
+        #log.info("[data_json][get_stats_tematicas][results]",results)
         
         stats = {}
 
@@ -653,7 +653,7 @@ class DataJsonView(SingletonPlugin):
             # --- AQUÍ ESTÁ EL TRUCO ---
             # Si la lista de grupos está vacía, saltamos al siguiente dataset inmediatamente
             if not groups:
-                log.info("Saliendo de este dataset: No tiene temáticas asignadas.")
+                log.error("Saliendo de este dataset: No tiene temáticas asignadas.")
                 continue 
 
             # 2. CONTEO MANUAL (La verdad absoluta)
@@ -664,7 +664,7 @@ class DataJsonView(SingletonPlugin):
             ]
             conteo_real = len(recursos_activos)
 
-            log.info(f"Dataset: {dataset.get('name')} | Estado: {dataset.get('capacity')} | Recursos Activos: {conteo_real}")
+            #log.info(f"Dataset: {dataset.get('name')} | Estado: {dataset.get('capacity')} | Recursos Activos: {conteo_real}")
 
             for group in groups:
                 group_name = group.get('name')
@@ -701,7 +701,7 @@ class DataJsonView(SingletonPlugin):
 
         orgs = toolkit.get_action('organization_list')(context, data_dict)
 
-        log.info(f"[DataJsonView][get_consolidado_contador_organizaciones] orgs: {orgs}")
+        #log.info(f"[DataJsonView][get_consolidado_contador_organizaciones] orgs: {orgs}")
         
         for org in orgs:
 
@@ -712,13 +712,13 @@ class DataJsonView(SingletonPlugin):
                 'fq': f'+state:active AND owner_org:{org["id"]}'
             }
 
-            log.info(f"[DataJsonView][get_consolidado_contador_organizaciones]  busqueda_params: { busqueda_params}")
+            #log.info(f"[DataJsonView][get_consolidado_contador_organizaciones]  busqueda_params: { busqueda_params}")
               
             datasets = toolkit.get_action('package_search')(context,busqueda_params)
-            log.info(f"[DataJsonView][get_consolidado_contador_organizaciones] packages: {datasets['results']}")
+            #log.info(f"[DataJsonView][get_consolidado_contador_organizaciones] packages: {datasets['results']}")
             resultados_totales.append(self.consolidado_contador(datasets['results'],org["name"],None))
            
-        log.info(f"[DataJsonView][get_consolidado_contador_organizaciones] resultados_totales: {resultados_totales}")    
+        #log.info(f"[DataJsonView][get_consolidado_contador_organizaciones] resultados_totales: {resultados_totales}")    
         return resultados_totales
     
 
@@ -738,7 +738,7 @@ class DataJsonView(SingletonPlugin):
         }
 
         groups = toolkit.get_action('group_list')(context, data_dict)
-        log.info(f"[DataJsonView][get_consolidado_contador_grupos] groups: {groups}")
+        #log.info(f"[DataJsonView][get_consolidado_contador_grupos] groups: {groups}")
 
         for group in groups:
 
@@ -749,12 +749,12 @@ class DataJsonView(SingletonPlugin):
                 'fq': f'+state:active AND groups:{group["name"]}'
             }
 
-            log.info(f"[DataJsonView][get_consolidado_contador_grupos]  busqueda_params: { busqueda_params}")  
+            #log.info(f"[DataJsonView][get_consolidado_contador_grupos]  busqueda_params: { busqueda_params}")  
             datasets = toolkit.get_action('package_search')(context,busqueda_params)
-            log.info(f"[DataJsonView][get_consolidado_contador_grupos] packages: {datasets['results']}")
+            #log.info(f"[DataJsonView][get_consolidado_contador_grupos] packages: {datasets['results']}")
             resultados_totales.append(self.consolidado_contador(datasets['results'],None,group["name"]))
            
-        log.info(f"[DataJsonView][get_consolidado_contador_grupos] resultados_totales: {resultados_totales}")    
+        #log.info(f"[DataJsonView][get_consolidado_contador_grupos] resultados_totales: {resultados_totales}")    
         return resultados_totales
     
 
@@ -777,11 +777,11 @@ class DataJsonView(SingletonPlugin):
 
         resultado = toolkit.get_action('package_search')(context, data_dict)
         datasets = resultado.get('results', [])
-        log.info(f"[get_consolidado_contador_dataset] dataset: {datasets}")
+        #log.info(f"[get_consolidado_contador_dataset] dataset: {datasets}")
 
         for dataset in datasets:
-            log.info(f"[DataJsonView][get_consolidado_contador_dataset] packages: {dataset}")
-            log.info(f"[DataJsonView][get_consolidado_contador_dataset] packages: {dataset['id']}-{dataset['name']}")
+            #log.info(f"[DataJsonView][get_consolidado_contador_dataset] packages: {dataset}")
+            #log.info(f"[DataJsonView][get_consolidado_contador_dataset] packages: {dataset['id']}-{dataset['name']}")
             resultados_totales.append(self.get_consolidado_contador(dataset['id'],dataset['name']))
            
 
@@ -793,32 +793,32 @@ class DataJsonView(SingletonPlugin):
             Devuelve el consolidado de las vistas y descargas de los recursos.
         """
 
-        log.info("[DataJsonView][consolidado_contador] ejecutado")
+        #log.info("[DataJsonView][consolidado_contador] ejecutado")
     
        
         vistas=0
         descargas=0
 
-        log.info(f"[DataJsonView][consolidado_contador] packages: {packages}")
+        #log.info(f"[DataJsonView][consolidado_contador] packages: {packages}")
 
 
 
         #datasets=packages['results']
 
         for package in  packages:
-            log.info(f"[consolidado_contador] package: {package}")
+            #log.info(f"[consolidado_contador] package: {package}")
             package_id=package['id']
             rows = Session.query(Contador).filter(
                     Contador.package_Id == package_id
                 ).all()
 
-            log.info(f"[DataJsonView][consolidado_contador] contadores {rows} en Dataset {package_id}")
+            #log.info(f"[DataJsonView][consolidado_contador] contadores {rows} en Dataset {package_id}")
         
             for row in rows:
                 vistas+=row.contVistas
                 descargas+=row.contDownload
             
-        log.info(f"[DataJsonView][consolidado_contador] vistas {vistas} descargas {descargas}")
+        #log.info(f"[DataJsonView][consolidado_contador] vistas {vistas} descargas {descargas}")
         
         if org_id==None:
 
@@ -848,8 +848,8 @@ class DataJsonView(SingletonPlugin):
         str: Cadena de texto formateada como 'YYYY-MM-DDTHH:mm:ssZ'.
             Si ocurre un error o la fecha es inválida, retorna la fecha actual.
         """
-        log.info("[DataJsonView][formatear_fecha_ckan_a_iso] ejecutado")  
-        log.info(f"[DataJsonView][formatear_fecha_ckan_a_iso][fecha_raw]={fecha_raw}")  
+        #log.info("[DataJsonView][formatear_fecha_ckan_a_iso] ejecutado")  
+        #log.info(f"[DataJsonView][formatear_fecha_ckan_a_iso][fecha_raw]={fecha_raw}")  
         if not fecha_raw:
             # Fallback de seguridad: si no hay fecha, usa el tiempo actual
             return datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -967,12 +967,12 @@ class DataJsonAPI(SingletonPlugin):
                 'user':  toolkit.g.user or  toolkit.config.get('ckan.site_id')
             }
 
-            log.info(f"[DataJsonAPI][after_dataset_search] context {context}")
+            #log.info(f"[DataJsonAPI][after_dataset_search] context {context}")
             
             contadores = self.contador_get()
             
             
-            log.info(f"[DataJsonAPI][after_dataset_search] contadores {contadores}")
+            #log.info(f"[DataJsonAPI][after_dataset_search] contadores {contadores}")
 
             # 2️⃣ Optimizar acceso mapeando por resource_id
             contador_map = {c['resource_id']: c for c in contadores}
@@ -988,7 +988,7 @@ class DataJsonAPI(SingletonPlugin):
                 dataset['consolidado']=consolidado if consolidado else {}
                
 
-                log.info(f"[DataJsonAPI] after_dataset_search package['id']= {package_id} consolidado {consolidado}")
+                #log.info(f"[DataJsonAPI] after_dataset_search package['id']= {package_id} consolidado {consolidado}")
                 for resource in dataset.get('resources', []):
                     #log.info(f"[DataJsonAPI] after_dataset_search resource['id']= {resource['id']}")
                     rid = resource.get('id')
@@ -1037,7 +1037,7 @@ class DataJsonAPI(SingletonPlugin):
 
         rows = session.query(Contador).all()
 
-        log.info(f"[DataJsonAPI][contador_get] registro {rows}")
+        #log.info(f"[DataJsonAPI][contador_get] registro {rows}")
 
         return [
             {
@@ -1055,7 +1055,7 @@ class DataJsonAPI(SingletonPlugin):
             Devuelve el consolidado de las vistas y descargas de los recursos.
         """
 
-        log.info("[DataJsonAPI] get_consolidado_contador ejecutado")
+        #log.info("[DataJsonAPI] get_consolidado_contador ejecutado")
     
         session = model.Session
 
@@ -1070,10 +1070,10 @@ class DataJsonAPI(SingletonPlugin):
         for row in rows:
             vistas+=row.contVistas
             descargas+=row.contDownload
-            log.info(f"[DataJsonAPI][get_consolidado_contador] vistas {vistas} descargas {descargas}")
+            #log.info(f"[DataJsonAPI][get_consolidado_contador] vistas {vistas} descargas {descargas}")
 
         
-        log.info(f"[DataJsonAPI][get_consolidado_contador] registro {rows}")
+        #log.info(f"[DataJsonAPI][get_consolidado_contador] registro {rows}")
 
         return{
                 "visualizaciones": vistas if vistas else 0,
@@ -1164,14 +1164,14 @@ class DataJsonAPI(SingletonPlugin):
 
     def get_calificacion_dataset(self,id):
         try:
-            log.warning("[DataJsonAPI][get_calificacion_dataset] ejecutado")
+            #log.warning("[DataJsonAPI][get_calificacion_dataset] ejecutado")
 
-            log.warning("[DataJsonAPI][get_calificacion_dataset][package] %s",id) 
+            #log.warning("[DataJsonAPI][get_calificacion_dataset][package] %s",id) 
             existing = model.Session.query(ResourceRating).filter_by(
                 package_Id=id
             ).first()
             
-            log.warning("[DataJsonAPI][get_calificacion_dataset][existing] %s",existing)
+            #log.warning("[DataJsonAPI][get_calificacion_dataset][existing] %s",existing)
             if existing:
                 
                 result = model.Session.query(
@@ -1179,7 +1179,7 @@ class DataJsonAPI(SingletonPlugin):
                     func.count(ResourceRating.id)
                 ).filter_by(package_Id=id).first()
 
-                log.warning("[DataJsonAPI][get_calificacion_dataset][result]= %s",result)
+                #log.warning("[DataJsonAPI][get_calificacion_dataset][result]= %s",result)
                 average = result[0] or 0
                 count = result[1]
 
@@ -1192,7 +1192,7 @@ class DataJsonAPI(SingletonPlugin):
 
                 #log.warning("[action][resource_rating_get] average=%s",float(round(average, 2)))
                 #log.warning("[action][resource_rating_get] count=%s",count)
-                log.warning(f"[DataJsonAPI][get_calificacion_dataset][rating]= {data}")
+                #log.warning(f"[DataJsonAPI][get_calificacion_dataset][rating]= {data}")
 
                 return data
 
@@ -1241,7 +1241,7 @@ class DataJsonAPI(SingletonPlugin):
                
 
         except (ProgrammingError, OperationalError, ObjectNotFound, ValidationError, Exception) as e:
-            log.warning(f"[CkanPlugin][datastore_search] No se pudo consultar el DataStore para el recurso {id}. Tabla inexistente o ID no cargado. Error original: {str(e)}")
+            log.error(f"[CkanPlugin][datastore_search] No se pudo consultar el DataStore para el recurso {id}. Tabla inexistente o ID no cargado. Error original: {str(e)}")
             return {
                     "resource_id": id,
                     "filas": 0,
