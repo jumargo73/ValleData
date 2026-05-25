@@ -46,7 +46,7 @@ class CkanPluginLogin(DefaultDatasetForm,p.SingletonPlugin):
     p.implements(p.IDatasetForm, inherit=True)
     p.implements(p.IBlueprint)
     p.implements(IClick)
-   
+    p.implements(p.ITranslation)
 
     #log.info("[ckanplugin][CkanPluginLogin] Cargado con Exito")
    
@@ -95,6 +95,19 @@ class CkanPluginLogin(DefaultDatasetForm,p.SingletonPlugin):
         return [bp,estadistica,noticias,contador]
     
     
+     # Este método le dice a CKAN que sume las traducciones de la extensión al core
+    def i18n_directory(self):
+        import os
+        return os.path.join(os.path.dirname(__file__), 'i18n')
+
+    def i18n_locales(self):
+        # Idiomas que soporta tu extensión (ej: ['es', 'en', 'fr'])
+        return ['es', 'en']
+
+    def i18n_domain(self):
+        # El identificador único de traducciones para tu extensión
+        return 'ckanext-ckanplugin'
+
     def get_commands(self):
         # Retorna una lista vacía para indicarle a CKAN 
         # que este plugin no inyecta comandos nuevos
