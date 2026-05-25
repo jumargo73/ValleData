@@ -1093,7 +1093,7 @@ kubectl apply -f k8s/harvest_app.yaml
 
 
 # 4. Configuraciones
-Mismo Procedimiento de los pasos anteriones, debemos  garantizar en los archivos de configuracion que apunte a los servicios de cada despliegue
+Mismo Procedimiento de los pasos anteriones, debemos  garantizar en los archivos de configuracion apunte a los servicios de cada despliegue
 
 # 5 Autor
 
