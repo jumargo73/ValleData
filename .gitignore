@@ -10,6 +10,8 @@ env/
 **/ckan/
 *.ini
 !ckan.ini.example
+!**/datapusher-uwsgi.iniexample
+!datapusher-uwsgi.iniexample
 # Ignorar todos los archivos de configuración local con contraseñas
 **/*.ini
 # 1. Permitir que Git explore las carpetas de migraciones de cualquier plugin
