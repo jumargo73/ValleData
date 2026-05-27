@@ -1,0 +1,329 @@
+# Translations template for ckanext-harvestplugin.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the ckanext-harvestplugin
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-harvestplugin 0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-05-27 08:14-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ckanext/harvestplugin/templates/footer_Layout.html:9
+#, python-brace-format
+msgid "About {0}"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/footer_Layout.html:15
+msgid "CKAN API"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/footer_Layout.html:16
+msgid "CKAN Association"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/footer_Layout.html:24
+msgid ""
+"<strong>Powered by</strong> <a class=\"hide-text ckan-footer-logo\" "
+"href=\"http://ckan.org\">CKAN</a>"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:37
+#: ckanext/harvestplugin/templates/header.html:38
+msgid "Sysadmin settings"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:42
+msgid "Admin"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:51
+#: ckanext/harvestplugin/templates/header.html:52
+msgid "View profile"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:64
+#: ckanext/harvestplugin/templates/header.html:65
+msgid "View dashboard"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:69
+#: ckanext/harvestplugin/templates/header.html:347
+msgid "Dashboard"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:77
+#: ckanext/harvestplugin/templates/header.html:78
+#: ckanext/harvestplugin/templates/header.html:82
+msgid "Profile settings"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:92
+#: ckanext/harvestplugin/templates/header.html:107
+#: ckanext/harvestplugin/templates/header.html:163
+#: ckanext/harvestplugin/templates/header.html:178
+msgid "English"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:94
+#: ckanext/harvestplugin/templates/header.html:102
+#: ckanext/harvestplugin/templates/header.html:165
+#: ckanext/harvestplugin/templates/header.html:173
+msgid "Spanish"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:135
+#: ckanext/harvestplugin/templates/header.html:136
+msgid "Log out"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:235
+#, python-brace-format
+msgid "Navigate to Home - {site_title}"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:269
+msgid "Search Datasets..."
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:278
+#: ckanext/harvestplugin/templates/home/snippets/search_tematica.html:11
+msgid "Search"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:279
+msgid "Search datasets..."
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:283
+msgid "Submit"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:315
+msgid "Toggle navigation"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:334
+msgid "Datasets"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:338
+#: ckanext/harvestplugin/templates/home/snippets/stats_layout_contadores.html:19
+msgid "organization"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:342
+#: ckanext/harvestplugin/templates/home/snippets/stats_layout_contadores.html:27
+msgid "group"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:345
+msgid "About"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/header.html:346
+msgid "Help"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/estadistica/form.html:3
+#: ckanext/harvestplugin/templates/estadistica/form.html:6
+msgid "Form"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/estadistica/powerbi.html:3
+#: ckanext/harvestplugin/templates/estadistica/powerbi.html:6
+#: ckanext/harvestplugin/templates/estadistica/powerbi_1.html:3
+#: ckanext/harvestplugin/templates/estadistica/powerbi_1.html:6
+#: ckanext/harvestplugin/templates/estadistica/powerbi_2.html:3
+#: ckanext/harvestplugin/templates/estadistica/powerbi_2.html:6
+msgid "Estadistica"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/estadistica/snippets/helplers.html:4
+msgid "¿What is the Statistics and Search Dashboard?"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/estadistica/snippets/helplers.html:8
+msgid ""
+"<p>The Statistics and Search Dashboard is an advanced platform tool enables "
+"the visualization, analysis, and location of information assets managed in "
+"CKAN through a modern Angular interface.</p> <p>This component centralizes "
+"key indicators and metadata, ensuring that data is discoverable, accessible, "
+"and actionable in real time.</p> By integrating dynamic search capabilities "
+"and visual analytics, it ensures that technical information is useful for "
+"decision-making, complies with interoperability standards, and promotes "
+"institutional transparency through an optimized and secure user experience. "
+"<p>Key points of this reference:</p> <p><strong>Technology:</strong> The "
+"architecture (Angular on CKAN) is explicitly mentioned to provide technical "
+"context.</p> <p><strong>Purpose:</strong> Focused on visualization and "
+"analysis—what the user sees on your dashboard.</p> <p><strong>Data "
+"Quality:</strong> Upholds the promise of the Seals of Excellence by "
+"mentioning interoperability and transparency standards.</p> <p><strong>Added "
+"Value:</strong> Highlights decision-making and user experience, justifying "
+"why you are improving the design and interface.</p>"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/index.html:3
+msgid "Welcome"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/index.html:45
+msgid "Recently Updated Datasets"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/index.html:57
+msgid "Statistics"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/index.html:69
+msgid "News"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/index.html:81
+msgid "It reports on"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/snippets/search_tematica.html:2
+msgid "E.g. environment"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/snippets/search_tematica.html:8
+msgid "Search datasets"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/snippets/stats_layout.html:5
+msgid "Open Data"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/snippets/stats_layout.html:6
+msgid "Connect with the data, connect with the territory"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/snippets/stats_layout_contadores.html:12
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:112
+msgid "dataset"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/snippets/stats_layout_contadores.html:12
+#: ckanext/harvestplugin/templates/report/open.html:16
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:132
+msgid "Dataset"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/snippets/stats_layout_contadores.html:19
+msgid "Organizations"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/home/snippets/stats_layout_contadores.html:27
+msgid "Themes"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/open.html:8
+msgid "Total federated datasets:"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/open.html:14
+msgid "Harvest Source"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/open.html:15
+msgid "Organization"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/open.html:17
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:133
+msgid "Resources"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/open.html:18
+msgid "State"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:12
+msgid "Active Dependencies"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:18
+msgid "Harvested Datasets"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:24
+msgid "Total Resources"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:36
+msgid "Availability Status"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:53
+msgid "Active"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:54
+msgid "Fallen"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:63
+msgid "Temporary Load Frequency"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:75
+msgid "Initial Synchronization"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:76
+msgid "Metric Validations"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:77
+msgid "Last Harvest"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:89
+msgid "Data Volume per Federated Node"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:112
+msgid "datasets"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:125
+msgid "Consolidated Data Inventory"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:130
+msgid "Source Node"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:131
+msgid "Dependence"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/report/reporte_federacion.html:142
+msgid "files"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/snippets/sello/helplers.html:4
+msgid "¿What are the Seals of Excellence?"
+msgstr ""
+
+#: ckanext/harvestplugin/templates/snippets/sello/helplers.html:8
+msgid ""
+"The Digital Government Excellence Seals are a recognition from the Ministry "
+"of Information Technologies and Communications (MinTIC) for digital services "
+"and open datasets that meet high standards of quality, security, "
+"accessibility, and transparency. It certifies that the State's digital "
+"products respond to citizens' needs, comply with regulations, promote trust "
+"and participation, and guarantee continuous improvement. For open data, it "
+"ensures that it is useful, up-to-date, and reusable."
+msgstr ""
+

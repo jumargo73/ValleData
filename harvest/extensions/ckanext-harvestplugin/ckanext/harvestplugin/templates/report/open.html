@@ -5,17 +5,17 @@
   {% set dataset_read_route = 'dataset.read' if ckan_29_or_higher else 'dataset_read' %}
 
   <ul>
-      <li><strong>Total datasets federados:</strong> {{ data['total_datasets'] }}</li>
+      <li><strong>{{ _('Total federated datasets:' )}}</strong> {{ data['total_datasets'] }}</li>
   </ul>
 
   <table class="table table-striped table-bordered" id="report-table" style="width: 100%; margin-top: 8px;">
       <thead>
         <tr>
-          <th>Fuente Harvest</th>
-          <th>Organización</th>
-          <th>Dataset</th>
-          <th>Recursos</th>
-          <th>Estado</th>
+          <th>{{ _('Harvest Source') }}</th>
+          <th>{{ _('Organization') }}</th>
+          <th>{{ _('Dataset') }}</th>
+          <th>{{ _('Resources') }}</th>
+          <th>{{ _('State') }}</th>
         </tr>
       </thead>
       <tbody>

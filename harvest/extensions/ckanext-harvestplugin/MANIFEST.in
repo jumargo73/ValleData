@@ -1,0 +1,2 @@
+recursive-include ckanext/harvestplugin/i18n *
+recursive-include ckanext/harvestplugin/templates *

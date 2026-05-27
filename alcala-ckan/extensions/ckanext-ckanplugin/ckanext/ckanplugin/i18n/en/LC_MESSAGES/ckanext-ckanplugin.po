@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ckanplugin 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-26 07:38-0500\n"
+"POT-Creation-Date: 2026-05-26 21:17-0500\n"
 "PO-Revision-Date: 2026-05-26 07:52-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -38,58 +38,171 @@ msgid ""
 "href=\"http://ckan.org\">CKAN</a>"
 msgstr ""
 
+#: ckanext/ckanplugin/templates/header.html:37
+#: ckanext/ckanplugin/templates/header.html:38
+msgid "Sysadmin settings"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:42
+msgid "Admin"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:51
+#: ckanext/ckanplugin/templates/header.html:52
+msgid "View profile"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:64
+#: ckanext/ckanplugin/templates/header.html:65
+msgid "View dashboard"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:69
+#: ckanext/ckanplugin/templates/header.html:335
+msgid "Dashboard"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:77
+#: ckanext/ckanplugin/templates/header.html:78
+#: ckanext/ckanplugin/templates/header.html:82
+msgid "Profile settings"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:95
+msgid "Spanish"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:100
+msgid "English"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:127
+#: ckanext/ckanplugin/templates/header.html:128
+msgid "Log out"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:223
+#, python-brace-format
+msgid "Navigate to Home - {site_title}"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:257
+msgid "Search Datasets..."
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:266
+#: ckanext/ckanplugin/templates/home/snippets/search_tematica.html:11
+msgid "Search"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:267
+msgid "Search datasets..."
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:271
+msgid "Submit"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:303
+msgid "Toggle navigation"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:322
+msgid "Datasets"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:326
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:19
+msgid "organization"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:330
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:27
+msgid "group"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:333
+msgid "About"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:334
+msgid "Help"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/estadistica/form.html:3
+#: ckanext/ckanplugin/templates/estadistica/form.html:6
+msgid "Form"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/estadistica/powerbi.html:3
+#: ckanext/ckanplugin/templates/estadistica/powerbi.html:6
+#: ckanext/ckanplugin/templates/estadistica/powerbi_1.html:3
+#: ckanext/ckanplugin/templates/estadistica/powerbi_1.html:6
+#: ckanext/ckanplugin/templates/estadistica/powerbi_2.html:3
+#: ckanext/ckanplugin/templates/estadistica/powerbi_2.html:6
+#, fuzzy
+msgid "Estadistica"
+msgstr "Estadisticas"
+
 #: ckanext/ckanplugin/templates/estadistica/snippets/helplers.html:4
 msgid "¿What is the Statistics and Search Dashboard?"
 msgstr ""
 
 #: ckanext/ckanplugin/templates/estadistica/snippets/helplers.html:8
 msgid ""
-"\n"
-"      <p>The Statistics and Search Dashboard is an advanced platform tool"
-" enables the visualization,\n"
-"        analysis, and location of information assets managed in CKAN "
-"through a modern Angular interface.</p>\n"
-"\n"
-"      <p>This component centralizes key indicators and metadata, ensuring"
-" that data is discoverable,\n"
-"          accessible, and actionable in real time. By integrating dynamic"
-" search capabilities and \n"
-"          visual analytics, it ensures that technical information is "
-"useful for decision-making, \n"
-"          complies with interoperability standards, and promotes "
-"institutional transparency through\n"
-"          an optimized and secure user experience.</p>\n"
-"\n"
-"      <p>Puntos clave de esta referencia:</p>\n"
-"          <p><strong>Technology:</strong> The architecture (Angular on "
-"CKAN) is explicitly mentioned to\n"
-"          provide technical context.</p>\n"
-"\n"
-"          <p><strong>Purpose:</strong> Focused on \"visualization\" and "
-"\"analysis,\" which is what the user\n"
-"            sees on your dashboard.</p>\n"
-"\n"
-"          <p><strong>Data Quality:</strong> It upholds the promise of the"
-" \"Seals of Excellence\" by \n"
-"              mentioning standards of interoperability and "
-"transparency.</p>\n"
-"\n"
-"          <p><strong>Added Value:</strong> Highlights \"decision-making\""
-" and \"user experience,\" justifying\n"
-"              why you are improving the design and interface.</p>\n"
-"      "
+"<p>The Statistics and Search Dashboard is an advanced platform tool "
+"enables the visualization, analysis, and location of information assets "
+"managed in CKAN through a modern Angular interface.</p> <p>This component"
+" centralizes key indicators and metadata, ensuring that data is "
+"discoverable, accessible, and actionable in real time.</p> By integrating"
+" dynamic search capabilities and visual analytics, it ensures that "
+"technical information is useful for decision-making, complies with "
+"interoperability standards, and promotes institutional transparency "
+"through an optimized and secure user experience. <p>Key points of this "
+"reference:</p> <p><strong>Technology:</strong> The architecture (Angular "
+"on CKAN) is explicitly mentioned to provide technical context.</p> "
+"<p><strong>Purpose:</strong> Focused on visualization and analysis—what "
+"the user sees on your dashboard.</p> <p><strong>Data Quality:</strong> "
+"Upholds the promise of the Seals of Excellence by mentioning "
+"interoperability and transparency standards.</p> <p><strong>Added "
+"Value:</strong> Highlights decision-making and user experience, "
+"justifying why you are improving the design and interface.</p>"
 msgstr ""
 
 #: ckanext/ckanplugin/templates/home/index.html:3
 msgid "Welcome"
 msgstr ""
 
-#: ckanext/ckanplugin/templates/home/snippets/stats_layout.html:6
-msgid "OPEN DATA"
+#: ckanext/ckanplugin/templates/home/index.html:45
+msgid "Recently Updated Datasets"
+msgstr "Conjuntos de datos actualizados recientemente"
+
+#: ckanext/ckanplugin/templates/home/index.html:57
+msgid "Statistics"
+msgstr "Estadisticas"
+
+#: ckanext/ckanplugin/templates/home/index.html:69
+msgid "News"
+msgstr "Noticias"
+
+#: ckanext/ckanplugin/templates/home/index.html:81
+msgid "It reports on"
+msgstr "Informa sobre"
+
+#: ckanext/ckanplugin/templates/home/snippets/search_tematica.html:2
+msgid "E.g. environment"
 msgstr ""
 
-#: ckanext/ckanplugin/templates/home/snippets/stats_layout.html:7
-msgid "Connect with the data, connect with the territory."
+#: ckanext/ckanplugin/templates/home/snippets/search_tematica.html:8
+msgid "Search datasets"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout.html:5
+msgid "Open Data"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout.html:6
+msgid "Connect with the data, connect with the territory"
 msgstr ""
 
 #: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:12
@@ -101,15 +214,7 @@ msgid "Dataset"
 msgstr ""
 
 #: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:19
-msgid "organization"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:19
 msgid "Organizations"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:27
-msgid "group"
 msgstr ""
 
 #: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:27
@@ -159,48 +264,12 @@ msgstr ""
 msgid "Submit Comment"
 msgstr ""
 
-#: ckanext/ckanplugin/templates/sello/resource_form.html:3
-msgid "Upload Stamps of Excellence"
+#: ckanext/ckanplugin/templates/snippets/contador_item.html:9
+msgid "Views"
 msgstr ""
 
-#: ckanext/ckanplugin/templates/sello/resource_form.html:25
-msgid "Stamp name"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/sello/resource_form.html:30
-msgid "Stamp archive"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/sello/resource_form.html:34
-msgid "Current file:"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/sello/resource_form.html:46
-msgid "Dependence"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/sello/resource_form.html:49
-msgid "Choose an Organization"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/sello/resource_form.html:58
-msgid "Date of Acquisition"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/sello/resource_form.html:63
-msgid "Rating Level"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/sello/resource_form.html:76
-msgid "Format"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/sello/resource_form.html:82
-msgid "Description"
-msgstr ""
-
-#: ckanext/ckanplugin/templates/sello/resource_form.html:86
-msgid "Save stamp"
+#: ckanext/ckanplugin/templates/snippets/contador_item.html:17
+msgid "Download"
 msgstr ""
 
 #: ckanext/ckanplugin/templates/snippets/sello/helplers.html:4
@@ -209,42 +278,119 @@ msgstr ""
 
 #: ckanext/ckanplugin/templates/snippets/sello/helplers.html:8
 msgid ""
-"\n"
-"        The Digital Government Excellence Seals are a recognition from "
-"the Ministry of Information Technologies and Communications (MinTIC)\n"
-"        for digital services and open datasets that meet high\n"
-"        standards of quality, security, accessibility, and transparency. "
-"It certifies that\n"
-"        the State's digital products respond to citizens' needs,\n"
-"        comply with regulations, promote trust and participation, and "
-"guarantee\n"
-"        continuous improvement. For open data, it ensures that it is "
-"useful, up-to-date,\n"
-"        and reusable.\n"
-"      "
+"The Digital Government Excellence Seals are a recognition from the "
+"Ministry of Information Technologies and Communications (MinTIC) for "
+"digital services and open datasets that meet high standards of quality, "
+"security, accessibility, and transparency. It certifies that the State's "
+"digital products respond to citizens' needs, comply with regulations, "
+"promote trust and participation, and guarantee continuous improvement. "
+"For open data, it ensures that it is useful, up-to-date, and reusable."
 msgstr ""
 
-#: ckanext/ckanplugin/templates/snippets/sello/helplers.html:4
-msgid "Views"
-msgstr ""
+#~ msgid ""
+#~ "\n"
+#~ "      <p>The Statistics and Search "
+#~ "Dashboard is an advanced platform tool"
+#~ " enables the visualization,\n"
+#~ "        analysis, and location of "
+#~ "information assets managed in CKAN "
+#~ "through a modern Angular interface.</p>\n"
+#~ ""
+#~ "\n"
+#~ "      <p>This component centralizes key "
+#~ "indicators and metadata, ensuring that "
+#~ "data is discoverable,\n"
+#~ "          accessible, and actionable in "
+#~ "real time. By integrating dynamic search"
+#~ " capabilities and \n"
+#~ "          visual analytics, it ensures "
+#~ "that technical information is useful for"
+#~ " decision-making, \n"
+#~ "          complies with interoperability "
+#~ "standards, and promotes institutional "
+#~ "transparency through\n"
+#~ "          an optimized and secure user experience.</p>\n"
+#~ "\n"
+#~ "      <p>Puntos clave de esta referencia:</p>\n"
+#~ "          <p><strong>Technology:</strong> The "
+#~ "architecture (Angular on CKAN) is "
+#~ "explicitly mentioned to\n"
+#~ "          provide technical context.</p>\n"
+#~ "\n"
+#~ "          <p><strong>Purpose:</strong> Focused on"
+#~ " \"visualization\" and \"analysis,\" which "
+#~ "is what the user\n"
+#~ "            sees on your dashboard.</p>\n"
+#~ "\n"
+#~ "          <p><strong>Data Quality:</strong> It "
+#~ "upholds the promise of the \"Seals "
+#~ "of Excellence\" by \n"
+#~ "              mentioning standards of "
+#~ "interoperability and transparency.</p>\n"
+#~ "\n"
+#~ "          <p><strong>Added Value:</strong> "
+#~ "Highlights \"decision-making\" and \"user "
+#~ "experience,\" justifying\n"
+#~ "              why you are improving the design and interface.</p>\n"
+#~ "      "
+#~ msgstr ""
 
-#: ckanext/ckanplugin/templates/snippets/sello/helplers.html:4
-msgid "Download"
-msgstr ""
+#~ msgid "OPEN DATA"
+#~ msgstr ""
 
-#: ckanext/ckanplugin/templates/home/index.html:4
-msgid "Recently Updated Datasets"
-msgstr "Conjuntos de datos actualizados recientemente"
+#~ msgid "Connect with the data, connect with the territory."
+#~ msgstr ""
 
+#~ msgid "Upload Stamps of Excellence"
+#~ msgstr ""
 
-#: ckanext/ckanplugin/templates/home/index.html:4
-msgid "Statistics"
-msgstr "Estadisticas"
+#~ msgid "Stamp name"
+#~ msgstr ""
 
-#: ckanext/ckanplugin/templates/home/index.html:4
-msgid "News"
-msgstr "Noticias"
+#~ msgid "Stamp archive"
+#~ msgstr ""
 
-#: ckanext/ckanplugin/templates/home/index.html:4
-msgid "It reports on"
-msgstr "Informa sobre"
+#~ msgid "Current file:"
+#~ msgstr ""
+
+#~ msgid "Dependence"
+#~ msgstr ""
+
+#~ msgid "Choose an Organization"
+#~ msgstr ""
+
+#~ msgid "Date of Acquisition"
+#~ msgstr ""
+
+#~ msgid "Rating Level"
+#~ msgstr ""
+
+#~ msgid "Format"
+#~ msgstr ""
+
+#~ msgid "Description"
+#~ msgstr ""
+
+#~ msgid "Save stamp"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "        The Digital Government Excellence "
+#~ "Seals are a recognition from the "
+#~ "Ministry of Information Technologies and "
+#~ "Communications (MinTIC)\n"
+#~ "        for digital services and open datasets that meet high\n"
+#~ "        standards of quality, security, "
+#~ "accessibility, and transparency. It certifies"
+#~ " that\n"
+#~ "        the State's digital products respond to citizens' needs,\n"
+#~ "        comply with regulations, promote "
+#~ "trust and participation, and guarantee\n"
+#~ "        continuous improvement. For open "
+#~ "data, it ensures that it is "
+#~ "useful, up-to-date,\n"
+#~ "        and reusable.\n"
+#~ "      "
+#~ msgstr ""
+

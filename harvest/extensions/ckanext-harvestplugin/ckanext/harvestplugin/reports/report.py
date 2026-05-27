@@ -7,16 +7,16 @@ log = logging.getLogger(__name__)
 
 def reporte_federacion_global(options=None):
     '''
-    Genera un listado consolidado de toda la data federada vía Harvest:
+    Genera un listado consolidado de toda la data federada vÃ­a Harvest:
     Organizaciones, dependencias, datasets y metadatos de origen.
     '''
     log.warning("[HarvestPlugin][reporte_federacion_global] ejecutado")
     # 1. Definir los encabezados del CSV/JSON
     headers = [
         'Fuente Harvest (Nodo)', 
-        'Organización ID', 
-        'Organización (Nombre)', 
-        'Organización (Título)', 
+        'OrganizaciÃ³n ID', 
+        'OrganizaciÃ³n (Nombre)', 
+        'OrganizaciÃ³n (TÃ­tulo)', 
         'Dataset Name', 
         'Dataset Title', 
         'Num Recursos', 

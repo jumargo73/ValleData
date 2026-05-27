@@ -1,10 +1,9 @@
 {% set stats = h.get_site_statistics() %}
 
 
-  <div class="col justify-content-center">
-        
-          <H3 class="h3_stats">{{ _('OPEN DATA') }}</H3>
-          <H5 class="h6_stats">"{{ _('Connect with the data, connect with the territory.') }}</H5>          
+  <div class="col justify-content-center">        
+          <H3 class="h3_stats"> {{ _('Open Data') }}</H3>
+          <H5 class="h6_stats"> {{ _('Connect with the data, connect with the territory') }}</H5>          
           {% block search_tematica%}
             {% snippet 'home/snippets/search_tematica.html', search_facets=search_facets %}
           {% endblock %}        

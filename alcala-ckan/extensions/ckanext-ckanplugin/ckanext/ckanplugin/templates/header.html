@@ -82,39 +82,45 @@
                 <span class="text">{{ _('Profile settings') }}</span>
               </a>
             </li>
-              {# Definimos los dos idiomas de forma manual para evitar el bug del string en el core #}
-              {% set diccionario_idiomas = {'es': 'Español', 'en': 'English'} %}
-              {% set idioma_actual = h.lang() %}
-              <li class="dropdown language-selector" style="display: inline-block; list-style: none; margin-left: 15px; vertical-align: middle;">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 10px; color: #fff;">
-                  <i class="fa fa-globe"></i>
-                  {# Muestra el idioma activo o 'Español' por defecto #}
-                  <span>{{ diccionario_idiomas[idioma_actual] if idioma_actual in diccionario_idiomas else 'Español' }}</span>
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right" style="min-width: 120px; background-color: #fff; box-shadow: 0 6px 12px rgba(0,0,0,.175);">
-                  {% for locale, nombre in diccionario_idiomas.items() %}
-                    <li>
-                      {# Genera la redirección inyectando el prefijo /es o /en antes de la ruta actual #}
-                      <a href="/{{ locale }}{{ request.path }}" style="padding: 5px 15px; color: #333; display: block;">
-                        {{ nombre }}
-                      </a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </li>
+            {# Definimos los dos idiomas de forma manual para evitar el bug del string en el core #}
+            <li class="dropdown language-selector" display: inline-block; list-style: none; margin-left: 15px; vertical-align: middle; position: relative;" onmouseover="this.querySelector('.dropdown-menu').style.display='block'" onmouseout="this.querySelector('.dropdown-menu').style.display='none'">
+              <a href="#" class="dropdown-toggle" style="padding: 10px; color: #fff; text-decoration: none; display: block;">
+                <i class="fa fa-globe"></i>
+                {# Mostramos el idioma activo de forma dinámica y traducible mediante lógica simple #}
+                <span>
+                  {% if h.lang() == 'en' %}
+                    {{ _('English') }}
+                  {% else %}
+                    {{ _('Spanish') }}
+                  {% endif %}
+                </span>
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" style="display: none; position: absolute; right: 0; top: 100%; z-index: 1000; min-width: 120px; background-color: #fff; box-shadow: 0 6px 12px rgba(0,0,0,.175); list-style: none; padding: 5px 0; margin: 0; border: 1px solid #ccc;">
+                <li>
+                  <a href="{{h.url_for(request.endpoint, locale='es', **request.view_args) }}" style="padding: 5px 15px; color: #333; display: block; text-decoration: none;" onmouseover="this.style.backgroundColor='#f5f5f5'" onmouseout="this.style.backgroundColor='transparent'">
+                    {{ _('Spanish') }}
+                  </a>
+                </li>
+                <li>
+                  <a href="{{h.url_for(request.endpoint, locale='en', **request.view_args) }}" style="padding: 5px 15px; color: #333; display: block; text-decoration: none;" onmouseover="this.style.backgroundColor='#f5f5f5'" onmouseout="this.style.backgroundColor='transparent'">
+                    {{ _('English') }}
+                  </a>
+                </li>
+              </ul>
+          </li>            
+          <li>
             <li>
               {% block nav_tic %}
               <div class="card-link">
                 <a href="https://www.gov.co/"
-                   target="_blank"
-                   class="link-underline">
+                  target="_blank"
+                  class="link-underline">
                   Ir a Govco
                 </a>
               </div>
               {% endblock %}
             </li>
-
             {% endblock %}
 
             {% block header_account_log_out_link %}
@@ -147,33 +153,38 @@
         {% block nav_tic_login %}
 
         <ul class="list-unstyled d-flex align-items-center mb-0">    
-             {# Definimos los dos idiomas de forma manual para evitar el bug del string en el core #}
-              {% set diccionario_idiomas = {'es': 'Español', 'en': 'English'} %}
-              {% set idioma_actual = h.lang() %}
-
-              <li class="dropdown language-selector" style="display: inline-block; list-style: none; margin-left: 15px; vertical-align: middle;">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 10px; color: #fff;">
-                  <i class="fa fa-globe"></i>
-                  {# Muestra el idioma activo o 'Español' por defecto #}
-                  <span>{{ diccionario_idiomas[idioma_actual] if idioma_actual in diccionario_idiomas else 'Español' }}</span>
-                  <b class="caret"></b>
+          {# Definimos los dos idiomas de forma manual para evitar el bug del string en el core #}
+          <li class="dropdown language-selector" display: inline-block; list-style: none; margin-left: 15px; vertical-align: middle; position: relative;" onmouseover="this.querySelector('.dropdown-menu').style.display='block'" onmouseout="this.querySelector('.dropdown-menu').style.display='none'">
+            <a href="#" class="dropdown-toggle" style="padding: 10px; color: #fff; text-decoration: none; display: block;">
+              <i class="fa fa-globe"></i>
+              {# Mostramos el idioma activo de forma dinámica y traducible mediante lógica simple #}
+              <span>
+                {% if h.lang() == 'en' %}
+                  {{ _('English') }}
+                {% else %}
+                  {{ _('Spanish') }}
+                {% endif %}
+              </span>
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right" style="display: none; position: absolute; right: 0; top: 100%; z-index: 1000; min-width: 120px; background-color: #fff; box-shadow: 0 6px 12px rgba(0,0,0,.175); list-style: none; padding: 5px 0; margin: 0; border: 1px solid #ccc;">
+              <li>
+                <a href="{{h.url_for(request.endpoint, locale='es', **request.view_args) }}" style="padding: 5px 15px; color: #333; display: block; text-decoration: none;" onmouseover="this.style.backgroundColor='#f5f5f5'" onmouseout="this.style.backgroundColor='transparent'">
+                  {{ _('Spanish') }}
                 </a>
-                <ul class="dropdown-menu dropdown-menu-right" style="min-width: 120px; background-color: #fff; box-shadow: 0 6px 12px rgba(0,0,0,.175);">
-                  {% for locale, nombre in diccionario_idiomas.items() %}
-                    <li>
-                      {# Genera la redirección inyectando el prefijo /es o /en antes de la ruta actual #}
-                      <a href="/{{ locale }}{{ request.path }}" style="padding: 5px 15px; color: #333; display: block;">
-                        {{ nombre }}
-                      </a>
-                    </li>
-                  {% endfor %}
-                </ul>
               </li>
+              <li>
+                <a href="{{h.url_for(request.endpoint, locale='en', **request.view_args) }}" style="padding: 5px 15px; color: #333; display: block; text-decoration: none;" onmouseover="this.style.backgroundColor='#f5f5f5'" onmouseout="this.style.backgroundColor='transparent'">
+                  {{ _('English') }}
+                </a>
+              </li>
+            </ul>
+          </li>            
           <li>
             <a href="https://www.gov.co/"
-               target="_blank"
-               class="link-underline"
-               style="color: #fff;">
+              target="_blank"
+              class="link-underline"
+              style="color: #fff;">
               Ir a Govco
             </a>
           </li>

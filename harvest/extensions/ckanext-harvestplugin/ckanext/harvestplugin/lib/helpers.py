@@ -38,10 +38,10 @@ def get_featured_dataset():
         
         for i in range(noPaquetes):     
             fecha_data=datasets[i]["metadata_modified"][:10].split('-')
-            año=fecha_data[0] 
+            aÃ±o=fecha_data[0] 
             mes=fecha_data[1]
             dia=fecha_data[2]
-            fecha=mes+'-'+dia+'-'+año
+            fecha=mes+'-'+dia+'-'+aÃ±o
             data={"name":datasets[i]["name"],"type":datasets[i]["type"],"display_name":datasets[i]["name"],"title":datasets[i]["title"],"description":datasets[i]["notes"],"metadata_modified":fecha,"packageId":datasets[i]["id"],"sourceId":None}
             datasetList.append(data)
           
@@ -71,7 +71,7 @@ def get_featured_estadistica():
         'image_display_url':"/base/images/google-form.png",
         'type':'estadistica.form',
         'display_name':'Formulario',
-        'description':'Para la Gobernación del Valle del Cauca es importante conocer su percepción de satisfacción frente al servicio recibido. Esta calificación nos permitirá mejorar el servicio que brindamos. Le sugerimos diligenciar la siguiente encuesta.'
+        'description':'Para la GobernaciÃ³n del Valle del Cauca es importante conocer su percepciÃ³n de satisfacciÃ³n frente al servicio recibido. Esta calificaciÃ³n nos permitirÃ¡ mejorar el servicio que brindamos. Le sugerimos diligenciar la siguiente encuesta.'
     }
     listNews.append(data)
     data={
@@ -79,7 +79,7 @@ def get_featured_estadistica():
         'image_display_url':"/base/images/power-bi.png",
         'type':'estadistica.powerbi',
         'display_name':'Estadistica',
-        'description':'La Gobernación en cifras. Vacunas. Salud DENGUE Casos Notificados: 71.386. Mortalidad: 20. Recuperados. Valle INN Emprendimientos: 7.884. Empleos react: 18.822'
+        'description':'La GobernaciÃ³n en cifras. Vacunas. Salud DENGUE Casos Notificados: 71.386. Mortalidad: 20. Recuperados. Valle INN Emprendimientos: 7.884. Empleos react: 18.822'
     }
     listNews.append(data) 
     data={
@@ -87,7 +87,7 @@ def get_featured_estadistica():
         'image_display_url':"/base/images/power-bi.png",
         'type':'estadistica.powerbi_1',
         'display_name':'Formulario',
-        'description':'Para la Gobernación del Valle del Cauca es importante conocer su percepción de satisfacción frente al servicio recibido. Esta calificación nos permitirá mejorar el servicio que brindamos. Le sugerimos diligenciar la siguiente encuesta.'
+        'description':'Para la GobernaciÃ³n del Valle del Cauca es importante conocer su percepciÃ³n de satisfacciÃ³n frente al servicio recibido. Esta calificaciÃ³n nos permitirÃ¡ mejorar el servicio que brindamos. Le sugerimos diligenciar la siguiente encuesta.'
     }
     listNews.append(data)
    
@@ -107,7 +107,7 @@ def get_featured_general():
         'image_display_url':"/base/images/disponibilidad.PNG",
         'type':'https://datos.gob.es/es/informa-sobre/peticion-datos',
         'display_name':'Disponibilidad de datos',
-        'description':'Si no encuentras los datos públicos que necesitas, puedes utilizar este formulario para que te facilitemos la búsqueda o para proponer la publicación de nuevos conjuntos de datos reutilizables.Tu propuesta será enviada al Organismo gestor y además será publicada en la sección “Disponibilidad de datos” desde donde podrás realizar un seguimiento de la misma.'
+        'description':'Si no encuentras los datos pÃºblicos que necesitas, puedes utilizar este formulario para que te facilitemos la bÃºsqueda o para proponer la publicaciÃ³n de nuevos conjuntos de datos reutilizables.Tu propuesta serÃ¡ enviada al Organismo gestor y ademÃ¡s serÃ¡ publicada en la secciÃ³n âDisponibilidad de datosâ desde donde podrÃ¡s realizar un seguimiento de la misma.'
     }
     listNews.append(data)
     data={
@@ -115,7 +115,7 @@ def get_featured_general():
         'image_display_url':"/base/images/iniciativas.PNG",
         'type':"https://datos.gob.es/es/informa-sobre/iniciativas",
         'display_name':'Iniciativas',
-        'description':'Si conoces alguna iniciativa de datos abiertos que no aparece en el "Mapa de iniciativas", utiliza este formulario para darla de alta y que así se muestre junto al resto.'
+        'description':'Si conoces alguna iniciativa de datos abiertos que no aparece en el "Mapa de iniciativas", utiliza este formulario para darla de alta y que asÃ­ se muestre junto al resto.'
     }
     listNews.append(data)
     data={
@@ -123,7 +123,7 @@ def get_featured_general():
         'image_display_url':"/base/images/Empresas_Reutilizadoras.PNG",
         'type':'https://datos.gob.es/es/informa-sobre/aplicaciones',
         'display_name':'Empresas reutilizadoras',
-        'description':' Utiliza este formulario para informar sobre empresas que utilicen como materia prima datos abiertos del sector público. La empresa será incluida en la sección IMPACTO una vez haya sido revisado por el equipo de datos.gob.es.'
+        'description':' Utiliza este formulario para informar sobre empresas que utilicen como materia prima datos abiertos del sector pÃºblico. La empresa serÃ¡ incluida en la secciÃ³n IMPACTO una vez haya sido revisado por el equipo de datos.gob.es.'
         }
     listNews.append(data)
    
@@ -142,7 +142,7 @@ def get_featured_noticia():
         'image_display_url':"/base/images/new1.png",
         'type':'noticias.new',
         'display_name':'Pico y Placa',
-        'description':"El 'pico y placa' para el segundo semestre de 2024 inicia el 2 de julio (teniendo en cuenta que el 1 es festivo) y se extiende hasta el 31 de diciembre. La gran novedad, en comparación con el primer semestre del calendario, es que se reduce una hora de la medida, que irá de 6:00 a.m. a 7:00 p.m., tomando como referencia el último dígito de la placa."
+        'description':"El 'pico y placa' para el segundo semestre de 2024 inicia el 2 de julio (teniendo en cuenta que el 1 es festivo) y se extiende hasta el 31 de diciembre. La gran novedad, en comparaciÃ³n con el primer semestre del calendario, es que se reduce una hora de la medida, que irÃ¡ de 6:00 a.m. a 7:00 p.m., tomando como referencia el Ãºltimo dÃ­gito de la placa."
     }
     listNews.append(data)
     data={
@@ -150,7 +150,7 @@ def get_featured_noticia():
         'image_display_url':"/base/images/new2.png",
         'type':'noticias.new_1',
         'display_name':'Muerto en la Azotea',
-        'description':'¿Hay boletas para ver a Colombia por los cuartos de final del Mundial Femenino sub 20? La situación del Pascual Guerrero de Cali?'
+        'description':'Â¿Hay boletas para ver a Colombia por los cuartos de final del Mundial Femenino sub 20? La situaciÃ³n del Pascual Guerrero de Cali?'
     }
     listNews.append(data)
     data={
@@ -158,7 +158,7 @@ def get_featured_noticia():
         'image_display_url':"/base/images/new3.png",
         'type':'noticias.new_2',
         'display_name':'Pico y Placa',
-        'description':'En la tarde de este domingo 15 de septiembre se disputó en Cali el partido por los cuartos de final del Mundial de Fútbol Sub-20 Femenino entre la Selección Colombia y su similar de Países Bajos. El encuentro, que inició a las 4:30 de la tarde quedará en la historia de este torneo debido a el gran número de asistentes.'    }
+        'description':'En la tarde de este domingo 15 de septiembre se disputÃ³ en Cali el partido por los cuartos de final del Mundial de FÃºtbol Sub-20 Femenino entre la SelecciÃ³n Colombia y su similar de PaÃ­ses Bajos. El encuentro, que iniciÃ³ a las 4:30 de la tarde quedarÃ¡ en la historia de este torneo debido a el gran nÃºmero de asistentes.'    }
     listNews.append(data)
    
     return listNews  

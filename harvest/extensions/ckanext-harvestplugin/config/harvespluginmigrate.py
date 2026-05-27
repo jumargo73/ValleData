@@ -6,7 +6,7 @@ migration_path = "/usr/lib/ckan/default/src/ckan/ckanext/ckanplugin/migration/ck
 
 cfg = Config(os.path.join(migration_path, "alembic.ini"))
 
-# PON TU URL REAL AQUÍ
+# PON TU URL REAL AQUÃ
 cfg.set_main_option("sqlalchemy.url", "postgresql://ckan_default:car2986@localhost/ckan_default")
 
 command.upgrade(cfg, "head")

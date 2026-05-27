@@ -24,7 +24,7 @@ def reporte_federacion_global(options=None):
     result = connection.execute(query)
     
     table_data = []
-    org_counts = {}  # Para el gráfico de barras
+    org_counts = {}  # Para el grÃ¡fico de barras
     total_recursos = 0
     
     
@@ -32,8 +32,8 @@ def reporte_federacion_global(options=None):
         num_res = int(row['num_recursos'] or 0)
         total_recursos += num_res
         
-        # Agrupar conteos para el gráfico
-        org_tit = str(row['org_title'] or 'Sin Organización')
+        # Agrupar conteos para el grÃ¡fico
+        org_tit = str(row['org_title'] or 'Sin OrganizaciÃ³n')
         org_counts[org_tit] = org_counts.get(org_tit, 0) + 1
         
         table_data.append({
@@ -57,8 +57,8 @@ def reporte_federacion_global(options=None):
     }
     
     respuesta = {
-        'title': 'Tablero de Control de la Federación de Datos',
-        'description': 'Métricas analíticas en tiempo real de los nodos y dependencias cosechadas.',
+        'title': 'Tablero de Control de la FederaciÃ³n de Datos',
+        'description': 'MÃ©tricas analÃ­ticas en tiempo real de los nodos y dependencias cosechadas.',
         'table': table_data,
         'metricas': extra_data
     }

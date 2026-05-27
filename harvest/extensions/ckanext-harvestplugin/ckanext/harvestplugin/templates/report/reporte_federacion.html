@@ -9,19 +9,19 @@
   <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-4">
       <div class="card text-center" style="border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; background: #f8f9fa;">
-        <h4 class="text-muted" style="font-size: 14px; text-transform: uppercase;">Dependencias Activas</h4>
+        <h4 class="text-muted" style="font-size: 14px; text-transform: uppercase;">{{ _('Active Dependencies') }}</h4>
         <h2 style="color: #007bff; font-weight: bold; margin: 10px 0;">{{ data.metricas['total_organizaciones'] }}</h2>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card text-center" style="border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; background: #f8f9fa;">
-        <h4 class="text-muted" style="font-size: 14px; text-transform: uppercase;">Datasets Cosechados</h4>
+        <h4 class="text-muted" style="font-size: 14px; text-transform: uppercase;">{{ _('Harvested Datasets') }}</h4>
         <h2 style="color: #28a745; font-weight: bold; margin: 10px 0;">{{ data.metricas['total_datasets'] }}</h2>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card text-center" style="border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; background: #f8f9fa;">
-        <h4 class="text-muted" style="font-size: 14px; text-transform: uppercase;">Total de Recursos</h4>
+        <h4 class="text-muted" style="font-size: 14px; text-transform: uppercase;">{{ _('Total Resources') }}</h4>
         <h2 style="color: #17a2b8; font-weight: bold; margin: 10px 0;">{{ data.metricas['total_recursos'] }}</h2>
       </div>
     </div>
@@ -33,7 +33,7 @@
     <!-- COLUMNA IZQUIERDA: GRÁFICO DE DONA -->
     <div class="col-md-6">
       <div class="card" style="border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; background: #fff; height: 260px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-        <h5 style="font-weight: bold; margin-bottom: 20px; color: #333; font-size: 14px; text-transform: uppercase;">Estado de Disponibilidad</h5>
+        <h5 style="font-weight: bold; margin-bottom: 20px; color: #333; font-size: 14px; text-transform: uppercase;">{{ _('Availability Status') }}</h5>
         
         {% set total_ds = data.metricas['total_datasets'] if data.metricas['total_datasets'] > 0 else 1 %}
         {% set activos_porcentaje = (data.metricas['total_datasets'] / total_ds * 100)|int %}
@@ -50,8 +50,8 @@
           
           <!-- Leyenda paramétrica -->
           <div style="font-size: 13px;">
-            <p style="margin-bottom: 8px;"><span style="display:inline-block; width:12px; height:12px; background:#28a745; margin-right:8px; border-radius:3px;"></span> Activos ({{ data.metricas['total_datasets'] }})</p>
-            <p style="margin-bottom: 0;"><span style="display:inline-block; width:12px; height:12px; background:#dc3545; margin-right:8px; border-radius:3px;"></span> Caídos (0)</p>
+            <p style="margin-bottom: 8px;"><span style="display:inline-block; width:12px; height:12px; background:#28a745; margin-right:8px; border-radius:3px;"></span> {{ _('Active') }} ({{ data.metricas['total_datasets'] }})</p>
+            <p style="margin-bottom: 0;"><span style="display:inline-block; width:12px; height:12px; background:#dc3545; margin-right:8px; border-radius:3px;"></span> {{ _('Fallen') }} (0)</p>
           </div>
         </div>
       </div>
@@ -60,7 +60,7 @@
     <!-- COLUMNA DERECHA: GRÁFICO DE LÍNEAS TENDENCIA -->
     <div class="col-md-6">
       <div class="card" style="border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; background: #fff; height: 260px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-        <h5 style="font-weight: bold; margin-bottom: 20px; color: #333; font-size: 14px; text-transform: uppercase;">Frecuencia Temporal de Carga</h5>
+        <h5 style="font-weight: bold; margin-bottom: 20px; color: #333; font-size: 14px; text-transform: uppercase;">{{ _('Temporary Load Frequency') }}</h5>
         
         <div style="margin-top: 15px;">
           <svg viewBox="0 0 500 120" style="width: 100%; height: 120px; background: #f8f9fa; border-radius: 6px; border-left: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6;">
@@ -72,9 +72,9 @@
             <circle cx="450" cy="15" r="5" fill="#17a2b8" />
           </svg>
           <div style="display: flex; justify-content: space-between; padding: 6px 15px 0 15px; font-size: 11px; color: #6c757d; font-weight: 600;">
-            <span>Sincronización Inicial</span>
-            <span>Validación Métricas</span>
-            <span>Último Harvest</span>
+            <span>{{ _('Initial Synchronization') }}</span>
+            <span>{{ _('Metric Validations') }}</span>
+            <span>{{ _('Last Harvest') }}</span>
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
   <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-12">
       <div class="card" style="border: 1px solid #dee2e6; border-radius: 8px; padding: 25px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-        <h5 style="font-weight: bold; margin-bottom: 25px; color: #333; font-size: 14px; text-transform: uppercase;">Volumen de Datos por Nodo Federado</h5>
+        <h5 style="font-weight: bold; margin-bottom: 25px; color: #333; font-size: 14px; text-transform: uppercase;">{{ _('Data Volume per Federated Node') }}</h5>
         
         <div class="css-chart-container" style="display: flex; flex-direction: column; gap: 15px;">
           {% for i in range(data.metricas['grafico_organizaciones']|length) %}
@@ -109,7 +109,7 @@
               <!-- Conteo cuantitativo alineado al extremo derecho -->
               <div class="chart-value" style="flex: 0 0 110px; text-align: right; font-size: 13px; color: #212529;">
                 <strong style="font-size: 15px; color: #0056b3;">{{ total }}</strong> 
-                <span style="color: #6c757d; font-size: 12px;">{{ 'dataset' if total == 1 else 'datasets' }}</span>
+                <span style="color: #6c757d; font-size: 12px;">{{ _('dataset')  if total == 1 else _('datasets') }}</span>
               </div>
             </div>
           {% endfor %}
@@ -122,15 +122,15 @@
 
   <!-- SECCIÓN 3: DETALLE ESTRUCTURADO (TABLA ORIGINAL) -->
   <div class="card" style="border: 1px solid #dee2e6; border-radius: 8px; padding: 20px;">
-    <h5 style="margin-bottom: 15px;">Inventario Consolidado de Datos</h5>
+    <h5 style="margin-bottom: 15px;">{{ _('Consolidated Data Inventory') }}</h5>
     <div class="table-responsive">
       <table class="table table-hover table-striped">
         <thead>
           <tr>
-            <th>Fuente Nodo</th>
-            <th>Dependencia</th>
-            <th>Dataset</th>
-            <th>Recursos</th>
+            <th>{{ _('Source Node') }}</th>
+            <th>{{ _('Dependence') }}</th>
+            <th>{{ _('Dataset') }}</th>
+            <th>{{ _('Resources') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -139,7 +139,7 @@
               <td><span class="label label-info">{{ row.fuente_harvest }}</span></td>
               <td>{{ row.org_title }}</td>
               <td><strong>{{ row.title }}</strong></td>
-              <td><span class="badge" style="background-color: #6c757d;">{{ row.num_recursos }} archivos</span></td>
+              <td><span class="badge" style="background-color: #6c757d;">{{ row.num_recursos }} {{ _('files') }}</span></td>
             </tr>
           {% endfor %}
         </tbody>
