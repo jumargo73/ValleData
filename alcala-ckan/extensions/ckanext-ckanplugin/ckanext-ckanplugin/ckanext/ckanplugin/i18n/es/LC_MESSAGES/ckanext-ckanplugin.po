@@ -1,0 +1,332 @@
+# Spanish translations for ckanext-ckanplugin.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the ckanext-ckanplugin
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-ckanplugin 0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-05-26 18:04-0500\n"
+"PO-Revision-Date: 2026-05-26 17:06-0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ckanext/ckanplugin/templates/footer_Layout.html:9
+#, python-brace-format
+msgid "About {0}"
+msgstr "Acerca de {0}"
+
+#: ckanext/ckanplugin/templates/footer_Layout.html:15
+msgid "CKAN API"
+msgstr "API de CKAN"
+
+#: ckanext/ckanplugin/templates/footer_Layout.html:16
+msgid "CKAN Association"
+msgstr "Asociación CKAN"
+
+#: ckanext/ckanplugin/templates/footer_Layout.html:24
+msgid ""
+"<strong>Powered by</strong> <a class=\"hide-text ckan-footer-logo\" "
+"href=\"http://ckan.org\">CKAN</a>"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:37
+#: ckanext/ckanplugin/templates/header.html:38
+msgid "Sysadmin settings"
+msgstr "Configuración del administrador del sistema"
+
+#: ckanext/ckanplugin/templates/header.html:42
+msgid "Admin"
+msgstr "Administrador(a)"
+
+#: ckanext/ckanplugin/templates/header.html:51
+#: ckanext/ckanplugin/templates/header.html:52
+msgid "View profile"
+msgstr "Ver perfil"
+
+#: ckanext/ckanplugin/templates/header.html:64
+#: ckanext/ckanplugin/templates/header.html:65
+msgid "View dashboard"
+msgstr "Ver panel de control"
+
+#: ckanext/ckanplugin/templates/header.html:69
+#: ckanext/ckanplugin/templates/header.html:336
+msgid "Dashboard"
+msgstr "Panel"
+
+#: ckanext/ckanplugin/templates/header.html:77
+#: ckanext/ckanplugin/templates/header.html:78
+#: ckanext/ckanplugin/templates/header.html:82
+msgid "Profile settings"
+msgstr "Configuración del perfil"
+
+#: ckanext/ckanplugin/templates/header.html:129
+#: ckanext/ckanplugin/templates/header.html:130
+msgid "Log out"
+msgstr "Finalizar la sesión"
+
+#: ckanext/ckanplugin/templates/header.html:224
+#, python-brace-format
+msgid "Navigate to Home - {site_title}"
+msgstr "Navegar a Inicio - {site_title}"
+
+#: ckanext/ckanplugin/templates/header.html:258
+msgid "Buscar conjuntos de datos..."
+msgstr ""
+
+#: ckanext/ckanplugin/templates/header.html:267
+#: ckanext/ckanplugin/templates/home/snippets/search_tematica.html:11
+msgid "Search"
+msgstr "Buscar"
+
+#: ckanext/ckanplugin/templates/header.html:268
+msgid "Search datasets..."
+msgstr "Buscar conjuntos de datos..."
+
+#: ckanext/ckanplugin/templates/header.html:272
+msgid "Submit"
+msgstr "Entregar"
+
+#: ckanext/ckanplugin/templates/header.html:304
+#, fuzzy
+msgid "Toggle navigation"
+msgstr "Alternar navegación"
+
+#: ckanext/ckanplugin/templates/header.html:323
+#, fuzzy
+msgid "Datasets"
+msgstr "Conjunto de Datos"
+
+#: ckanext/ckanplugin/templates/header.html:327
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:19
+msgid "organization"
+msgstr "Organizacion"
+
+#: ckanext/ckanplugin/templates/header.html:331
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:27
+msgid "group"
+msgstr "Grupo"
+
+#: ckanext/ckanplugin/templates/header.html:334
+#, fuzzy, python-brace-format
+msgid "About"
+msgstr "Acerca de {0}"
+
+#: ckanext/ckanplugin/templates/header.html:335
+msgid "Help"
+msgstr "Ayuda"
+
+#: ckanext/ckanplugin/templates/estadistica/form.html:3
+#: ckanext/ckanplugin/templates/estadistica/form.html:6
+msgid "Form"
+msgstr "Formulario"
+
+#: ckanext/ckanplugin/templates/estadistica/powerbi.html:3
+#: ckanext/ckanplugin/templates/estadistica/powerbi.html:6
+#: ckanext/ckanplugin/templates/estadistica/powerbi_1.html:3
+#: ckanext/ckanplugin/templates/estadistica/powerbi_1.html:6
+#: ckanext/ckanplugin/templates/estadistica/powerbi_2.html:3
+#: ckanext/ckanplugin/templates/estadistica/powerbi_2.html:6
+msgid "Estadistica"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/estadistica/snippets/helplers.html:4
+msgid "¿What is the Statistics and Search Dashboard?"
+msgstr "¿Qué es el Panel de Estadísticas y Búsqueda?"
+
+#: ckanext/ckanplugin/templates/estadistica/snippets/helplers.html:8
+#, fuzzy
+msgid ""
+"<p>The Statistics and Search Dashboard is an advanced platform tool "
+"enables the visualization, analysis, and location of information assets "
+"managed in CKAN through a modern Angular interface.</p> <p>This component"
+" centralizes key indicators and metadata, ensuring that data is "
+"discoverable, accessible, and actionable in real time.</p> By integrating"
+" dynamic search capabilities and visual analytics, it ensures that "
+"technical information is useful for decision-making, complies with "
+"interoperability standards, and promotes institutional transparency "
+"through an optimized and secure user experience. <p>Key points of this "
+"reference:</p> <p><strong>Technology:</strong> The architecture (Angular "
+"on CKAN) is explicitly mentioned to provide technical context.</p> "
+"<p><strong>Purpose:</strong> Focused on visualization and analysis—what "
+"the user sees on your dashboard.</p> <p><strong>Data Quality:</strong> "
+"Upholds the promise of the Seals of Excellence by mentioning "
+"interoperability and transparency standards.</p> <p><strong>Added "
+"Value:</strong> Highlights decision-making and user experience, "
+"justifying why you are improving the design and interface.</p>"
+msgstr ""
+" \n"
+" \n"
+" <p>El Panel de Estadísticas y Búsqueda es una plataforma avanzada que "
+"permite la visualización, el análisis y la localización de los activos de"
+" información gestionados en CKAN a través de una moderna interfaz "
+"Angular.</p>\n"
+"\n"
+" <p>Este componente centraliza los indicadores clave y los metadatos, "
+"garantizando que los datos sean localizables, accesibles y procesables en"
+" tiempo real.</p> Al integrar capacidades de búsqueda dinámica y análisis"
+" visuales, garantiza que la información técnica sea útil para la toma de "
+"decisiones, cumpla con los estándares de interoperabilidad y promueva la "
+"transparencia institucional mediante una experiencia de usuario "
+"optimizada y segura.\n"
+"\n"
+" <p>Puntos clave de este Referencia:</p>\n"
+"\n"
+" <p><strong>Tecnología:</strong> Se menciona explícitamente la "
+"arquitectura (Angular en CKAN) para proporcionar contexto técnico.</p>\n"
+"\n"
+" <p><strong>Propósito:</strong> Centrado en la visualización y el "
+"análisis: lo que el usuario ve en el panel de control.</p>\n"
+"\n"
+" <p><strong>Calidad de los datos:</strong> Cumple con la promesa de los "
+"Sellos de Excelencia\" al mencionar los estándares de interoperabilidad y"
+" transparencia.</p>\n"
+"\n"
+" <p><strong>Valor añadido:</strong> Destaca la toma de decisiones y la "
+"experiencia del usuario, justificando la mejora del diseño y la "
+"interfaz.</p>\n"
+
+#: ckanext/ckanplugin/templates/home/index.html:3
+msgid "Welcome"
+msgstr "Bienvenido"
+
+#: ckanext/ckanplugin/templates/home/index.html:45
+msgid "Recently Updated Datasets"
+msgstr "Conjunto de Datos Recientemente Actualizados"
+
+#: ckanext/ckanplugin/templates/home/index.html:57
+msgid "Statistics"
+msgstr "Estadisticas"
+
+#: ckanext/ckanplugin/templates/home/index.html:69
+#, fuzzy
+msgid "News"
+msgstr "Noticias"
+
+#: ckanext/ckanplugin/templates/home/index.html:81
+msgid "It reports on"
+msgstr "Informa sobre"
+
+#: ckanext/ckanplugin/templates/home/snippets/search_tematica.html:2
+msgid "E.g. environment"
+msgstr "Por ejemplo, el entorno"
+
+#: ckanext/ckanplugin/templates/home/snippets/search_tematica.html:8
+#, fuzzy
+msgid "Search datasets"
+msgstr "Buscar Conjunto de Datos"
+
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout.html:5
+msgid "Open Data"
+msgstr "Datos Abiertos"
+
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout.html:6
+msgid "Connect with the data, connect with the territory"
+msgstr "Conéctate con los datos, conéctate con el territorio."
+
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:12
+msgid "dataset"
+msgstr "Conjunto de Datos"
+
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:12
+msgid "Dataset"
+msgstr "Conjunto de Datos"
+
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:19
+msgid "Organizations"
+msgstr "Organizaciones"
+
+#: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:27
+msgid "Themes"
+msgstr "Temas"
+
+#: ckanext/ckanplugin/templates/package/snippets/additional_info.html:6
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:6
+msgid "Frecuency"
+msgstr "Frecuencia"
+
+#: ckanext/ckanplugin/templates/package/snippets/additional_info.html:13
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:9
+msgid "Department"
+msgstr "Departamento"
+
+#: ckanext/ckanplugin/templates/package/snippets/additional_info.html:20
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:12
+msgid "City"
+msgstr "Ciudad"
+
+#: ckanext/ckanplugin/templates/package/snippets/info.html:7
+msgid "Rate this Set"
+msgstr "Califica este Conjunto"
+
+#: ckanext/ckanplugin/templates/package/snippets/info.html:16
+msgid "Rating:"
+msgstr "Calificacion"
+
+#: ckanext/ckanplugin/templates/package/snippets/info.html:30
+msgid "Your rating:"
+msgstr "Tu Calificacion"
+
+#: ckanext/ckanplugin/templates/package/snippets/info.html:44
+msgid "No rating"
+msgstr "No Calificado"
+
+#: ckanext/ckanplugin/templates/package/snippets/info.html:53
+#, fuzzy
+msgid "Dataset Comments"
+msgstr "Comentarios del conjunto de datos"
+
+#: ckanext/ckanplugin/templates/package/snippets/info.html:63
+msgid "Write your opinion or feedback:"
+msgstr "Escribe tu opinión o comentario:"
+
+#: ckanext/ckanplugin/templates/package/snippets/info.html:69
+msgid "Submit Comment"
+msgstr "Enviar comentario"
+
+#: ckanext/ckanplugin/templates/snippets/contador_item.html:9
+msgid "Views"
+msgstr "Vistas"
+
+#: ckanext/ckanplugin/templates/snippets/contador_item.html:17
+msgid "Download"
+msgstr "Descargas"
+
+#: ckanext/ckanplugin/templates/snippets/sello/helplers.html:4
+msgid "¿What are the Seals of Excellence?"
+msgstr "¿Cuáles son los sellos de Excelencia?"
+
+#: ckanext/ckanplugin/templates/snippets/sello/helplers.html:8
+#, fuzzy
+msgid ""
+"The Digital Government Excellence Seals are a recognition from the "
+"Ministry of Information Technologies and Communications (MinTIC) for "
+"digital services and open datasets that meet high standards of quality, "
+"security, accessibility, and transparency. It certifies that the State's "
+"digital products respond to citizens' needs, comply with regulations, "
+"promote trust and participation, and guarantee continuous improvement. "
+"For open data, it ensures that it is useful, up-to-date, and reusable."
+msgstr ""
+"Los Sellos de Excelencia del Gobierno Digital son un reconocimiento del "
+"\"\"Ministerio de Tecnologías de la Información y las Comunicaciones "
+"(MinTIC)\n"
+" a los servicios digitales y conjuntos de datos abiertos que cumplen con "
+"altos\n"
+"estándares de calidad, seguridad, accesibilidad y transparencia. "
+"\"\"\"Certifica que\n"
+"los productos digitales del Estado responden a las necesidades de los "
+"ciudadanos,\n"
+"cumplen con las regulaciones, promueven la confianza y la participación, "
+"y \"\"\"garantizan\n"
+"la mejora continua. En el caso de los datos abiertos, asegura que sean "
+"\"\"\"útiles, actualizados\n"
+"y reutilizables.\n"
+
