@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ckanplugin 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-26 21:17-0500\n"
+"POT-Creation-Date: 2026-05-27 15:04-0500\n"
 "PO-Revision-Date: 2026-05-26 17:06-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -58,7 +58,6 @@ msgid "View dashboard"
 msgstr "Ver panel de control"
 
 #: ckanext/ckanplugin/templates/header.html:69
-#: ckanext/ckanplugin/templates/header.html:335
 msgid "Dashboard"
 msgstr "Panel"
 
@@ -68,68 +67,74 @@ msgstr "Panel"
 msgid "Profile settings"
 msgstr "Configuración del perfil"
 
-#: ckanext/ckanplugin/templates/header.html:95
-msgid "Spanish"
-msgstr "Español"
-
-#: ckanext/ckanplugin/templates/header.html:100
+#: ckanext/ckanplugin/templates/header.html:92
+#: ckanext/ckanplugin/templates/header.html:107
+#: ckanext/ckanplugin/templates/header.html:163
+#: ckanext/ckanplugin/templates/header.html:178
 msgid "English"
 msgstr "Ingles"
 
-#: ckanext/ckanplugin/templates/header.html:127
-#: ckanext/ckanplugin/templates/header.html:128
+#: ckanext/ckanplugin/templates/header.html:94
+#: ckanext/ckanplugin/templates/header.html:102
+#: ckanext/ckanplugin/templates/header.html:165
+#: ckanext/ckanplugin/templates/header.html:173
+msgid "Spanish"
+msgstr "Español"
+
+#: ckanext/ckanplugin/templates/header.html:135
+#: ckanext/ckanplugin/templates/header.html:136
 msgid "Log out"
 msgstr "Finalizar la sesión"
 
-#: ckanext/ckanplugin/templates/header.html:223
+#: ckanext/ckanplugin/templates/header.html:235
 #, python-brace-format
 msgid "Navigate to Home - {site_title}"
 msgstr "Navegar a Inicio - {site_title}"
 
-#: ckanext/ckanplugin/templates/header.html:257
+#: ckanext/ckanplugin/templates/header.html:269
 #, fuzzy
 msgid "Search Datasets..."
 msgstr "Buscar conjuntos de datos..."
 
-#: ckanext/ckanplugin/templates/header.html:266
-#: ckanext/ckanplugin/templates/home/snippets/search_tematica.html:11
+#: ckanext/ckanplugin/templates/header.html:278
+#: ckanext/ckanplugin/templates/home/snippets/search_tematica.html:14
 msgid "Search"
 msgstr "Buscar"
 
-#: ckanext/ckanplugin/templates/header.html:267
+#: ckanext/ckanplugin/templates/header.html:279
 msgid "Search datasets..."
 msgstr "Buscar conjuntos de datos..."
 
-#: ckanext/ckanplugin/templates/header.html:271
+#: ckanext/ckanplugin/templates/header.html:283
 msgid "Submit"
 msgstr "Entregar"
 
-#: ckanext/ckanplugin/templates/header.html:303
+#: ckanext/ckanplugin/templates/header.html:315
 #, fuzzy
 msgid "Toggle navigation"
 msgstr "Alternar navegación"
 
-#: ckanext/ckanplugin/templates/header.html:322
+#: ckanext/ckanplugin/templates/header.html:334
 #, fuzzy
 msgid "Datasets"
 msgstr "Conjunto de Datos"
 
-#: ckanext/ckanplugin/templates/header.html:326
+#: ckanext/ckanplugin/templates/header.html:338
 #: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:19
 msgid "organization"
 msgstr "Organizacion"
 
-#: ckanext/ckanplugin/templates/header.html:330
+#: ckanext/ckanplugin/templates/header.html:342
 #: ckanext/ckanplugin/templates/home/snippets/stats_layout_contadores.html:27
 msgid "group"
 msgstr "Grupo"
 
-#: ckanext/ckanplugin/templates/header.html:333
+#: ckanext/ckanplugin/templates/header.html:345
 #, fuzzy
 msgid "About"
 msgstr "Acerca de {0}"
 
-#: ckanext/ckanplugin/templates/header.html:334
+#: ckanext/ckanplugin/templates/header.html:346
 msgid "Help"
 msgstr "Ayuda"
 
@@ -227,11 +232,6 @@ msgstr "Informa sobre"
 #: ckanext/ckanplugin/templates/home/snippets/search_tematica.html:2
 msgid "E.g. environment"
 msgstr "Por ejemplo, el entorno"
-
-#: ckanext/ckanplugin/templates/home/snippets/search_tematica.html:8
-#, fuzzy
-msgid "Search datasets"
-msgstr "Buscar Conjunto de Datos"
 
 #: ckanext/ckanplugin/templates/home/snippets/stats_layout.html:5
 msgid "Open Data"
@@ -341,4 +341,7 @@ msgstr ""
 
 #~ msgid "Buscar conjuntos de datos..."
 #~ msgstr ""
+
+#~ msgid "Search datasets"
+#~ msgstr "Buscar Conjunto de Datos"
 

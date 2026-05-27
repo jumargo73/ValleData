@@ -1,22 +1,10 @@
-2026-05-23 14:08:19,537 INFO  [ckan.cli] Using configuration file /srv/app/ckan.ini
-2026-05-23 14:08:19,537 INFO  [ckan.config.environment] Loading static files from public
-2026-05-23 14:08:21,734 INFO  [ckanext.ckanplugin.CSVtoGeoJSON] [CSVtoGeoJSONPlugin] CSVtoGeoJSONDatasetResourcePlugin Cargado con Exito
-2026-05-23 14:08:21,790 INFO  [ckanext.ckanplugin.pluginAPI] [DataJson] DataJson Cargado con Exito
-2026-05-23 14:08:23,943 INFO  [ckanext.ckanplugin.pluginZip_Shp] [pluginZip_Shp][ApiZipShpToGeojsonView] ejecutado
-2026-05-23 14:08:23,943 INFO  [ckanext.ckanplugin.pluginZip_Shp] [pluginZip_Shp][ApiZipShpToGeojson] ejecutado
-2026-05-23 14:08:24,003 INFO  [ckanext.ckanplugin.pluginOdata] [ApiODataPluginView] Cargado con Exito
-2026-05-23 14:08:24,658 WARNI [ckanext.ckanplugin.plugin_logic] [CkanPlugin][update_config] ejecutado
-🔥 is_fallback ejecutado
-2026-05-23 14:08:25,354 WARNI [ckanext.ckanplugin.plugin_logic] [CkanPlugin][package_types] ejecutado
-2026-05-23 14:08:25,387 INFO  [ckan.config.environment] Loading templates from /srv/app/src/ckan/ckan/templates
-2026-05-23 14:08:25,966 INFO  [ckanext.ckanplugin.pluginAPI] [DataJson][get_blueprint][data_json] ejecutado
-2026-05-23 14:08:25,970 INFO  [ckanext.ckanplugin.pluginZip_Shp] [ApiZipShpToGeojsonView][get_blueprint][Shp_GeoJson] ejecutado
-2026-05-23 14:08:25,971 INFO  [ckanext.ckanplugin.pluginOdata] [ApiODataPluginView][get_blueprint][ckan_proxy] ejecutado
-2026-05-23 14:08:26,263 WARNI [ckan.config.middleware.flask_app] Extensions are excluded from CSRF protection! We allow extensions to run without CSRF protection but it will be forced future releases. Read the documentation for more information on how to add CSRF protection to your extension.
-2026-05-23 14:08:26,292 INFO  [ckanext.ckanplugin.pluginAPI] [DataJson][get_blueprint][data_json] ejecutado
-2026-05-23 14:08:26,292 INFO  [ckanext.ckanplugin.pluginZip_Shp] [ApiZipShpToGeojsonView][get_blueprint][Shp_GeoJson] ejecutado
-2026-05-23 14:08:26,292 INFO  [ckanext.ckanplugin.pluginOdata] [ApiODataPluginView][get_blueprint][ckan_proxy] ejecutado
-2026-05-23 14:08:26,310 WARNI [ckanext.ckanplugin.plugin_logic] [CkanPlugin][package_types] ejecutado
+2026-05-27 16:11:09,849 INFO  [ckan.cli] Using configuration file /srv/app/ckan.ini
+2026-05-27 16:11:09,850 INFO  [ckan.config.environment] Loading static files from public
+2026-05-27 16:11:12,236 INFO  [ckanext.ckanplugin.pluginAPI] [DataJson] DataJson Cargado con Exito
+2026-05-27 16:11:15,969 INFO  [ckan.config.environment] Loading templates from /srv/app/src/ckan/ckan/templates
+2026-05-27 16:11:17,522 INFO  [ckanext.ckanplugin.pluginAPI] [DataJson][get_blueprint][data_json] ejecutado
+2026-05-27 16:11:17,809 WARNI [ckan.config.middleware.flask_app] Extensions are excluded from CSRF protection! We allow extensions to run without CSRF protection but it will be forced future releases. Read the documentation for more information on how to add CSRF protection to your extension.
+2026-05-27 16:11:17,849 INFO  [ckanext.ckanplugin.pluginAPI] [DataJson][get_blueprint][data_json] ejecutado
 /*
 This script configures the permissions for the datastore.
 
@@ -42,7 +30,7 @@ over SSH:
 -- 'public' schema, and could be executed anywhere. But ALTER DEFAULT
 -- PERMISSIONS applies to the current database, and so we must be connected to
 -- the datastore DB:
-\connect "pradera_datastore_default"
+\connect "alcala_datastore_default"
 
 -- revoke permissions for the read-only user
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
@@ -55,10 +43,10 @@ GRANT CREATE ON SCHEMA public TO "ckan_default";
 GRANT USAGE ON SCHEMA public TO "ckan_default";
 
 -- take connect permissions from main db
-REVOKE CONNECT ON DATABASE "pradera_ckan_default" FROM "datastore_default";
+REVOKE CONNECT ON DATABASE "alcala_ckan_default" FROM "datastore_default";
 
 -- grant select permissions for read-only user
-GRANT CONNECT ON DATABASE "pradera_datastore_default" TO "datastore_default";
+GRANT CONNECT ON DATABASE "alcala_datastore_default" TO "datastore_default";
 GRANT USAGE ON SCHEMA public TO "datastore_default";
 
 -- grant access to current tables and views to read-only user
