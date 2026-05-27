@@ -57,3 +57,5 @@ ckan-uwsgi.ini
 **/ckan-uwsgi.ini
 **/datapusher-uwsgi.ini
 **/roldanillo-ckan
+
+**/header - copia.htm
