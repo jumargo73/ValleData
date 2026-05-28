@@ -3,7 +3,55 @@
 {% block package_metadata_fields_custom %}
     <div class="row">
         <div class="col">
-         {{ form.input('update_frequency', label=_('Frecuency'), id='update_frequency', placeholder=_('Frecuency'), value=data.update_frequency, error=update_frequency, classes=['control-medium']) }}  
+            <div class="mb-3">
+            <label for="category" class="form-label" >{{_('Category')}}</label>
+            <select id="category" name="category" data-module="autocomplete" class="controls">
+                <option value="">Seleccione...</option>
+                <option value="Agricultura y Desarrollo Rural" {% if data.category == "Agricultura y Desarrollo Rural" %}selected="selected"{% endif %}>{{_('Agricultura y Desarrollo Rural')}}</option>
+                <option value="Ambiente y Desarrollo Sostenible" {% if data.category == "Ambiente y Desarrollo Sostenible" %}selected="selected"{% endif %}>{{_('Ambiente y Desarrollo Sostenible')}}</option>
+                <option value="Comercio, Industria y Turismo" {% if data.category == "Comercio, Industria y Turismo" %}selected="selected"{% endif %}>{{_('Comercio, Industria y Turismo')}}</option>
+                <option value="Cultura" {% if data.category == "Cultura" %}selected="selected"{% endif %}>{{_('Cultura')}}</option>
+                <option value="Deporte y Recreación" {% if data.category == "Deporte y Recreación" %}selected="selected"{% endif %}>{{_('Deporte y Recreación')}}</option>
+                <option value="Economía y Finanzas" {% if data.category == "Economía y Finanzas" %}selected="selected"{% endif %}>{{_('Economía y Finanzas')}}</option>
+                <option value="Educación" {% if data.category == "Educación" %}selected="selected"{% endif %}>Educación</option>
+                <option value="Estadísticas Nacionales" {% if data.category == "Estadísticas Nacionales" %}selected="selected"{% endif %}>{{_('Estadísticas Nacionales')}}</option>
+                <option value="Función pública" {% if data.category == "Función pública" %}selected="selected"{% endif %}>{{_('Función pública')}}</option>
+                <option value="Gastos Gubernamentales" {% if data.category == "Gastos Gubernamentales" %}selected="selected"{% endif %}>{{_('Gastos Gubernamentales')}}</option>
+                <option value="Hacienda y Crédito Público" {% if data.category == "Hacienda y Crédito Público" %}selected="selected"{% endif %}>{{_('Hacienda y Crédito Público')}}</option>
+                <option value="Inclusión Social y Reconciliación" {% if data.category == "Inclusión Social y Reconciliación" %}selected="selected"{% endif %}>{{_('Inclusión Social y Reconciliación')}}</option>
+                <option value="Justicia y Derecho" {% if data.category == "Justicia y Derecho" %}selected="selected"{% endif %}>{{_('Justicia y Derecho')}}</option>
+                <option value="Mapas Nacionales" {% if data.category == "Mapas Nacionales" %}selected="selected"{% endif %}>{{_('Mapas Nacionales')}}</option>
+                <option value="Minas y Energía" {% if data.category == "Minas y Energía" %}selected="selected"{% endif %}>{{_('Minas y Energía')}}</option>
+                <option value="Ordenamiento Territorial" {% if data.category == "Ordenamiento Territorial" %}selected="selected"{% endif %}>{{_('Ordenamiento Territorial')}}</option>
+                <option value="Organismos de Control" {% if data.category == "Organismos de Control" %}selected="selected"{% endif %}>{{_('Organismos de Control')}}</option>
+                <option value="Participación ciudadana" {% if data.category == "Participación ciudadana" %}selected="selected"{% endif %}>{{_('Participación ciudadana')}}</option>
+                <option value="Presupuestos Gubernamentales" {% if data.category == "Presupuestos Gubernamentales" %}selected="selected"{% endif %}>{{_('Presupuestos Gubernamentales')}}</option>
+                <option value="Resultados Electorales" {% if data.category == "Resultados Electorales" %}selected="selected"{% endif %}>{{_('Resultados Electorales')}}</option>
+                <option value="Salud y Protección Social" {% if data.category == "Salud y Protección Social" %}selected="selected"{% endif %}>{{_('Salud y Protección Social')}}</option>
+                <option value="Seguridad y Defensa" {% if data.category == "Seguridad y Defensa" %}selected="selected"{% endif %}>{{_('Seguridad y Defensa')}}</option>
+                <option value="Trabajo" {% if data.category == "Trabajo" %}selected="selected"{% endif %}>{{_('Trabajo')}}</option>
+                <option value="Transporte" {% if data.category == "Transporte" %}selected="selected"{% endif %}>{{_('Transporte')}}</option>
+                <option value="Vivienda, Ciudad y Territorio" {% if data.category == "Vivienda, Ciudad y Territorio" %}selected="selected"{% endif %}>{{_('Vivienda, Ciudad y Territorio')}}</option>
+            </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+         <label for="update_frequency" class="form-label" >{{_('Frecuency')}}</label>
+          <select id="update_frequency" name="update_frequency" data-module="autocomplete" class="controls">
+            <option value="">Seleccione...</option>
+            <option value="Diario" {% if data.frecuencia_actualizacion == "Diario" %}selected="selected"{% endif %}>{{_('Diario')}}</option>
+            <option value="Semanal" {% if data.frecuencia_actualizacion == "Semanal" %}selected="selected"{% endif %}>{{_('Semanal')}}</option>
+            <option value="Quincenal" {% if data.frecuencia_actualizacion == "DQuincenal" %} selected="selected"{% endif %}>{{_('Quincenal')}}</option>
+            <option value="Mensual" {% if data.frecuencia_actualizacion == "Mensual" %} selected="selected"{% endif %}>{{_('Mensual')}}</option>
+            <option value="Bimensual" {% if data.frecuencia_actualizacion == "Bimensual" %} selected="selected"{% endif %}>{{_('Bimensual')}}</option>
+            <option value="Trimestral" {% if data.frecuencia_actualizacion == "Trimestral" %} selected="selected"{% endif %}>{{_('Trimestral')}}</option>  
+            <option value="Cuatrimestral" {% if data.frecuencia_actualizacion == "Cuatrimestral" %} selected="selected"{% endif %}>{{_('Cuatrimestral')}}</option>  
+            <option value="Semestral" {% if data.frecuencia_actualizacion == "Semestral" %} selected="selected"{% endif %}>{{_('Semestral')}}</option>
+            <option value="Anual" {% if data.frecuencia_actualizacion == "Anual" %} selected="selected"{% endif %}>{{_('Anual')}}</option>
+            <option value="No_Aplica" {% if data.frecuencia_actualizacion == "No_Aplica" %} selected="selected"{% endif %}>{{_('No Aplica')}}</option>      
+          </select>   
         </div>
         <div class="col">      
             {{ form.input('department', label=_('Department'), id='department', placeholder=_('Department'), value=data.department, error=department, classes=['control-medium']) }}                         

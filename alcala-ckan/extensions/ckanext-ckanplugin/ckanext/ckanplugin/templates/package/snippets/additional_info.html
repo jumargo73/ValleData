@@ -3,6 +3,13 @@
 {% block package_additional_info %}
  {{ super() }}
     <tr>
+        <th scope="row" class="dataset-label">{{ _('Category') }}</th>
+
+        <td class="dataset-details">
+            {{ pkg_dict.category }}
+        </td>
+    </tr>  
+    <tr>
         <th scope="row" class="dataset-label">{{ _('Frecuency') }}</th>
 
         <td class="dataset-details">

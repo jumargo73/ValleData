@@ -3,11 +3,27 @@ this.ckan.module('dataset-comment-component', function ($, _) {
     return {
         initialize: function () {
             console.log('dataset-comment-component iniciado');
-            this. fetchComments();            // Escuchar el evento submit del formulario dentro del componente
+            // 1. Guardamos una referencia al módulo para usarla dentro del evento
+            const self = this;
+
+            // 1. Detectar el idioma inicial de la página (buscando el atributo lang de HTML)
+            const idiomaInicial = document.documentElement.lang || 'es';
+
+            self.fetchComments(idiomaInicial);
+
+            // 3. Escuchar el evento global de cambio de idioma
+            window.addEventListener('cambioDeIdioma', function (event) {
+                const nuevoIdioma = event.detail.idioma;
+                console.log('Módulo comentario detectó cambio de idioma a:', nuevoIdioma);
+                
+                // Volvemos a ejecutar la función interna de AJAX con el nuevo idioma
+                self.fetchComments(nuevoIdioma);
+            });
+            // Escuchar el evento submit del formulario dentro del componente
             this.el.on('submit', 'form', $.proxy(this._onSubmit, this));
            
         },
-        fetchComments: function () {
+        fetchComments: function (idioma) {
 
             var datasetId = this.el.data('resource-id');  
             const userId = localStorage.getItem('ratingUserId');             
@@ -22,7 +38,8 @@ this.ckan.module('dataset-comment-component', function ($, _) {
                 headers: { 'X-CSRF-Token': csrfToken },
                 data: JSON.stringify({
                     dataset_id: datasetId,
-                    user_id: userId
+                    user_id: userId,
+                    lang:idioma
                 }) // El paréntesis de JSON.stringify se cierra aquí
             })
             .done(function(res) {
@@ -31,6 +48,8 @@ this.ckan.module('dataset-comment-component', function ($, _) {
                 var result=res.result
                 console.log(result)
                 if (result.success && result.comment) { 
+
+                    console.log('Comentario recibido en ' + idioma + ':', result.comment.comment_text);
                     $('#comment_text').val(''); 
                     $("#div_comment").empty(); 
 
@@ -43,7 +62,7 @@ this.ckan.module('dataset-comment-component', function ($, _) {
                     `;
                     $("#div_comment").append(newCommentHtml);
                 } else {
-                    console.warn(result.message);
+                    console.log('Comentario recibido en ' + idioma + ':', result.message);
                     $('#comment_text').val(''); 
                     $("#div_comment").empty(); 
 

@@ -4,6 +4,10 @@ from sqlalchemy import func
 from ckan import model
 from ckanext.ckanplugin.model.comments import Comments
 import json, logging,os,  mimetypes
+from ckan.common import _
+import ckan.lib.i18n as ckan_i18n
+from flask import request
+from flask_babel import gettext as flask_gettext
 
 log = logging.getLogger(__name__)
 
@@ -14,6 +18,15 @@ def comments_get(context, data_dict):
 
     try:
 
+        # Si no se envía ninguno por defecto, usa el idioma base del contexto de CKAN
+        idioma_solicitado = data_dict.get('lang', context.get('lang', 'es'))
+        context['lang'] = idioma_solicitado
+        ckan_i18n.set_lang(idioma_solicitado)
+        log.warning(
+                f"[Action][comments_get][idioma_solicitado]: {idioma_solicitado}"
+            )
+
+        
         
         # 1. Obtener los parámetros enviados en el data_dict
         dataset_id = data_dict.get('dataset_id')
@@ -31,16 +44,18 @@ def comments_get(context, data_dict):
 
         ultimo_comentario = query.first()
 
-        '''log.warning(
-            f"[Action][comments_get][ultimo_comentario]: {ultimo_comentario}"
-        )'''
-
+        
         # 3. Validar si se encontró el registro
         if not ultimo_comentario:
-            return {
-                'success': False, 
-                'message': 'No se encontraron comentarios para este registro'
-            }
+            if idioma_solicitado == 'en':
+                mensaje_final = 'No comments were found for this record'
+            else:
+                mensaje_final = 'No se encontraron comentarios para este registro.'
+            
+                return {
+                    'success': False, 
+                    'message':mensaje_final
+                }
 
        
         # 4. Retornar el éxito junto con los datos del último comentario capturado
@@ -57,12 +72,18 @@ def comments_get(context, data_dict):
 
     except Exception as e:
         log.error(
-            f"[Action][resource_rating_get] Error al guardar la calificacion: {str(e)}"
+            f"[Action][comments_get] Error al guardar el comentario: {str(e)}"
         )
+
+        if idioma_solicitado == 'en':
+            mensaje_final = 'The user does not have permission to comment'
+        else:
+            mensaje_final = 'El usuario no tiene permisos para comentar.'
+
         return {
-            'success': False,
-            'message': 'El usuario no tiene permisos para comentar.' # <- Agrega esto
-        }   
+            'success': False, 
+            'message':mensaje_final
+        }    
     
 
 

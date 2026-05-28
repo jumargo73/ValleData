@@ -117,7 +117,7 @@ def resource_rating_get(context, data_dict):
         
         else:
                 return {
-                    'resource_id': id,
+                    'resource_id': resource_id,
                     'average': 0.0,
                     'count': 0,
                     'user-rating':None

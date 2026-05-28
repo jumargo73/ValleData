@@ -144,6 +144,10 @@ class CkanPluginLogin(DefaultDatasetForm,p.SingletonPlugin):
         schema = super().create_package_schema()
 
         schema.update({
+            'category': [
+                tk.get_validator('ignore_empty'),
+                tk.get_converter('convert_to_extras')
+            ],
             'city': [
                 tk.get_validator('ignore_empty'),
                 tk.get_converter('convert_to_extras')
@@ -165,6 +169,10 @@ class CkanPluginLogin(DefaultDatasetForm,p.SingletonPlugin):
         schema = super().update_package_schema()
 
         schema.update({
+            'category': [
+                tk.get_validator('ignore_empty'),
+                tk.get_converter('convert_to_extras')
+            ],
             'city': [
                 tk.get_validator('ignore_empty'),
                 tk.get_converter('convert_to_extras')
@@ -186,6 +194,10 @@ class CkanPluginLogin(DefaultDatasetForm,p.SingletonPlugin):
         schema = super().show_package_schema()
 
         schema.update({
+            'category': [
+                tk.get_converter('convert_from_extras'),
+                tk.get_validator('ignore_missing')
+            ],
             'city': [
                 tk.get_converter('convert_from_extras'),
                 tk.get_validator('ignore_missing')
@@ -232,6 +244,7 @@ class CkanPluginLogin(DefaultDatasetForm,p.SingletonPlugin):
             "get_featured_groups_new":helpers.get_featured_groups_new,
             "contar_visualizacion":helpers.contar_visualizacion,
             "contar_descargas":helpers.contar_descargas,
+            "get_site_statistics":helpers.get_site_statistics,
             'obtener_idiomas_portales': i18n.get_locales,
             "get_locales_dict":i18n.get_locales_dict
         } 

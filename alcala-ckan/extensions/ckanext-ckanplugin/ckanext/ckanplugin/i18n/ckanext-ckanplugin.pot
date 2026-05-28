@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ckanplugin 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-27 15:04-0500\n"
+"POT-Creation-Date: 2026-05-28 16:52-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
+
+#: ckanext/ckanplugin/logic/action/comments.py:44
+msgid "No comments were found for this record"
+msgstr ""
+
+#: ckanext/ckanplugin/logic/action/comments.py:75
+msgid "The user does not have permission to comment."
+msgstr ""
 
 #: ckanext/ckanplugin/templates/footer_Layout.html:9
 #, python-brace-format
@@ -221,16 +229,21 @@ msgstr ""
 
 #: ckanext/ckanplugin/templates/package/snippets/additional_info.html:6
 #: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:6
-msgid "Frecuency"
+msgid "Category"
 msgstr ""
 
 #: ckanext/ckanplugin/templates/package/snippets/additional_info.html:13
-#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:9
-msgid "Department"
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:53
+msgid "Frecuency"
 msgstr ""
 
 #: ckanext/ckanplugin/templates/package/snippets/additional_info.html:20
-#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:12
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:56
+msgid "Department"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/additional_info.html:27
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:59
 msgid "City"
 msgstr ""
 
@@ -262,11 +275,147 @@ msgstr ""
 msgid "Submit Comment"
 msgstr ""
 
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:9
+msgid "Agricultura y Desarrollo Rural"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:10
+msgid "Ambiente y Desarrollo Sostenible"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:11
+msgid "Comercio, Industria y Turismo"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:12
+msgid "Cultura"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:13
+msgid "Deporte y Recreación"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:14
+msgid "Economía y Finanzas"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:16
+msgid "Estadísticas Nacionales"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:17
+msgid "Función pública"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:18
+msgid "Gastos Gubernamentales"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:19
+msgid "Hacienda y Crédito Público"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:20
+msgid "Inclusión Social y Reconciliación"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:21
+msgid "Justicia y Derecho"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:22
+msgid "Mapas Nacionales"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:23
+msgid "Minas y Energía"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:24
+msgid "Ordenamiento Territorial"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:25
+msgid "Organismos de Control"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:26
+msgid "Participación ciudadana"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:27
+msgid "Presupuestos Gubernamentales"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:28
+msgid "Resultados Electorales"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:29
+msgid "Salud y Protección Social"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:30
+msgid "Seguridad y Defensa"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:31
+msgid "Trabajo"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:32
+msgid "Transporte"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:33
+msgid "Vivienda, Ciudad y Territorio"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:42
+msgid "Diario"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:43
+msgid "Semanal"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:44
+msgid "Quincenal"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:45
+msgid "Mensual"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:46
+msgid "Bimensual"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:47
+msgid "Trimestral"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:48
+msgid "Cuatrimestral"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:49
+msgid "Semestral"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:50
+msgid "Anual"
+msgstr ""
+
+#: ckanext/ckanplugin/templates/package/snippets/package_metadata_fields.html:51
+msgid "No Aplica"
+msgstr ""
+
 #: ckanext/ckanplugin/templates/snippets/contador_item.html:9
 msgid "Views"
 msgstr ""
 
-#: ckanext/ckanplugin/templates/snippets/contador_item.html:17
+#: ckanext/ckanplugin/templates/snippets/contador_item.html:16
 msgid "Download"
 msgstr ""
 

@@ -6,7 +6,7 @@ import json, logging,os,  mimetypes
 from datetime import datetime, date
 #import ckan.logic as logic
 import ckan.model as model
-from model import Session, Resource,Package,PackageExtra
+from model import Session, Resource,Package
 from ckanext.ckanplugin.model.contador import Contador
 import fitz  
 from ckan.types import Context 

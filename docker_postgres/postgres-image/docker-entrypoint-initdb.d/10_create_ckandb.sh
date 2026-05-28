@@ -28,7 +28,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 EOSQL
 
 
-# 2. Crear la base de datos (con el dueño ya asignado) alcala
+# 2. Crear la base de datos (con el dueño ya asignado) ALCALA
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
     CREATE DATABASE "$CKAN_ALCALA_DB" OWNER "$CKAN_DB_USER" ENCODING 'UTF-8';
 EOSQL

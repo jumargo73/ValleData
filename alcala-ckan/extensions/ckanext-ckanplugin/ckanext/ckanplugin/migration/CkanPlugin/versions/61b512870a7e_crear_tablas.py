@@ -54,7 +54,8 @@ def upgrade():
     )
 
     # 4. EXTENSIÓN DE LA TABLA PACKAGE CORE
-    # Inyectamos físicamente las 3 columnas en la tabla package nativa de CKAN
+    # Inyectamos físicamente las 4 columnas en la tabla package nativa de CKAN
+    op.add_column('package', sa.Column('category', sa.UnicodeText(), nullable=True))
     op.add_column('package', sa.Column('city', sa.UnicodeText(), nullable=True))
     op.add_column('package', sa.Column('department', sa.UnicodeText(), nullable=True))
     op.add_column('package', sa.Column('update_frequency', sa.UnicodeText(), nullable=True))
@@ -62,6 +63,7 @@ def upgrade():
 
 def downgrade():
     # Pasos para revertir en orden inverso (por seguridad)
+    op.drop_column('package', 'category')
     op.drop_column('package', 'update_frequency')
     op.drop_column('package', 'department')
     op.drop_column('package', 'city')
